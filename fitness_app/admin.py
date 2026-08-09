@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .models import Hisobot,Place
-admin.site.register(Hisobot)
-admin.site.register(Place)
+from .models import FitnessPlan
+admin.site.register(FitnessPlan)
 # Register your models here.

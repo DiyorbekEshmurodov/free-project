@@ -3,10 +3,12 @@ from .models import *
 
 class HisobotForm(forms.ModelForm):
     class Meta:
-        model = Hisobot
+        model = FitnessPlan
         fields = '__all__'
-
-    widgets = {
-        'title': forms.TextInput(attrs={'class': 'form-control'}),
-        'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
-    }
+        widgets = {
+            'goal': forms.TextInput(attrs={'class': 'form-control'}),
+            'kunlik': forms.TextInput(attrs={'class': 'form-control'}),
+            'haftalik': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'oylik': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'yillik': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+        }

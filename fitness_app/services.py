@@ -1,4 +1,5 @@
 from django.db import connection
+from .models import FitnessPlan
 from contextlib import closing
 
 def dictfetchall(cursor):
@@ -14,33 +15,34 @@ def dictfetchone(cursor):
     columns = [col[0] for col in cursor.description]
     return dict(zip(columns,row))
 
-def get_kun():
-    with closing(connection.cursor()) as cursor:
-        cursor.execute("""SELECT * FROM app_kunlik""")
-        kun = dictfetchall(cursor)
-        return kun
+def get_kun(user_id):
+    """SELECT * FROM ? where user_id = %s"""
+    try:
+        return FitnessPlan.objects.filter(UserDetail_id=user_id).values().first()
+    except FitnessPlan.DoesNotExist:
+        return False
 
-def get_haftalik():
-    with closing(connection.cursor()) as cursor:
-        cursor.execute("""SELECT * FROM app_haftalik""")
-        haftalik = dictfetchall(cursor)
-        return haftalik
+def get_haftalik(user_id):
+    try:
+        return FitnessPlan.objects.filter(UserDetail_id=user_id).values().first()
+    except FitnessPlan.DoesNotExist:
+        return False
 
-def get_oylik():
-    with closing(connection.cursor()) as cursor:
-        cursor.execute("""SELECT * FROM app_oylik""")
-        oylik = dictfetchall(cursor)
-        return oylik
+def get_oylik(user_id):
+    try:
+        return FitnessPlan.objects.filter(UserDetail_id=user_id).values().first()
+    except FitnessPlan.DoesNotExist:
+        return False
 
-def get_yillik():
-    with closing(connection.cursor()) as cursor:
-        cursor.execute("""SELECT * FROM app_yillik""")
-        yillik = dictfetchall(cursor)
-        return yillik
+def get_yillik(user_id):
+    try:
+        return FitnessPlan.objects.filter(UserDetail_id=user_id).values().first()
+    except FitnessPlan.DoesNotExist:
+        return False
 
-def get_all_hisobot():
-    with closing(connection.cursor()) as cursor:
-        cursor.execute("""SELECT * FROM app_hisobot""")
-        hisobot = dictfetchall(cursor)
-        return hisobot
+def get_all_hisobot(user_id):
+    hisobotlar = list(FitnessPlan.objects.filter(UserDetail_id=user_id).values())
+    if not hisobotlar:
+        return False
+    return hisobotlar
 

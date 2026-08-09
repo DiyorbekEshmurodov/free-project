@@ -1,20 +1,15 @@
 from django.db import models
+from accounts.models import UserDetail
 
-class Hisobot(models.Model):
-    kunlik = models.CharField(max_length=100,null=True,blank=True)
-    haftalik = models.CharField(max_length=100,null=True,blank=True)
-    oylik = models.CharField(max_length=100,null=True,blank=True)
-    yillik = models.CharField(max_length=100,null=True,blank=True)
-
-    def __str__(self):
-        return self.kunlik
-
-
-class Place(models.Model):
-    name = models.CharField(max_length=100)
-    latitude = models.FloatField()
-    longitude = models.FloatField()
+class FitnessPlan(models.Model):
+    kunlik = models.TextField(max_length=255,null=True,blank=True)
+    haftalik = models.TextField(max_length=255,null=True,blank=True)
+    oylik = models.TextField(max_length=255,null=True,blank=True)
+    yillik = models.TextField(max_length=255,null=True,blank=True)
+    goal = models.TextField(max_length=255,null=True,blank=True)
+    user = models.ForeignKey(UserDetail,blank=True,null=True,on_delete=models.SET_NULL)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.kunlik},{self.haftalik},{self.oylik},{self.yillik},{self.created_at}"
 

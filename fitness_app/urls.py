@@ -1,8 +1,12 @@
 from django.urls import path
-from .views import get_place, home_page, hisobot_create
+from .views import *
+from accounts.views import main_account
 
 urlpatterns = [
-    path('',home_page,name='home_page'),
-    path('hisobot',hisobot_create,name='hisobot_list'),
-    path('user_place/', get_place, name='user_place')
+    path('', main_account, name='main_account'),
+
+    path('hisobot/', hisobot_list, name='hisobot_list'),
+    path('hisobot/create/', hisobot_create, name='hisobot_create'),
+    path('hisobot/edit/<int:pk>/', hisobot_edit, name='hisobot_edit'),
+    path('hisobot/delete/<int:pk>/', hisobot_delete, name='hisobot_delete'),
 ]
