@@ -1,63 +1,81 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="uz">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gym Daily - Bio-Metric Digital Gym</title>
 
-    <!-- O'zingiz yaratgan static/css/style.css fayli ulandi -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
+{% block title %}Dashboard - Life GYM{% endblock %}
 
-    <!-- Header / Navbar -->
-    <nav class="navbar">
-        <div class="logo">Gym Daily</div>
-        <div class="nav-links">
-            <a href="#">Harim</a>
-            <a href="#">Bonmeillier</a>
-            <a href="#">Bondoitar</a>
-            <a href="#">Sport</a>
-        </div>
-    </nav>
+{% block content %}
+<div style="max-width: 500px; margin: 30px 0 30px 40px; padding: 0;">
 
-    <!-- Hero Section (Asosiy Banner va Rasm) -->
-    <section class="hero">
-        <div class="hero-card">
-            <h1>SMART TRAINING<br>BIO-METRIC (DIGITAL)</h1>
-            <p>Salomatlingizga investitsiya qilishingiz uchun kamida bir martalik trenajyor zalimizga tashrif buyurishingiz yoki shaffof tizim orqali a'zo bo'lishingiz mumkin.</p>
-            <a href="#" class="btn-danger-custom">A'ZO BO'LISH</a>
-        </div>
+    <div style="background: #111827; padding: 25px; border-radius: 14px; margin-bottom: 20px; border: 1px solid #1f2937; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+        <h1 style="font-size: 1.8rem; font-weight: 900; color: #ffffff; margin-bottom: 8px;">
+            Xush kelibsiz, {{ request.user.username|default:"Mehmon" }}! 👋
+        </h1>
+        <p style="font-size: 0.95rem; color: #9ca3af; margin: 0; line-height: 1.4;">
+            Kerakli bo'limni tanlang va shaxsiy tahlillaringizni boshlang.
+        </p>
+    </div>
 
-        <!-- static/images/hero-digital.jpg rasmi shu yerda chiqadi -->
-        <div class="hero-img">
-            <img src="{% static 'images/hero-digital.jpg' %}" alt="Smart Training">
-        </div>
-    </section>
+    <!-- Cardlar ustiga kursor borganda qimirlash (siljish) effekti -->
+    <style>
+        .hover-card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            padding: 12px 18px;
+            border-radius: 10px;
+            display: block;
+            text-decoration: none;
+            transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+        }
+        .hover-card:hover {
+            transform: translateX(8px);
+            border-color: #00b894;
+            background: #161f33;
+        }
+    </style>
 
-    <!-- Services Section (Xizmatlar bloki) -->
-    <section class="services">
-        <div class="card accent-blue">
-            <h3>Smart Training</h3>
-            <p>Aqlli datchiklar va biometrik ko'rsatkichlar orqali mashg'ulotlaringiz samadorligini real vaqtda kuzatib boring.</p>
-        </div>
-        <div class="card accent-magenta">
-            <h3>Smart Recovery</h3>
-            <p>Mushaklar tiklanishi va to'liq quvvatga kirishini ta'minlovchi raqamlashtirilgan reabilitatsiya tizimi.</p>
-        </div>
-        <div class="card accent-blue">
-            <h3>Bio-Analytics</h3>
-            <p>Kunlik yurak urishi, sarflangan kaloriyalar va tana o'zgarishlarini tahlil qiluvchi shaxsiy AI tizimi.</p>
-        </div>
-    </section>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
 
-    <!-- Footer -->
-    <footer>
-        <p>Powered by Gym Daily &copy; 2026. Barcha huquqlar himoyalangan.</p>
-    </footer>
+        <a href="#" class="hover-card">
+            <div style="display: flex; align-items: center; margin-bottom: 3px;">
+                <div style="background: #00b894; width: 20px; height: 20px; border-radius: 4px; margin-right: 8px; flex-shrink: 0;"></div>
+                <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0; color: #ffffff;">Haftalik AI yondashuv va hisobotlar</h3>
+            </div>
+            <p style="color: #9ca3af; font-size: 0.8rem; margin: 0; padding-left: 28px;">AI orqali kunlik, haftalik va oylik maslahat oling.</p>
+        </a>
 
-    <!-- O'zingiz yaratgan static/js/main.js fayli ulandi -->
-    <script src="{% static 'js/main.js' %}"></script>
-</body>
-</html>
+        <a href="#" class="hover-card">
+            <div style="display: flex; align-items: center; margin-bottom: 3px;">
+                <div style="background: #ff00ff; width: 20px; height: 20px; border-radius: 4px; margin-right: 8px; flex-shrink: 0;"></div>
+                <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0; color: #ffffff;">To'g'ri ovqatlanish sirlari</h3>
+            </div>
+            <p style="color: #9ca3af; font-size: 0.8rem; margin: 0; padding-left: 28px;">Zararli ovqatlanish tartibidan voz keching.</p>
+        </a>
+
+        <a href="#" class="hover-card">
+            <div style="display: flex; align-items: center; margin-bottom: 3px;">
+                <div style="background: #00ffff; width: 20px; height: 20px; border-radius: 4px; margin-right: 8px; flex-shrink: 0;"></div>
+                <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0; color: #ffffff;">AI orqali analiz</h3>
+            </div>
+            <p style="color: #9ca3af; font-size: 0.8rem; margin: 0; padding-left: 28px;">AI yordamida to'g'ri semirish va vazn tashlang.</p>
+        </a>
+
+        <a href="#" class="hover-card">
+            <div style="display: flex; align-items: center; margin-bottom: 3px;">
+                <div style="background: #ff7675; width: 20px; height: 20px; border-radius: 4px; margin-right: 8px; flex-shrink: 0;"></div>
+                <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0; color: #ffffff;">Kerakli oqsil va yog'lar</h3>
+            </div>
+            <p style="color: #9ca3af; font-size: 0.8rem; margin: 0; padding-left: 28px;">Oqsil va yog'lar miqdorini bilib oling.</p>
+        </a>
+
+        <a href="#" class="hover-card">
+            <div style="display: flex; align-items: center; margin-bottom: 3px;">
+                <div style="background: #fdcb6e; width: 20px; height: 20px; border-radius: 4px; margin-right: 8px; flex-shrink: 0;"></div>
+                <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0; color: #ffffff;">Diyetolog maslahati</h3>
+            </div>
+            <p style="color: #9ca3af; font-size: 0.8rem; margin: 0; padding-left: 28px;">Shaxsiy AI diyetologingizdan maslahat oling.</p>
+        </a>
+
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% load static %}
+<header style="background: var(--card-bg); border-bottom: 1px solid var(--border-color); padding: 15px 0; width: 100%;">
+    <div style="max-width: 1350px; margin: 0 auto; padding: 0 30px; display: flex; justify-content: flex-end; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 30px;">
+            <nav style="display: flex; gap: 20px;">
+                <a href="#" style="color: #cbd5e1; text-decoration: none; font-size: 15px; font-weight: 500;">Harim</a>
+                <a href="#" style="color: #cbd5e1; text-decoration: none; font-size: 15px; font-weight: 500;">Boroeller</a>
+                <a href="#" style="color: #cbd5e1; text-decoration: none; font-size: 15px; font-weight: 500;">Bondoitar</a>
+                <a href="#" style="color: #cbd5e1; text-decoration: none; font-size: 15px; font-weight: 500;">Sport</a>
+            </nav>
+
+            <div>
+                {% if request.user.is_authenticated %}
+                    <span style="color: #fff; font-weight: 500; margin-right: 15px;">{{ request.user.username }}</span>
+                    <a href="{% url 'logout_page' %}" style="color: #ff4b5a; text-decoration: none; font-weight: bold; font-size: 14px;">Chiqish</a>
+                {% else %}
+                    <a href="{% url 'login_page' %}" style="background: #007bff; color: #ffffff; padding: 8px 22px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px;">Kirish</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</header>

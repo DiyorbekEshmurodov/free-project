@@ -5,8 +5,8 @@ from accounts.views import main_account
 urlpatterns = [
     path('', main_account, name='main_account'),
 
-    path('hisobot/', hisobot_list, name='hisobot_list'),
-    path('hisobot/create/', hisobot_create, name='hisobot_create'),
-    path('hisobot/edit/<int:pk>/', hisobot_edit, name='hisobot_edit'),
-    path('hisobot/delete/<int:pk>/', hisobot_delete, name='hisobot_delete'),
+    path('user_list/',plan_list,name='user_list'),
+    path('user_create/',plan_create,name="user_create"),
+    path('user_edit/<int:pk>/',plan_edit,name="user_edit"),
+    path('user_delete/<int:pk>/',plan_delete,name="user_delete"),
 ]

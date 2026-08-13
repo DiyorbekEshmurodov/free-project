@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Life GYM{% endblock %}
+
+{% block content %}
+<div class="main-container">
+
+    <!-- Typewriter yozuv bloki -->
+    <div style="margin-bottom: 35px; font-family: 'Courier New', Courier, monospace; font-size: 3rem; font-weight: 900; color: var(--text-main); letter-spacing: 1.5px; line-height: 1.4;">
+        <div id="line1" style="display: inline-block; border-right: 3px solid transparent;"></div><br>
+        <div id="line2" style="display: inline-block; border-right: 3px solid transparent;"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <div style="background: var(--card-bg); padding: 50px; border-radius: 16px; margin-bottom: 40px; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 40px;">
+        <div style="flex: 1; min-width: 320px;">
+            <h1 style="font-size: 2.8rem; font-weight: 900; color: var(--text-main); line-height: 1.2; margin-bottom: 20px;">
+                SMART TRAINING<br>
+                BIO-METRIC (DIGITAL)
+            </h1>
+            <p style="font-size: 1.05rem; color: var(--text-muted); margin-bottom: 30px; line-height: 1.6;">
+                Salomatligingizga investitsiya qiling, zamonaviy texnologiyalar va raqamli tahlillar yordamida natijangizni yaxshilang.
+            </p>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" style="background-color: #ff4b5a; color: #fff; padding: 14px 35px; font-weight: bold; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 15px rgba(255,75,90,0.4);">A'ZO BO'LISH</a>
+            </div>
+        </div>
+
+        <div style="flex: 1.2; min-width: 350px; text-align: center;">
+            <div style="background: var(--border-color); padding: 12px; border-radius: 12px;">
+                <img src="{% static 'images/hero-digital.jpg' %}" alt="Smart Gym" style="border-radius: 8px; width: 100%; max-height: 320px; object-fit: cover; display: block;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Kartochkalar (Cards) Section -->
+    <div class="cards-grid" style="margin-bottom: 50px;">
+
+        <!-- 1-Card -->
+        <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="feature-card">
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                <div style="background: #00b894; width: 36px; height: 36px; border-radius: 8px; margin-right: 12px; flex-shrink: 0;"></div>
+                <h3 style="font-size: 1.35rem; font-weight: bold; margin: 0; color: var(--text-main);">Haftalik AI yondashuv va hisobotlar</h3>
+            </div>
+            <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; margin: 0;">AI orqali kunlik, haftalik, oylik, yillik maslahat va o'zingiz haqingizda ma'lumot oling va hayotingizni o'zingiz boshqaring.</p>
+        </a>
+
+        <!-- 2-Card -->
+        <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="feature-card">
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                <div style="background: #ff00ff; width: 36px; height: 36px; border-radius: 8px; margin-right: 12px; flex-shrink: 0;"></div>
+                <h3 style="font-size: 1.35rem; font-weight: bold; margin: 0; color: var(--text-main);">To'g'ri ovqatlanish sirlari</h3>
+            </div>
+            <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; margin: 0;">Hayotingiz uchun zararli bo'lgan ovqatlanish tartibidan voz keching va to'g'ri sog'lom hayotga qadam qo'ying.</p>
+        </a>
+
+        <!-- 3-Card -->
+        <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="feature-card">
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                <div style="background: #00ffff; width: 36px; height: 36px; border-radius: 8px; margin-right: 12px; flex-shrink: 0;"></div>
+                <h3 style="font-size: 1.35rem; font-weight: bold; margin: 0; color: var(--text-main);">AI orqali analiz</h3>
+            </div>
+            <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; margin: 0;">AI orqali to'g'ri semirish va to'g'ri vazn tashlashni boshlang.</p>
+        </a>
+
+        <!-- 4-Card -->
+        <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="feature-card">
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                <div style="background: #ff7675; width: 36px; height: 36px; border-radius: 8px; margin-right: 12px; flex-shrink: 0;"></div>
+                <h3 style="font-size: 1.35rem; font-weight: bold; margin: 0; color: var(--text-main);">Kerakli oqsil va yog'lar</h3>
+            </div>
+            <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; margin: 0;">Oqsil va Yog'lar inson hayoti uchun qanchalik kerak ekanligini bilib oling.</p>
+        </a>
+
+        <!-- 5-Card -->
+        <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="feature-card">
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                <div style="background: #fdcb6e; width: 36px; height: 36px; border-radius: 8px; margin-right: 12px; flex-shrink: 0;"></div>
+                <h3 style="font-size: 1.35rem; font-weight: bold; margin: 0; color: var(--text-main);">Diyetolog maslahati</h3>
+            </div>
+            <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; margin: 0;">Sizning AI Diyetologingiz doimo yordamga tayyor.</p>
+        </a>
+
+        <!-- 6-Card: Telegram Bot (Robot ikonkalik) -->
+        <a href="https://t.me/sizning_botingiz_username" target="_blank" class="feature-card">
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                <div style="background: rgba(0, 136, 204, 0.15); width: 42px; height: 42px; border-radius: 10px; margin-right: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">🤖</div>
+                <h3 style="font-size: 1.35rem; font-weight: bold; margin: 0; color: var(--text-main);">Bot Supported</h3>
+            </div>
+            <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; margin: 0;">Botimiz orqali tezkor va qulay tarzda ro'yxatdan o'ting va xizmatlardan foydalaning.</p>
+        </a>
+
+    </div>
+
+    <!-- Sog'lom turmush tarzi bo'limi -->
+    <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 35px; text-align: center; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+        <h3 style="color: var(--text-main); font-size: 1.5rem; margin-bottom: 25px; font-weight: 800; letter-spacing: 0.5px;">Sog`lom turmush asoschilari</h3>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="sport-badge"><span class="emoji-icon">🚴🏻‍♀️</span> Velik haydash</a>
+            <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="sport-badge"><span class="emoji-icon">🏃🏻‍♂️</span> Yugurish</a>
+            <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="sport-badge"><span class="emoji-icon">⛷</span> Tonggi va kechgi badantarbiya</a>
+            <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="sport-badge"><span class="emoji-icon">🤸🏻‍♂️</span> Yengil atletika</a>
+            <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="sport-badge"><span class="emoji-icon">🏋</span> Og`ir atletika</a>
+            <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="sport-badge"><span class="emoji-icon">🏊🏻‍♀️</span> Suzish</a>
+            <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="sport-badge"><span class="emoji-icon">🤼</span> Sport bilan shug`ullanish</a>
+            <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="sport-badge"><span class="emoji-icon">📄</span> LIFE GYM haqida</a>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .sport-badge {
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        border: 1px solid var(--border-color);
+        padding: 14px 24px;
+        border-radius: 14px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    }
+    .emoji-icon {
+        font-size: 1.35rem;
+        line-height: 1;
+        display: inline-block;
+    }
+    .sport-badge:hover {
+        background-color: #00b894;
+        color: #ffffff;
+        border-color: #00b894;
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 10px 20px rgba(0,184,148,0.25);
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Tizimga kirish - Life GYM{% endblock %}
+
+{% block content %}
+<div class="main-container" style="display: flex; justify-content: center; align-items: center; min-height: 75vh;">
+
+    <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 45px 40px; width: 100%; max-width: 450px; box-shadow: 0 15px 35px rgba(0,0,0,0.1);">
+
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h2 style="color: var(--text-main); font-size: 2rem; font-weight: 800; margin-bottom: 8px;">Tizimga kirish</h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">Ma'lumotlaringizni to'g'ri kiriting</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px; font-size: 0.95rem;">Username (Login)</label>
+                <input type="text" name="username" placeholder="Usernameni kiriting" required style="width: 100%; padding: 12px 16px; background: var(--bg-color); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 10px; outline: none; font-size: 1rem;">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px; font-size: 0.95rem;">Telefon raqam</label>
+                <input type="text" name="phone_number" placeholder="+998 -- --- -- --" required style="width: 100%; padding: 12px 16px; background: var(--bg-color); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 10px; outline: none; font-size: 1rem;">
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px; font-size: 0.95rem;">Parol</label>
+                <input type="password" name="password" placeholder="••••••••" required style="width: 100%; padding: 12px 16px; background: var(--bg-color); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 10px; outline: none; font-size: 1rem;">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px; font-size: 0.95rem;">Parolni qayta kiriting (Tasdiqlash)</label>
+                <input type="password" name="confirm_password" placeholder="••••••••" required style="width: 100%; padding: 12px 16px; background: var(--bg-color); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 10px; outline: none; font-size: 1rem;">
+            </div>
+
+            <div style="text-align: right; margin-bottom: 25px;">
+                <a href="{% url 'login_page' %}" style="color: #ff4b5a; font-size: 0.85rem; text-decoration: none; font-weight: 600;">Login yoki kod esdan chiqdimi? Tiklash</a>
+            </div>
+
+            <button type="submit" style="width: 100%; background-color: #00b894; color: #ffffff; padding: 14px; border: none; border-radius: 12px; font-weight: bold; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0,184,148,0.3); transition: 0.2s; margin-bottom: 10px;">
+                Tizimga kirish
+            </button>
+
+            <!-- Ortga tugmasi (home.html / index ga qaytaradi) -->
+            <a href="{% url 'home' %}" style="display: block; text-align: center; width: 100%; background-color: transparent; color: var(--text-main); border: 1px solid var(--border-color); padding: 12px; border-radius: 12px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: 0.2s;">
+                &larr; Ortga (Bosh sahifa)
+            </a>
+        </form>
+
+    </div>
+
+</div>
+{% endblock %}

@@ -1,10 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Health & Fitness Tahlili</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-<body>
+<body class="bg-light">
 
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+
+                <div class="card shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="mb-0">🤖 AI Health & Fitness Maslahatchisi</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+
+                            {{ form.as_p }}
+
+                            <button type="submit" class="btn btn-success btn-block">Tahlil qilish va Maslahat olish</button>
+                        </form>
+                    </div>
+                </div>
+
+                {% if ai_result %}
+                <div class="card shadow-sm mt-4 border-success">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">💡 Sun'iy Intellekt Tavsiyalari:</h5>
+                    </div>
+                    <div class="card-body">
+                        <div style="white-space: pre-wrap; font-family: inherit;">
+                            {{ ai_result }}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

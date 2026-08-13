@@ -1,160 +1,61 @@
+/* Kechki rejim (Dark Mode) */
 :root {
-    --bg-main: #000c1d;        /* To'q ko'k fon */
-    --card-bg: #001938;       /* Kartochka foni */
-    --accent-blue: #007bff;   /* Elektr ko'k */
-    --accent-magenta: #ff00ff;/* Neon magenta */
-    --btn-red: #8b0000;       /* Qizil tugma */
-    --text-color: #ffffff;
-    --text-muted: #8aa4c8;
+    --bg-color: #050b14;
+    --card-bg: #0b132b;
+    --border-color: #1c2541;
+    --text-main: #ffffff;
+    --text-muted: #8d99ae;
+    --primary-green: #00b894;
+}
+
+/* Kunduzgi rejim (Codify uslubidagi oq-yashil zamonaviy dizayn) */
+[data-theme="light"] {
+    --bg-color: #f4fbf7;
+    --card-bg: #ffffff;
+    --border-color: #e2efea;
+    --text-main: #111827;
+    --text-muted: #4b5563;
+    --primary-green: #00b894;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
 }
 
 body {
-    background-color: var(--bg-main);
-    color: var(--text-color);
-    font-family: 'Segoe UI', Roboto, sans-serif;
-    margin: 0;
-    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Navbar */
-.navbar {
-    background-color: #000a18;
-    padding: 20px 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #002b5c;
+.main-container {
+    max-width: 1350px;
+    margin: 0 auto;
+    padding: 40px 30px;
 }
 
-.navbar .logo {
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--text-color);
-    letter-spacing: 1px;
-}
-
-.nav-links a {
-    color: var(--text-color);
-    text-decoration: none;
-    margin-left: 30px;
-    font-weight: 500;
-    background-color: var(--accent-blue);
-    padding: 8px 18px;
-    border-radius: 4px;
-    transition: 0.3s;
-}
-
-.nav-links a:hover {
-    opacity: 0.9;
-    box-shadow: 0 0 12px var(--accent-blue);
-}
-
-/* Hero Section */
-.hero {
-    padding: 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: radial-gradient(circle at top right, #002b5c, var(--bg-main));
-}
-
-.hero-card {
-    background-color: rgba(255, 255, 255, 0.95);
-    color: #000;
-    padding: 40px;
-    border-radius: 16px;
-    max-width: 550px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-
-.hero-card h1 {
-    font-size: 36px;
-    font-weight: 900;
-    margin-bottom: 15px;
-    color: #051429;
-    line-height: 1.2;
-}
-
-.hero-card p {
-    color: #4a5568;
-    font-size: 15px;
-    line-height: 1.6;
-    margin-bottom: 25px;
-}
-
-.btn-danger-custom {
-    background-color: var(--btn-red);
-    color: #fff;
-    padding: 12px 28px;
-    border: none;
-    border-radius: 6px;
-    font-weight: 700;
-    text-decoration: none;
-    display: inline-block;
-    transition: 0.3s;
-}
-
-.btn-danger-custom:hover {
-    background-color: #b30000;
-    color: #fff;
-    box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
-}
-
-.hero-img img {
-    width: 100%;
-    max-width: 450px;
-    border-radius: 12px;
-    border: 2px solid var(--accent-blue);
-    box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
-}
-
-/* Services */
-.services {
-    padding: 60px;
+.cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 25px;
 }
 
-.card {
-    background-color: var(--card-bg);
-    padding: 35px 25px;
+.feature-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
     border-radius: 14px;
-    border: 1px solid #002b5c;
-    transition: 0.3s;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent-magenta);
-    box-shadow: 0 5px 20px rgba(255, 0, 255, 0.2);
-}
-
-.card.accent-blue {
-    border-top: 4px solid var(--accent-blue);
-}
-
-.card.accent-magenta {
-    border-top: 4px solid var(--accent-magenta);
-}
-
-.card h3 {
-    font-size: 20px;
-    margin-bottom: 15px;
-}
-
-.card p {
-    color: var(--text-muted);
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-/* Footer */
-footer {
-    background-color: #000814;
     padding: 30px;
-    border-top: 1px solid #002b5c;
-    color: var(--text-muted);
-    font-size: 13px;
-    text-align: center;
+    color: var(--text-main);
+    text-decoration: none;
+    display: block;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.feature-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary-green);
+    box-shadow: 0 10px 25px rgba(0, 184, 148, 0.15);
 }
