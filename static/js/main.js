@@ -9,7 +9,9 @@ document.addEventListener("DOMContentLoaded", function() {
             let currentTheme = htmlElement.getAttribute('data-theme');
             let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             htmlElement.setAttribute('data-theme', newTheme);
-            toggleBtn.textContent = newTheme === 'dark' ? '☀️' : 'M';
+
+            // Mana bu joyda 'M' o'rniga oy emojisi ('🌙') qo'yildi:
+            toggleBtn.textContent = newTheme === 'dark' ? '☀️' : '🌜';
         });
     }
 
