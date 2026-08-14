@@ -1,4 +1,19 @@
 document.addEventListener("DOMContentLoaded", function() {
+
+    // 1. Theme Toggle (Kun va Tun rejimini almashtirish)
+    const toggleBtn = document.getElementById('theme-toggle');
+    const htmlElement = document.documentElement;
+
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+            let currentTheme = htmlElement.getAttribute('data-theme');
+            let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            htmlElement.setAttribute('data-theme', newTheme);
+            toggleBtn.textContent = newTheme === 'dark' ? '☀️' : 'M';
+        });
+    }
+
+    // 2. Typewriter (Harf-ma-harf yozilish effekti)
     const text1 = "Fitness & AI Planner and Life GYM";
     const text2 = "for everyone";
 
