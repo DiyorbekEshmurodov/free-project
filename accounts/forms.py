@@ -1,19 +1,36 @@
 from django import forms
-from .models import *
+from .models import UserDetail
 
-class RegisterForm(forms.ModelForm):
+class UserDetailForm(forms.ModelForm):
+    MAQSAD_CHOICES = [
+        ('', '--- Maqsadni tanlang ---'),
+        ('vazn_tashlash', 'Vazn tashlash (Ozish)'),
+        ('vazn_yigish', "Vazn yig'ish (Semirish)"),
+        ('mushak_chiqarish', 'Mushak massasini oshirish'),
+        ('soglom_turmush', "Sog'lom turmush tarzi"),
+    ]
+
+    JINSI_CHOICES = [
+        ('erkak', 'Erkak'),
+        ('ayol', 'Ayol'),
+    ]
+
+    maqsadi = forms.ChoiceField(
+        choices=MAQSAD_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-input'})
+    )
+    jinsi = forms.ChoiceField(
+        choices=JINSI_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-input'})
+    )
+
     class Meta:
         model = UserDetail
-        fields = '__all__'
+        fields = ['first_name', 'last_name', 'phone_number', 'buyi', 'vazni', 'jinsi', 'maqsadi']
         widgets = {
-            'username': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': 'Foydalanuvchi nomini kiriting'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Elektron pochtangiz'}),
-            'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Parol'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
-            'buyi': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Bo\'yingiz (sm)'}),
-            'vazni': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Vazningiz (kg)'}),
-            'jinsi': forms.Select(attrs={'class': 'form-control'}, choices=[('Erkak', 'Erkak'), ('Ayol', 'Ayol')]),
+            'first_name': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Ismingiz'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Familiyangiz'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-input', 'placeholder': '+998 90 123 45 67'}),
+            'buyi': forms.NumberInput(attrs={'class': 'form-input', 'placeholder': 'Masalan: 175'}),
+            'vazni': forms.NumberInput(attrs={'class': 'form-input', 'placeholder': 'Masalan: 70'}),
         }

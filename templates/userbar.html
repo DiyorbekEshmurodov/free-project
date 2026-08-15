@@ -1,22 +1,68 @@
 {% load static %}
-<header style="background: var(--card-bg); border-bottom: 1px solid var(--border-color); padding: 15px 0; width: 100%;">
-    <div style="max-width: 1350px; margin: 0 auto; padding: 0 30px; display: flex; justify-content: flex-end; align-items: center;">
-        <div style="display: flex; align-items: center; gap: 30px;">
-            <nav style="display: flex; gap: 20px;">
-                <a href="#" style="color: #cbd5e1; text-decoration: none; font-size: 15px; font-weight: 500;">Harim</a>
-                <a href="#" style="color: #cbd5e1; text-decoration: none; font-size: 15px; font-weight: 500;">Boroeller</a>
-                <a href="#" style="color: #cbd5e1; text-decoration: none; font-size: 15px; font-weight: 500;">Bondoitar</a>
-                <a href="#" style="color: #cbd5e1; text-decoration: none; font-size: 15px; font-weight: 500;">Sport</a>
-            </nav>
+<header style="background: var(--card-bg); border-bottom: 1px solid var(--border-color); padding: 15px 0; width: 100%; position: relative; z-index: 100;">
+    <div style="max-width: 1350px; margin: 0 auto; padding: 0 30px; display: flex; justify-content: space-between; align-items: center;">
 
-            <div>
-                {% if request.user.is_authenticated %}
-                    <span style="color: #fff; font-weight: 500; margin-right: 15px;">{{ request.user.username }}</span>
-                    <a href="{% url 'logout_page' %}" style="color: #ff4b5a; text-decoration: none; font-weight: bold; font-size: 14px;">Chiqish</a>
-                {% else %}
-                    <a href="{% url 'login_page' %}" style="background: #007bff; color: #ffffff; padding: 8px 22px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px;">Kirish</a>
-                {% endif %}
-            </div>
+        <!-- Logo -->
+        <div style="display: flex; align-items: center; gap: 30px;">
+            <a href="{% url 'home' %}" style="font-weight: 900; font-size: 1.4rem; color: var(--text-main);">
+                LIFE <span style="color: var(--primary);">GYM</span>
+            </a>
         </div>
+
+        <!-- O'ng taraf: Tema almashtirgich va Userbar (Dropdown) -->
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <button id="theme-toggle" style="background: var(--bg-color); border: 1px solid var(--border-color); width: 42px; height: 42px; border-radius: 12px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; color: var(--text-main);">
+                ☀️
+            </button>
+
+            {% if request.user.is_authenticated %}
+                <!-- USERBAR DROPDOWN QISMI -->
+                <div class="user-dropdown-wrapper">
+                    <button type="button" class="userbar-btn" id="userMenuBtn" onclick="toggleUserMenu()">
+                        {% if request.user.profile.image %}
+                            <img src="{{ request.user.profile.image.url }}" alt="User Avatar" class="user-avatar">
+                        {% else %}
+                            <div class="user-avatar-placeholder">
+                                {{ request.user.username|slice:":1"|upper }}
+                            </div>
+                        {% endif %}
+                        <span class="user-name">{{ request.user.username }}</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+
+                    <!-- DROPDOWN MENYU -->
+                    <div class="dropdown-menu" id="userDropdown">
+                        <div class="dropdown-header">
+                            <span class="dropdown-user-title">{{ request.user.username }}</span>
+                            <span class="dropdown-user-sub">Fitness profil</span>
+                        </div>
+
+                        <hr class="dropdown-divider">
+
+                        <!-- 1. ACCOUNTS (CRUD) -->
+                        <a href="{% url 'user_list' %}" class="dropdown-item">
+                            📋 <span>Profil ma'lumotlari (CRUD)</span>
+                        </a>
+
+                        <!-- 2. LOGIN & PAROL SOZLAMALARI -->
+                        <a href="{% url 'profile_setup' %}" class="dropdown-item">
+                            🔒 <span>Login va Parolni o'zgartirish</span>
+                        </a>
+
+                        <hr class="dropdown-divider">
+
+                        <!-- 3. LOGOUT -->
+                        <a href="{% url 'logout_page' %}" class="dropdown-item logout-item">
+                            🚪 <span>Tizimdan chiqish</span>
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                <a href="{% url 'login_page' %}" style="background-color: var(--primary); color: #ffffff; padding: 10px 24px; border-radius: 12px; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 8px;">
+                    Boshlash &rarr;
+                </a>
+            {% endif %}
+        </div>
+
     </div>
 </header>

@@ -7,5 +7,5 @@ class UserForm(forms.ModelForm):
         widgets = {
             'buyi': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Bo\'yingiz (sm)'}),
             'vazni': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Vazningiz (kg)'}),
-            'goal': forms.TextInput(attrs={'class': 'form-control'}),
+            'maqsadi': forms.TextInput(attrs={'class': 'form-control'}),
         }

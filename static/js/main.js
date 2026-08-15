@@ -49,3 +49,19 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     typeWriter1();
 });
+// Userbar Dropdown menyuni ochish va yopish
+function toggleUserMenu() {
+    const dropdown = document.getElementById('userDropdown');
+    if (dropdown) {
+        dropdown.classList.toggle('show');
+    }
+}
+
+// Ekran boshqa joyiga bosilganda menyuni yopish
+window.addEventListener('click', function(e) {
+    const btn = document.getElementById('userMenuBtn');
+    const dropdown = document.getElementById('userDropdown');
+    if (btn && dropdown && !btn.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.remove('show');
+    }
+});

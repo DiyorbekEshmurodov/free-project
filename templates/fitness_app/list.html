@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Fitness Rejalar Ro'yxati{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <div class="row" style="margin-bottom: 20px;">
+        <div class="col-md-12" style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 class="title-1">Fitness Rejalar Ro'yxati</h2>
+            <a class="au-btn au-btn-icon au-btn--blue" href="{% url 'user_create' %}" style="background: var(--primary); color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600;">
+                + Qo'shish
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-borderless table-data3" style="width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 12px; overflow: hidden;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid var(--border-color); text-align: left;">
+                            <th style="padding: 12px;">#</th>
+                            <th style="padding: 12px;">Maqsadi</th>
+                            <th style="padding: 12px;">Reja / Kunlik</th>
+                            <th style="padding: 12px;">Haftalik</th>
+                            <th style="padding: 12px;">Sana</th>
+                            <th style="padding: 12px;">Amallar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in plans|default:hisobotlar %}
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 12px;">{{ forloop.counter }}</td>
+                            <td style="padding: 12px;">{{ item.maqsadi|default:item.title|default:"-" }}</td>
+                            <td style="padding: 12px;">{{ item.kunlik|default:item.description|default:"-"|truncatechars:30 }}</td>
+                            <td style="padding: 12px;">{{ item.haftalik|default:item.period_type|default:"-"|truncatechars:30 }}</td>
+                            <td style="padding: 12px;">
+                                {% if item.created_at %}
+                                    {{ item.created_at|date:"Y-m-d H:i" }}
+                                {% else %}
+                                    {{ item.target_date|date:"Y-m-d" }}
+                                {% endif %}
+                            </td>
+                            <td style="padding: 12px;">
+                                <div class="table-data-feature" style="display: flex; gap: 10px;">
+                                    <a class="item" href="{% url 'user_edit' pk=item.id %}" title="Tahrirlash">
+                                        ✏️ Edit
+                                    </a>
+                                    <a class="item" href="{% url 'user_delete' pk=item.id %}" title="O'chirish" style="color: #ef4444;">
+                                        🗑️ Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" style="padding: 20px; text-align: center; color: var(--text-muted);">
+                                Hozircha reja va hisobotlar mavjud emas.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

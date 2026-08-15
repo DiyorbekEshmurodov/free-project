@@ -4,78 +4,441 @@
 {% block title %}Dashboard - Life GYM{% endblock %}
 
 {% block content %}
-<div style="max-width: 500px; margin: 30px 0 30px 40px; padding: 0;">
+<div class="dashboard-main-grid">
 
-    <div style="background: #111827; padding: 25px; border-radius: 14px; margin-bottom: 20px; border: 1px solid #1f2937; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
-        <h1 style="font-size: 1.8rem; font-weight: 900; color: #ffffff; margin-bottom: 8px;">
-            Xush kelibsiz, {{ request.user.username|default:"Mehmon" }}! 👋
-        </h1>
-        <p style="font-size: 0.95rem; color: #9ca3af; margin: 0; line-height: 1.4;">
-            Kerakli bo'limni tanlang va shaxsiy tahlillaringizni boshlang.
-        </p>
+    <!-- 👈 CHAP TARAFI: DASHBOARD VA CARDLAR -->
+    <div class="dashboard-left-side">
+
+        <!-- TOAST XABAR -->
+        {% if messages %}
+            <div id="toast-container" class="toast-container">
+                {% for message in messages %}
+                    <div class="toast-card">
+                        <div class="toast-icon">✅</div>
+                        <div class="toast-text">{{ message }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- XUSH KELIBSIZ BLOKI -->
+        <div class="welcome-card">
+            <h1 class="welcome-title">
+                Xush kelibsiz, {{ request.user.username|default:"Mehmon" }}! 👋
+            </h1>
+            <p class="welcome-sub">
+                Kerakli bo'limni tanlang va shaxsiy tahlillaringizni boshlang.
+            </p>
+        </div>
+
+        <!-- CARDLAR RO'YXATI -->
+        <div class="card-list">
+
+            <a href="#" class="hover-card">
+                <div class="card-header">
+                    <div class="color-badge badge-green"></div>
+                    <h3 class="card-title">Haftalik AI yondashuv va hisobotlar</h3>
+                </div>
+                <p class="card-desc">AI orqali kunlik, haftalik va oylik maslahat oling.</p>
+            </a>
+
+            <a href="#" class="hover-card">
+                <div class="card-header">
+                    <div class="color-badge badge-purple"></div>
+                    <h3 class="card-title">To'g'ri ovqatlanish sirlari</h3>
+                </div>
+                <p class="card-desc">Zararli ovqatlanish tartibidan voz keching.</p>
+            </a>
+
+            <a href="#" class="hover-card">
+                <div class="card-header">
+                    <div class="color-badge badge-cyan"></div>
+                    <h3 class="card-title">AI orqali analiz</h3>
+                </div>
+                <p class="card-desc">AI yordamida to'g'ri semirish va vazn tashlang.</p>
+            </a>
+
+            <a href="#" class="hover-card">
+                <div class="card-header">
+                    <div class="color-badge badge-red"></div>
+                    <h3 class="card-title">Kerakli oqsil va yog'lar</h3>
+                </div>
+                <p class="card-desc">Oqsil va yog'lar miqdorini bilib oling.</p>
+            </a>
+
+            <a href="#" class="hover-card">
+                <div class="card-header">
+                    <div class="color-badge badge-yellow"></div>
+                    <h3 class="card-title">Diyetolog maslahati</h3>
+                </div>
+                <p class="card-desc">Sizning AI Diyetologingiz doimo yordamga tayyor.</p>
+            </a>
+
+            <!-- DYNAMIC BUTTONS -->
+            {% if not has_profile %}
+                <div class="register-notice-box">
+                    <p class="notice-text">
+                        💡 Tizimdan to'liq foydalanmoqchi bo'lsangiz, ro'yxatdan o'ting!
+                    </p>
+                    <a href="{% url 'profile_setup' %}" class="register-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                        To'liq ro'yxatdan o'tish
+                    </a>
+                </div>
+            {% else %}
+                <div class="crud-actions-box">
+                    <a href="{% url 'user_list' %}" class="crud-btn plan-btn">
+                        📋 Fitness Rejalarim Ro'yxati
+                    </a>
+                </div>
+            {% endif %}
+
+            <a href="{% url 'logout_page' %}" class="logout-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                Tizimdan chiqish
+            </a>
+
+        </div>
+
     </div>
 
-    <!-- Cardlar ustiga kursor borganda qimirlash (siljish) effekti -->
-    <style>
-        .hover-card {
-            background: #111827;
-            border: 1px solid #1f2937;
-            padding: 12px 18px;
-            border-radius: 10px;
-            display: block;
-            text-decoration: none;
-            transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
-        }
-        .hover-card:hover {
-            transform: translateX(8px);
-            border-color: #00b894;
-            background: #161f33;
-        }
-    </style>
+    <!-- 👉 O'NG TARAF: MA'LUMOT BLOKI -->
+    <div class="dashboard-right-side">
+        <div class="site-info-wrapper">
+            <h2 class="info-title">
+                <span id="type-title1"></span><span class="cursor" id="cursor-title1">|</span>
+            </h2>
 
-    <div style="display: flex; flex-direction: column; gap: 10px;">
+            <p class="info-lead" id="lead-box">
+                <span class="highlight-green">Life GYM</span> — <span id="type-lead"></span><span class="cursor" id="cursor-lead">|</span>
+            </p>
 
-        <a href="#" class="hover-card">
-            <div style="display: flex; align-items: center; margin-bottom: 3px;">
-                <div style="background: #00b894; width: 20px; height: 20px; border-radius: 4px; margin-right: 8px; flex-shrink: 0;"></div>
-                <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0; color: #ffffff;">Haftalik AI yondashuv va hisobotlar</h3>
+            <div class="info-section" id="section-box">
+                <h3 class="section-title">
+                    <span id="type-title2"></span><span class="cursor" id="cursor-title2">|</span>
+                </h3>
+
+                <ul class="info-list" id="write-list">
+                    <!-- JS orqali to'ldiriladi -->
+                </ul>
             </div>
-            <p style="color: #9ca3af; font-size: 0.8rem; margin: 0; padding-left: 28px;">AI orqali kunlik, haftalik va oylik maslahat oling.</p>
-        </a>
-
-        <a href="#" class="hover-card">
-            <div style="display: flex; align-items: center; margin-bottom: 3px;">
-                <div style="background: #ff00ff; width: 20px; height: 20px; border-radius: 4px; margin-right: 8px; flex-shrink: 0;"></div>
-                <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0; color: #ffffff;">To'g'ri ovqatlanish sirlari</h3>
-            </div>
-            <p style="color: #9ca3af; font-size: 0.8rem; margin: 0; padding-left: 28px;">Zararli ovqatlanish tartibidan voz keching.</p>
-        </a>
-
-        <a href="#" class="hover-card">
-            <div style="display: flex; align-items: center; margin-bottom: 3px;">
-                <div style="background: #00ffff; width: 20px; height: 20px; border-radius: 4px; margin-right: 8px; flex-shrink: 0;"></div>
-                <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0; color: #ffffff;">AI orqali analiz</h3>
-            </div>
-            <p style="color: #9ca3af; font-size: 0.8rem; margin: 0; padding-left: 28px;">AI yordamida to'g'ri semirish va vazn tashlang.</p>
-        </a>
-
-        <a href="#" class="hover-card">
-            <div style="display: flex; align-items: center; margin-bottom: 3px;">
-                <div style="background: #ff7675; width: 20px; height: 20px; border-radius: 4px; margin-right: 8px; flex-shrink: 0;"></div>
-                <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0; color: #ffffff;">Kerakli oqsil va yog'lar</h3>
-            </div>
-            <p style="color: #9ca3af; font-size: 0.8rem; margin: 0; padding-left: 28px;">Oqsil va yog'lar miqdorini bilib oling.</p>
-        </a>
-
-        <a href="#" class="hover-card">
-            <div style="display: flex; align-items: center; margin-bottom: 3px;">
-                <div style="background: #fdcb6e; width: 20px; height: 20px; border-radius: 4px; margin-right: 8px; flex-shrink: 0;"></div>
-                <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0; color: #ffffff;">Diyetolog maslahati</h3>
-            </div>
-            <p style="color: #9ca3af; font-size: 0.8rem; margin: 0; padding-left: 28px;">Shaxsiy AI diyetologingizdan maslahat oling.</p>
-        </a>
-
+        </div>
     </div>
 
 </div>
+
+<!-- ⚡ JS FAYLINI ULASH -->
+<script src="{% static 'js/user.js' %}"></script>
+
+<!-- 🎨 CSS STILLARI ENDI OHIRIDA JOYLASHDIRILDI -->
+<style>
+/* MAIN GRID STRUCTURE */
+.dashboard-main-grid {
+    display: grid;
+    grid-template-columns: 460px 1fr;
+    gap: 30px;
+    max-width: 1250px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+@media (max-width: 900px) {
+    .dashboard-main-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* TOAST STYLES */
+.toast-container {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--card-bg, #111827);
+    color: var(--text-main, #ffffff);
+    border: 1.5px solid #10b981;
+    padding: 14px 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.4s ease forwards;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* WELCOME CARD */
+.welcome-card {
+    background: var(--card-bg, #111827);
+    padding: 25px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    border: 1.5px solid var(--border-color, #1f2937);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.welcome-title {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--text-main, #ffffff);
+    margin-bottom: 8px;
+}
+
+.welcome-sub {
+    font-size: 0.95rem;
+    color: var(--text-muted, #9ca3af);
+    margin: 0;
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+/* CARD LIST & HOVER CARDS */
+.card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.hover-card {
+    background: var(--card-bg, #111827);
+    border: 1.5px solid var(--border-color, #1f2937);
+    padding: 14px 18px;
+    border-radius: 12px;
+    display: block;
+    text-decoration: none;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hover-card:hover {
+    transform: translateX(8px);
+    border-color: #10b981;
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.color-badge {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.badge-green { background: #10b981; }
+.badge-purple { background: #d946ef; }
+.badge-cyan { background: #06b6d4; }
+.badge-red { background: #f43f5e; }
+.badge-yellow { background: #fdcb6e; }
+
+.card-title {
+    font-size: 0.98rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-main, #ffffff);
+}
+
+.card-desc {
+    color: var(--text-muted, #9ca3af);
+    font-size: 0.82rem;
+    margin: 0;
+    padding-left: 28px;
+}
+
+/* BUTTONS */
+.register-notice-box {
+    margin-top: 10px;
+    background: var(--card-bg, #111827);
+    border: 1.5px solid #10b981;
+    padding: 16px;
+    border-radius: 14px;
+    text-align: center;
+}
+
+.notice-text {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-main, #ffffff);
+    margin-bottom: 12px;
+}
+
+.register-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px;
+    background: #10b981;
+    color: #ffffff;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    transition: all 0.2s ease;
+}
+
+.register-btn:hover { background: #059669; }
+
+.crud-actions-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.crud-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.plan-btn {
+    background: rgba(6, 182, 212, 0.1);
+    color: #06b6d4;
+    border: 1.5px solid #06b6d4;
+}
+
+.plan-btn:hover {
+    background: #06b6d4;
+    color: #ffffff;
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 13px;
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1.5px solid #ef4444;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin-top: 5px;
+}
+
+.logout-btn:hover {
+    background: #ef4444;
+    color: #ffffff;
+}
+
+/* O'NG TARAF: ADAPTIVE BLOK (DARK VA LIGHT MODEDA MUKAMMAL KO'RINADI) */
+.site-info-wrapper {
+    background: var(--card-bg, #111827);
+    border: 1.5px solid var(--border-color, #1f2937);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    line-height: 1.7;
+}
+
+.info-title {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #10b981;
+    margin-top: 0;
+    margin-bottom: 18px;
+    letter-spacing: -0.5px;
+}
+
+.info-lead {
+    font-size: 1.05rem;
+    color: var(--text-main, #ffffff);
+    margin-bottom: 26px;
+    display: none;
+}
+
+.highlight-green {
+    color: #10b981;
+    font-weight: 700;
+}
+
+.info-section {
+    display: none;
+}
+
+.cursor {
+    display: inline-block;
+    color: #10b981;
+    font-weight: bold;
+    margin-left: 2px;
+    animation: blink 0.6s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.section-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-main, #ffffff);
+    margin-bottom: 16px;
+}
+
+.info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.info-list li {
+    position: relative;
+    padding-left: 26px;
+    font-size: 0.96rem;
+    color: var(--text-muted, #9ca3af);
+    line-height: 1.6;
+}
+
+.info-list li::before {
+    content: "•";
+    position: absolute;
+    left: 4px;
+    top: -3px;
+    color: #10b981;
+    font-size: 1.6rem;
+    line-height: 1;
+}
+
+.info-list li strong {
+    color: var(--text-main, #ffffff);
+    font-weight: 700;
+}
+</style>
 {% endblock %}

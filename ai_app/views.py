@@ -12,8 +12,8 @@ def user_question_create(request):
 
         buyi= question_instance.buyi
         vazni= question_instance.vazni
-        goal= question_instance.goal
-        ai_result = ai_handler(buyi=buyi,vazni=vazni,goal=goal)
+        maqsadi= question_instance.maqsadi
+        ai_result = ai_handler(buyi=buyi,vazni=vazni,maqsadi=maqsadi)
 
     ctx = {
         'form':form,

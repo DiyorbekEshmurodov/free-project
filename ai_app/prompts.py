@@ -1,4 +1,4 @@
-def get_fitness_prompt(vazni, buyi, goal):
+def get_fitness_prompt(vazni, buyi, maqsadi):
     """
     Foydalanuvchi ma'lumotlarini olib, AI uchun aniq shablon va 
     JSON formatda javob berishini talab qiluvchi prompt qaytaradi.
@@ -9,7 +9,7 @@ def get_fitness_prompt(vazni, buyi, goal):
 
     - Vazni: {vazni} kg
     - Bo'yi: {buyi} sm
-    - Maqsadi: {goal}
+    - Maqsadi: {maqsadi}
 
     1:
     {{
