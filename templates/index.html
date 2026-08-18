@@ -34,15 +34,16 @@
         <!-- CARDLAR RO'YXATI -->
         <div class="card-list">
 
-            <a href="#" class="hover-card">
+            <!-- HAFTALIK HISOBOTLAR LINKI -->
+            <a href="{% url 'reports' %} " class="hover-card">
                 <div class="card-header">
                     <div class="color-badge badge-green"></div>
                     <h3 class="card-title">Haftalik AI yondashuv va hisobotlar</h3>
                 </div>
-                <p class="card-desc">AI orqali kunlik, haftalik va oylik maslahat oling.</p>
+                <p class="card-desc">AI orqali kunlik, haftalik, oylik va yillik maslahat oling.</p>
             </a>
 
-            <a href="#" class="hover-card">
+            <a href="{% url 'nutrition_secrets' %}" class="hover-card">
                 <div class="card-header">
                     <div class="color-badge badge-purple"></div>
                     <h3 class="card-title">To'g'ri ovqatlanish sirlari</h3>
@@ -50,7 +51,7 @@
                 <p class="card-desc">Zararli ovqatlanish tartibidan voz keching.</p>
             </a>
 
-            <a href="#" class="hover-card">
+            <a href="{% url 'ai_analysis' %}" class="hover-card">
                 <div class="card-header">
                     <div class="color-badge badge-cyan"></div>
                     <h3 class="card-title">AI orqali analiz</h3>
@@ -58,7 +59,7 @@
                 <p class="card-desc">AI yordamida to'g'ri semirish va vazn tashlang.</p>
             </a>
 
-            <a href="#" class="hover-card">
+            <a href="{% url 'oqsil' %}" class="hover-card">
                 <div class="card-header">
                     <div class="color-badge badge-red"></div>
                     <h3 class="card-title">Kerakli oqsil va yog'lar</h3>
@@ -66,7 +67,7 @@
                 <p class="card-desc">Oqsil va yog'lar miqdorini bilib oling.</p>
             </a>
 
-            <a href="#" class="hover-card">
+            <a href="{% url 'diyetolog' %}" class="hover-card">
                 <div class="card-header">
                     <div class="color-badge badge-yellow"></div>
                     <h3 class="card-title">Diyetolog maslahati</h3>
@@ -74,21 +75,28 @@
                 <p class="card-desc">Sizning AI Diyetologingiz doimo yordamga tayyor.</p>
             </a>
 
-            <!-- DYNAMIC BUTTONS -->
-            {% if not has_profile %}
+            <!-- DYNAMIC BUTTONS (TUGMALAR MANTIQI TO'G'RILANDI) -->
+            {% if user.is_authenticated and has_profile %}
+                <!-- Foydalanuvchi tizimda bor va profilini to'liq to'ldirgan bo'lsa -->
+                <div class="crud-actions-box">
+                    <a href="{% url 'user_list' %}" class="crud-btn plan-btn">
+                        📋 Fitness Rejalarim Ro'yxati
+                    </a>
+                </div>
+            {% else %}
+                <!-- Foydalanuvchi ro'yxatdan o'tmagan yoki profili to'lmagan bo'lsa -->
                 <div class="register-notice-box">
                     <p class="notice-text">
                         💡 Tizimdan to'liq foydalanmoqchi bo'lsangiz, ro'yxatdan o'ting!
                     </p>
                     <a href="{% url 'profile_setup' %}" class="register-btn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="8.5" cy="7" r="4"></circle>
+                            <line x1="20" y1="8" x2="20" y2="14"></line>
+                            <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
                         To'liq ro'yxatdan o'tish
-                    </a>
-                </div>
-            {% else %}
-                <div class="crud-actions-box">
-                    <a href="{% url 'user_list' %}" class="crud-btn plan-btn">
-                        📋 Fitness Rejalarim Ro'yxati
                     </a>
                 </div>
             {% endif %}
@@ -134,7 +142,7 @@
 <!-- ⚡ JS FAYLINI ULASH -->
 <script src="{% static 'js/user.js' %}"></script>
 
-<!-- 🎨 CSS STILLARI ENDI OHIRIDA JOYLASHDIRILDI -->
+<!-- 🎨 CSS STILLARI -->
 <style>
 /* MAIN GRID STRUCTURE */
 .dashboard-main-grid {
@@ -354,7 +362,7 @@
     color: #ffffff;
 }
 
-/* O'NG TARAF: ADAPTIVE BLOK (DARK VA LIGHT MODEDA MUKAMMAL KO'RINADI) */
+/* O'NG TARAF: ADAPTIVE BLOK */
 .site-info-wrapper {
     background: var(--card-bg, #111827);
     border: 1.5px solid var(--border-color, #1f2937);

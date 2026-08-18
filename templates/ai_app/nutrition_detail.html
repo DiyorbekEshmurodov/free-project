@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}AI Tahlili - Life GYM{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/universal.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="nutrition-wrapper">
+
+    <div class="result-wrapper" style="max-width: 800px;">
+        <div class="ai-response-box">
+            <div class="ai-header">
+                <span class="ai-badge">✨ AI Diyetolog Tahlili</span>
+            </div>
+
+            <div class="ai-content">
+                {{ ai_result }}
+            </div>
+        </div>
+    </div>
+
+    <!-- ORQAGA CARDLAR RO'YXATIGA QAYTISH -->
+    <a href="{% url 'index' %}" class="back-link" style="margin-top: 30px;">
+        &larr; Barcha yo'nalishlarga qaytish
+    </a>
+
+</div>
+{% endblock %}

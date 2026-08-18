@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Kerakli oqsil va yog'lar - Life GYM{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/universal.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="analysis-wrapper">
+    <div class="analysis-header">
+        <h1 class="analysis-title">Kerakli oqsil va yog'lar</h1>
+        <p class="analysis-sub">Aynan siz uchun zarur bo'lgan oqsil va yog'lar miqdorini bilib oling.</p>
+    </div>
+
+    <!-- SAVOL CARDLARI -->
+    <div class="analysis-grid">
+        {% for key, q in questions.items %}
+            <a href="{% url 'oqsil_detail' question_id=key %}" class="nav-card-btn">
+                <div class="card-top">
+                    <div class="card-icon-badge" style="background: rgba(239, 68, 68, 0.15);">🥩</div>
+                    <span class="card-arrow" style="color: #ef4444;">&rarr;</span>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-short-title">{{ q.title }}</h3>
+                    <p class="card-short-desc">{{ q.short_desc }}</p>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+
+    <div style="margin-top: 30px; text-align: center;">
+        <a href="{% url 'index' %}" class="back-link">&larr; Bosh sahifaga qaytish</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/universal.js' %}"></script>
+{% endblock %}

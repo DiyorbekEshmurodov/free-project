@@ -1,116 +1,117 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}
+    {% if form.instance.pk or model.pk %}
+        Hisobotni Tahrirlash
+    {% else %}
+        Yangi Fitness Reja Qo'shish
+    {% endif %}
+{% endblock %}
+
 {% block content %}
-<div class="page-container">
-    {% include 'userbar.html' %}
-    <div class="main-content">
-        <div class="section__content section__content--p30">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="overview-wrap">
-                            <h2 class="title-1">
-                                {% if form.instance.pk or model.pk %}
-                                    Hisobotni Tahrirlash
-                                {% else %}
-                                    Yangi Fitness Reja Qo'shish
-                                {% endif %}
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <strong>Fitness & Health</strong>
-                                <small> Form</small>
-                            </div>
-                            <div class="card-body card-block">
-                                <form method="post" enctype="multipart/form-data">
-                                    {% csrf_token %}
-
-                                    <!-- 📌 Maqsad maydoni (maqsadi) -->
-                                    {% if form.maqsadi %}
-                                    <div class="form-group">
-                                        <label class="form-control-label">Asosiy Maqsad</label>
-                                        {{ form.maqsadi }}
-                                    </div>
-                                    {% endif %}
-
-                                    <!-- Agarda title (sarlavha) bo'lsa -->
-                                    {% if form.title %}
-                                    <div class="form-group">
-                                        <label class="form-control-label">Reja Nomi</label>
-                                        {{ form.title }}
-                                    </div>
-                                    {% endif %}
-
-                                    {% if form.period_type %}
-                                    <div class="form-group">
-                                        <label class="form-control-label">Davriylik Turi</label>
-                                        {{ form.period_type }}
-                                    </div>
-                                    {% endif %}
-
-                                    {% if form.kunlik %}
-                                    <div class="form-group">
-                                        <label class="form-control-label">Kunlik Reja</label>
-                                        {{ form.kunlik }}
-                                    </div>
-                                    {% endif %}
-
-                                    {% if form.haftalik %}
-                                    <div class="form-group">
-                                        <label class="form-control-label">Haftalik Reja</label>
-                                        {{ form.haftalik }}
-                                    </div>
-                                    {% endif %}
-
-                                    {% if form.oylik %}
-                                    <div class="form-group">
-                                        <label class="form-control-label">Oylik Reja</label>
-                                        {{ form.oylik }}
-                                    </div>
-                                    {% endif %}
-
-                                    {% if form.yillik %}
-                                    <div class="form-group">
-                                        <label class="form-control-label">Yillik Reja</label>
-                                        {{ form.yillik }}
-                                    </div>
-                                    {% endif %}
-
-                                    {% if form.description %}
-                                    <div class="form-group">
-                                        <label class="form-control-label">Batafsil Tavsif</label>
-                                        {{ form.description }}
-                                    </div>
-                                    {% endif %}
-
-                                    {% if form.target_date %}
-                                    <div class="form-group">
-                                        <label class="form-control-label">Sana</label>
-                                        {{ form.target_date }}
-                                    </div>
-                                    {% endif %}
-
-                                    {% if form.instance.pk or model.pk %}
-                                        <button type="submit" class="btn btn-warning btn-md">Saqlash</button>
-                                    {% else %}
-                                        <button type="submit" class="btn btn-success btn-md">Qo'shish</button>
-                                    {% endif %}
-
-                                    <a href="{% url 'user_list' %}" class="btn btn-secondary btn-md">Orqaga</a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="main-container">
+    <div class="form-card-wrapper">
+        <div class="form-card-header">
+            <h2>
+                {% if form.instance.pk or model.pk %}
+                    ✏️ Hisobotni Tahrirlash
+                {% else %}
+                    ➕ Yangi Fitness Reja Qo'shish
+                {% endif %}
+            </h2>
+            <p>Fitness va salomatlik rejalaringizni belgilang va saqlang.</p>
         </div>
+
+        <form method="post" enctype="multipart/form-data" class="custom-fitness-form">
+            {% csrf_token %}
+
+            {% if form.maqsadi %}
+            <div class="form-group">
+                <label>Asosiy Maqsad</label>
+                {{ form.maqsadi }}
+            </div>
+            {% endif %}
+
+            {% if form.title %}
+            <div class="form-group">
+                <label>Reja Nomi</label>
+                {{ form.title }}
+            </div>
+            {% endif %}
+
+            {% if form.period_type %}
+            <div class="form-group">
+                <label>Davriylik Turi</label>
+                {{ form.period_type }}
+            </div>
+            {% endif %}
+
+            {% if form.kunlik %}
+            <div class="form-group">
+                <label>Kunlik Reja</label>
+                {{ form.kunlik }}
+            </div>
+            {% endif %}
+
+            {% if form.haftalik %}
+            <div class="form-group">
+                <label>Haftalik Reja</label>
+                {{ form.haftalik }}
+            </div>
+            {% endif %}
+
+            {% if form.oylik %}
+            <div class="form-group">
+                <label>Oylik Reja</label>
+                {{ form.oylik }}
+            </div>
+            {% endif %}
+
+            {% if form.yillik %}
+            <div class="form-group">
+                <label>Yillik Reja</label>
+                {{ form.yillik }}
+            </div>
+            {% endif %}
+
+            {% if form.description %}
+            <div class="form-group">
+                <label>Batafsil Tavsif</label>
+                {{ form.description }}
+            </div>
+            {% endif %}
+
+            {% if form.target_date %}
+            <div class="form-group">
+                <label>Sana</label>
+                {{ form.target_date }}
+            </div>
+            {% endif %}
+
+            <div class="form-actions">
+                {% if form.instance.pk or model.pk %}
+                    <button type="submit" class="btn-submit">Saqlash</button>
+                {% else %}
+                    <button type="submit" class="btn-submit">Qo'shish</button>
+                {% endif %}
+
+                <a href="{% url 'user_list' %}" class="btn-cancel">Orqaga</a>
+            </div>
+        </form>
     </div>
 </div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/uz.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        flatpickr("input[type=date]", {
+            locale: "uz",
+            dateFormat: "Y-m-d",
+            minDate: "today" // O'tib ketgan kunlarni yopadi
+        });
+    });
+</script>
 {% endblock %}

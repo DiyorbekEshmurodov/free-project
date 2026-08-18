@@ -20,7 +20,7 @@
                 <table class="table table-borderless table-data3" style="width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 12px; overflow: hidden;">
                     <thead>
                         <tr style="border-bottom: 1px solid var(--border-color); text-align: left;">
-                            <th style="padding: 12px;">#</th>
+                            <th style="padding: 12px;">1</th>
                             <th style="padding: 12px;">Maqsadi</th>
                             <th style="padding: 12px;">Reja / Kunlik</th>
                             <th style="padding: 12px;">Haftalik</th>
@@ -29,17 +29,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for item in plans|default:hisobotlar %}
+                        {% for item in plans %}
                         <tr style="border-bottom: 1px solid var(--border-color);">
                             <td style="padding: 12px;">{{ forloop.counter }}</td>
                             <td style="padding: 12px;">{{ item.maqsadi|default:item.title|default:"-" }}</td>
                             <td style="padding: 12px;">{{ item.kunlik|default:item.description|default:"-"|truncatechars:30 }}</td>
                             <td style="padding: 12px;">{{ item.haftalik|default:item.period_type|default:"-"|truncatechars:30 }}</td>
                             <td style="padding: 12px;">
-                                {% if item.created_at %}
-                                    {{ item.created_at|date:"Y-m-d H:i" }}
-                                {% else %}
+                                {% if item.target_date %}
                                     {{ item.target_date|date:"Y-m-d" }}
+                                {% else %}
+                                    {{ item.created_at|date:"Y-m-d H:i" }}
                                 {% endif %}
                             </td>
                             <td style="padding: 12px;">

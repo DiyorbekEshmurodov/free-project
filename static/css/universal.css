@@ -1,0 +1,196 @@
+/* ==========================================
+   THEME VARIABLES (REJIMLAR O'ZGARUVCHILARI)
+   ========================================== */
+
+/* 1. YORUG' REJIM (LIGHT MODE) */
+:root, [data-theme="light"] {
+    --bg-main: #f8fafc;
+    --card-bg: #ffffff;
+    --card-border: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --icon-bg: #f1f5f9;
+    --accent-color: #00d282;
+    --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
+    /* Light mode tugmalar */
+    --btn-bg: #f1f5f9;
+    --btn-text: #475467;
+    --btn-hover-bg: #e2e8f0;
+}
+
+/* 2. QORONG'I REJIM (DARK MODE) */
+[data-theme="dark"], body.dark-mode {
+    --bg-main: #0b0f19;
+    --card-bg: #151c2c;
+    --card-border: #232d42;
+    --text-primary: #ffffff;
+    --text-secondary: #94a3b8;
+    --icon-bg: #1e293b;
+    --accent-color: #00d282;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+
+    /* Dark mode tugmalar */
+    --btn-bg: #1e293b;
+    --btn-text: #94a3b8;
+    --btn-hover-bg: #00d282;
+}
+
+/* ==========================================
+   STILLARNI O'ZGARUVCHILARGA BOG'LASH
+   ========================================== */
+
+body {
+    background-color: var(--bg-main) !important;
+    color: var(--text-primary) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.analysis-wrapper {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.analysis-title {
+    color: var(--text-primary) !important;
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.analysis-sub {
+    color: var(--text-secondary) !important;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+/* CARDS GRID & CARDS */
+.analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.nav-card-btn, .report-card {
+    width: 100%;
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--card-border) !important;
+    border-radius: 14px;
+    padding: 24px;
+    text-align: left;
+    cursor: pointer;
+    box-shadow: var(--card-shadow);
+    /* KURSOR BORGANDA QIMIRLASH EFFEKTI */
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Sichqoncha borsa karta tepaga ko'tariladi va yorishadi */
+.nav-card-btn:hover, .report-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent-color) !important;
+    box-shadow: 0 8px 24px rgba(0, 210, 130, 0.15);
+}
+
+.report-card.active-card {
+    border-color: var(--accent-color) !important;
+}
+
+/* CARD ELEMENTLARI */
+.card-top {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Ikonka va yozuv orasidagi masofa */
+    margin-bottom: 20px;
+}
+
+.card-icon-badge {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    background-color: var(--icon-bg) !important;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.card-text-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-short-title {
+    color: var(--text-primary) !important;
+    font-size: 20px !important; /* Yozuv kattalashtirildi */
+    font-weight: 700;
+    margin: 0 0 4px 0 !important;
+    line-height: 1.2;
+}
+
+.card-short-desc {
+    color: var(--text-secondary) !important;
+    font-size: 15px !important; /* Izoh yozuvi kattalashtirildi */
+    line-height: 1.4;
+    margin: 0 !important;
+}
+
+/* VAQT TUGMALARI */
+.period-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.p-btn {
+    background-color: var(--btn-bg) !important;
+    color: var(--btn-text) !important;
+    border: 1px solid var(--card-border) !important;
+    text-align: center;
+    padding: 8px 0;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.p-btn:hover {
+    background-color: var(--btn-hover-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+.p-btn.active {
+    background-color: var(--accent-color) !important;
+    color: #ffffff !important;
+    border-color: var(--accent-color) !important;
+}
+
+/* BOSH SAHIFAGA QAYTISH TUGMASI (O'RTADA) */
+.back-link-wrapper {
+    text-align: center !important;
+    margin-top: 40px !important;
+    width: 100%;
+}
+
+.back-link {
+    display: inline-block;
+    color: var(--text-secondary) !important;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.back-link:hover {
+    color: var(--accent-color) !important;
+}
+
+.hidden {
+    display: none !important;
+}

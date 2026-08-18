@@ -19,7 +19,7 @@ def profile_setup(request):
     profile, created = UserDetail.objects.get_or_create(user=request.user)
 
     if request.method == 'POST':
-        form = UserDetailForm(request.POST, instance=profile)
+        form = UserDetailForm(request.POST, request.FILES,instance=profile)
         if form.is_valid():
             form.save()
             messages.success(request, "Ma'lumotlaringiz muvaffaqiyatli saqlandi!")

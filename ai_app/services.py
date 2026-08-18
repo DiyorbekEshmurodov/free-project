@@ -5,8 +5,9 @@ from .prompts import *
 load_dotenv()
 API_KEY = os.getenv('API_KEY')
 genai.configure(api_key=API_KEY)
-def ai_handler(buyi,vazni,goal):
-    prompt_text =  get_fitness_prompt(vazni, buyi, goal)
+def ai_handler(buyi,vazni,maqsadi):
+    prompt_text =  get_fitness_prompt(vazni, buyi, maqsadi)
+
     try:
         model = genai.GenerativeModel('gemini-1.5-flash')
         response = model.generate_content(prompt_text)

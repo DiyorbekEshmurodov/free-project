@@ -4,7 +4,7 @@
 
         <!-- Logo -->
         <div style="display: flex; align-items: center; gap: 30px;">
-            <a href="{% url 'home' %}" style="font-weight: 900; font-size: 1.4rem; color: var(--text-main);">
+            <a href="{% url 'home' %}" style="font-weight: 900; font-size: 1.4rem; color: var(--text-main); text-decoration: none;">
                 LIFE <span style="color: var(--primary);">GYM</span>
             </a>
         </div>
@@ -17,48 +17,48 @@
 
             {% if request.user.is_authenticated %}
                 <!-- USERBAR DROPDOWN QISMI -->
-                <div class="user-dropdown-wrapper">
-                    <button type="button" class="userbar-btn" id="userMenuBtn" onclick="toggleUserMenu()">
-                        {% if request.user.profile.image %}
-                            <img src="{{ request.user.profile.image.url }}" alt="User Avatar" class="user-avatar">
+                <div class="user-dropdown-wrapper" style="position: relative;">
+                    <button type="button" class="userbar-btn" id="userMenuBtn" style="display: flex; align-items: center; gap: 10px; background: transparent; border: none; cursor: pointer; color: var(--text-main);">
+                        {% if request.user.profile.avatar %}
+                            <img src="{{ request.user.profile.avatar.url }}" alt="User Avatar" class="user-avatar" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary);">
                         {% else %}
-                            <div class="user-avatar-placeholder">
+                            <div class="user-avatar-placeholder" style="width: 38px; height: 38px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold;">
                                 {{ request.user.username|slice:":1"|upper }}
                             </div>
                         {% endif %}
-                        <span class="user-name">{{ request.user.username }}</span>
-                        <span class="dropdown-arrow">▼</span>
+                        <span class="user-name" style="font-weight: 600;">{{ request.user.username|title }}</span>
+                        <span class="dropdown-arrow" style="font-size: 10px;">▼</span>
                     </button>
 
                     <!-- DROPDOWN MENYU -->
-                    <div class="dropdown-menu" id="userDropdown">
-                        <div class="dropdown-header">
-                            <span class="dropdown-user-title">{{ request.user.username }}</span>
-                            <span class="dropdown-user-sub">Fitness profil</span>
+                    <div class="dropdown-menu" id="userDropdown" style="display: none; position: absolute; right: 0; top: 48px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; min-width: 220px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); padding: 12px; z-index: 99999;">
+                        <div class="dropdown-header" style="padding-bottom: 8px;">
+                            <div class="dropdown-user-title" style="font-weight: bold; color: var(--text-main);">{{ request.user.username|title }}</div>
+                            <div class="dropdown-user-sub" style="font-size: 12px; color: var(--text-muted);">Fitness profil</div>
                         </div>
 
-                        <hr class="dropdown-divider">
+                        <hr class="dropdown-divider" style="border: 0; border-top: 1px solid var(--border-color); margin: 8px 0;">
 
                         <!-- 1. ACCOUNTS (CRUD) -->
-                        <a href="{% url 'user_list' %}" class="dropdown-item">
+                        <a href="{% url 'user_list' %}" class="dropdown-item" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main); text-decoration: none; border-radius: 8px; font-size: 14px;">
                             📋 <span>Profil ma'lumotlari (CRUD)</span>
                         </a>
 
                         <!-- 2. LOGIN & PAROL SOZLAMALARI -->
-                        <a href="{% url 'profile_setup' %}" class="dropdown-item">
+                        <a href="{% url 'profile_setup' %}" class="dropdown-item" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main); text-decoration: none; border-radius: 8px; font-size: 14px;">
                             🔒 <span>Login va Parolni o'zgartirish</span>
                         </a>
 
-                        <hr class="dropdown-divider">
+                        <hr class="dropdown-divider" style="border: 0; border-top: 1px solid var(--border-color); margin: 8px 0;">
 
                         <!-- 3. LOGOUT -->
-                        <a href="{% url 'logout_page' %}" class="dropdown-item logout-item">
+                        <a href="{% url 'logout_page' %}" class="dropdown-item logout-item" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: #ef4444; text-decoration: none; border-radius: 8px; font-size: 14px;">
                             🚪 <span>Tizimdan chiqish</span>
                         </a>
                     </div>
                 </div>
             {% else %}
-                <a href="{% url 'login_page' %}" style="background-color: var(--primary); color: #ffffff; padding: 10px 24px; border-radius: 12px; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 8px;">
+                <a href="{% url 'login_page' %}" style="background-color: var(--primary); color: #ffffff; padding: 10px 24px; border-radius: 12px; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 8px; text-decoration: none;">
                     Boshlash &rarr;
                 </a>
             {% endif %}
@@ -66,3 +66,29 @@
 
     </div>
 </header>
+
+<!-- KAFOLATLANGAN JS SCRIPT -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const btn = document.getElementById('userMenuBtn');
+        const dropdown = document.getElementById('userDropdown');
+
+        if (btn && dropdown) {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation(); // Bosish voqeasini to'xtatadi
+                if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+                    dropdown.style.display = 'block';
+                } else {
+                    dropdown.style.display = 'none';
+                }
+            });
+
+            // Ekran boshqa joyiga bosilganda yopish
+            document.addEventListener('click', function(e) {
+                if (!dropdown.contains(e.target) && !btn.contains(e.target)) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        }
+    });
+</script>

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Diyetolog Maslahati Tafsilotlari - Life GYM{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/diyetolog.css' %}">
+{% endblock %}
+{% block content %}
+<div class="analysis-wrapper">
+    <div class="analysis-header">
+        <h1 class="analysis-title">Diyetolog Maslahati Tafsiloti</h1>
+        <p class="analysis-sub">Siz uchun tayyorlangan individual diyetologik tavsiya</p>
+    </div>
+
+    <div class="ai-result-box" style="border-color: #fdcb6e;">
+        <div class="result-header">
+            <span class="ai-badge" style="background: rgba(253, 203, 110, 0.15); color: #fdcb6e;">📋 To'liq Javob</span>
+        </div>
+        <div class="result-content">
+            {% if result %}
+                {{ result|linebreaks }}
+            {% else %}
+                <p>Ma'lumot topilmadi.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div style="margin-top: 30px; text-align: center;">
+        <a href="{% url 'index' %}" class="back-link">&larr; Maslahatlar bo'limiga qaytish</a>
+    </div>
+</div>
+{% endblock %}

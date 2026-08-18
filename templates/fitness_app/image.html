@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width: 500px; margin: 40px auto; padding: 20px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color);">
+    <h3 style="color: var(--text-main); margin-bottom: 20px;">Profil Sozlamalari</h3>
+
+    <!-- enctype="multipart/form-data" rasm yuklash uchun shart -->
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div style="margin-bottom: 15px;">
+            <label style="color: var(--text-main); display: block; margin-bottom: 5px;">Profil rasmi (Avatar):</label>
+            <input type="file" name="avatar" accept="image/*" style="color: var(--text-main);">
+        </div>
+
+        <button type="submit" style="background: var(--primary); color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">
+            Saqlash
+        </button>
+        <a href="{% url 'user_list' %}" style="color: var(--text-muted); margin-left: 10px; text-decoration: none;">Orqaga</a>
+    </form>
+</div>
+{% endblock %}

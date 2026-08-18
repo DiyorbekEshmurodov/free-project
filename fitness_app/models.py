@@ -1,5 +1,8 @@
 from django.db import models
 from accounts.models import UserDetail
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class FitnessPlan(models.Model):
     PERIOD_CHOICES = (
@@ -19,60 +22,23 @@ class FitnessPlan(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.title} ({self.period_type})"
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to='avatars/', default='avatars/default.png', blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    if hasattr(instance, 'profile'):
+        instance.profile.save()
 
 
 
-
-
-# from django.db import models
-# from accounts.models import UserDetail
-#
-# class FitnessPlan(models.Model):
-#     kunlik = models.TextField(max_length=255,null=True,blank=True)
-#     haftalik = models.TextField(max_length=255,null=True,blank=True)
-#     oylik = models.TextField(max_length=255,null=True,blank=True)
-#     yillik = models.TextField(max_length=255,null=True,blank=True)
-#     goal = models.TextField(max_length=255,null=True,blank=True)
-#     user = models.ForeignKey(UserDetail,blank=True,null=True,on_delete=models.SET_NULL)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#
-#     def __str__(self):
-#         return f"{self.kunlik},{self.haftalik},{self.oylik},{self.yillik},{self.created_at}"
-#
-# class GetKunlik(models.Model):
-#     kunlik = models.TextField(max_length=255,null=True,blank=True)
-#     user = models.ForeignKey(UserDetail,blank=True,null=True,on_delete=models.SET_NULL)
-#     create_at = models.DateTimeField(auto_now_add=True)
-#
-# class GetHaftalik(models.Model):
-#     Dushanba = models.TextField(max_length=255,null=True,blank=True)
-#     Seshanba = models.TextField(max_length=255,null=True,blank=True)
-#     Chorshanba = models.TextField(max_length=255,null=True,blank=True)
-#     Payshanba = models.TextField(max_length=255,null=True,blank=True)
-#     Juma = models.TextField(max_length=255,null=True,blank=True)
-#     Shanba = models.TextField(max_length=255,null=True,blank=True)
-#     Yakshanba = models.TextField(max_length=255,null=True,blank=True)
-#     user = models.ForeignKey(UserDetail,blank=True,null=True,on_delete=models.SET_NULL)
-#     create_at = models.DateTimeField(auto_now_add=True)
-#
-# class GetOylik(models.Model):
-#     Yanvar = models.TextField(max_length=255,null=True,blank=True)
-#     Fevral = models.TextField(max_length=255,null=True,blank=True)
-#     Mart = models.TextField(max_length=255,null=True,blank=True)
-#     April = models.TextField(max_length=255,null=True,blank=True)
-#     May = models.TextField(max_length=255,null=True,blank=True)
-#     Iyun = models.TextField(max_length=255,null=True,blank=True)
-#     Iyul = models.TextField(max_length=255,null=True,blank=True)
-#     Avgust = models.TextField(max_length=255,null=True,blank=True)
-#     Sentabr = models.TextField(max_length=255,null=True,blank=True)
-#     Oktaybr = models.TextField(max_length=255,null=True,blank=True)
-#     Noyabr = models.TextField(max_length=255,null=True,blank=True)
-#     Dekabr = models.TextField(max_length=255,null=True,blank=True)
-#     user = models.ForeignKey(UserDetail,blank=True,null=True,on_delete=models.SET_NULL)
-#     create_at = models.DateTimeField(auto_now_add=True)
-#
-# class GetYillik(models.Model):
-#     year_2026 = models.TextField(max_length=255,null=True,blank=True)
-#     year_2027 = models.TextField(max_length=255,null=True,blank=True)
-#     user = models.ForeignKey(UserDetail,blank=True,null=True,on_delete=models.SET_NULL)
-#     create_at = models.DateTimeField(auto_now_add=True)
