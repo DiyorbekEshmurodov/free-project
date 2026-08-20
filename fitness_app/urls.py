@@ -9,7 +9,8 @@ urlpatterns = [
     path('user_create/',plan_create,name="user_create"),
     path('user_edit/<int:pk>/',plan_edit,name="user_edit"),
     path('user_delete/<int:pk>/',plan_delete,name="user_delete"),
-    path('reports/',ai_report_view,name="reports"),
+    path('reports/',AIReportView.as_view(),name="reports"),
+    path('ai_page/',AIReportView.as_view(),name="ai_page"),
 
     path('', main_account, name='main_account'),
 ]

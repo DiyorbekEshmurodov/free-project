@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Alohida CSS faylni ulash -->
+<link rel="stylesheet" href="{% static 'css/ai_page.css' %}">
+
+<div class="ai-page-wrapper">
+    <!-- HEADER -->
+    <div class="ai-page-header">
+        <h1 class="ai-page-title">Sizning shaxsiy fitness rejangiz tayyor!</h1>
+        <p class="ai-page-sub">Javoblaringiz va ko'rsatkichlaringizni tahlil qilib, maqsadingiz sari shaxsiy yo'l tuzdik.</p>
+    </div>
+
+    <!-- USER PROFIL XULOSASI -->
+    <div class="user-summary-card">
+        <div class="summary-item">
+            <span class="summary-label">📏 Bo'yingiz:</span>
+            <span class="summary-val">{{ profile.buyi }} cm</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">⚖️ Vazningiz:</span>
+            <span class="summary-val">{{ profile.vazni }} kg</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">🎯 Maqsadingiz:</span>
+            <span class="summary-val">{{ profile.maqsadi }}</span>
+        </div>
+    </div>
+
+    <!-- REJAGA NIMALAR KIRADI (4 TA KARD UCHUN HAM MOSLASHUVCHAN) -->
+    <h2 class="section-title">Sizni rejangizga nima kiradi:</h2>
+
+    <div class="plan-features-list">
+        <!-- 1-Blok: Ovqatlanish -->
+        <div class="feature-card">
+            <div class="feature-icon">🥗</div>
+            <div class="feature-content">
+                <h3>Moslashtirilgan kunlik ratsion</h3>
+                <p>{{ advice_data.nutrition }}</p>
+            </div>
+        </div>
+
+        <!-- 2-Blok: Mashqlar -->
+        <div class="feature-card">
+            <div class="feature-icon">🏃‍♂️</div>
+            <div class="feature-content">
+                <h3>Maqsadingiz uchun qadam-baqadam reja</h3>
+                <p>{{ advice_data.workout }}</p>
+            </div>
+        </div>
+
+        <!-- 3-Blok: AI Tahlili -->
+        <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <div class="feature-content">
+                <h3>Sun'iy intellekt tavsiyasi</h3>
+                <p>{{ advice_data.ai_recommendation }}</p>
+            </div>
+        </div>
+
+        <!-- 4-Blok: Kafolat / Natija -->
+        <div class="feature-card feature-highlight">
+            <div class="feature-icon">🛡️</div>
+            <div class="feature-content">
+                <h3>Natija va nazorat</h3>
+                <p>Rejaga intizom bilan amal qilsangiz, belgilangan vaqt oralig'ida barqaror natijaga erishasiz.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- HARAKAT TUGMALARI -->
+    <div class="ai-page-actions">
+        <a href="{% url 'user_list' %}" class="btn-primary-action">Davom etish</a>
+        <a href="{% url 'reports' %}" class="btn-secondary">← Boshqa kartani tanlash</a>
+    </div>
+</div>
+
+<!-- Alohida JS faylni ulash -->
+<script src="{% static 'js/ai_page.js' %}"></script>
+{% endblock %}

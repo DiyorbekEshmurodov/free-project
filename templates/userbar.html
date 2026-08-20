@@ -4,14 +4,14 @@
 
         <!-- Logo -->
         <div style="display: flex; align-items: center; gap: 30px;">
-            <a href="{% url 'home' %}" style="font-weight: 900; font-size: 1.4rem; color: var(--text-main); text-decoration: none;">
-                LIFE <span style="color: var(--primary);">GYM</span>
+            <a href="{% url 'index' %}" style="font-weight: 900; font-size: 1.4rem; color: var(--text-main); text-decoration: none;">
+                LIFE <span style="color: var(--primary-green, #00b894);">GYM</span>
             </a>
         </div>
 
         <!-- O'ng taraf: Tema almashtirgich va Userbar (Dropdown) -->
         <div style="display: flex; align-items: center; gap: 20px;">
-            <button id="theme-toggle" style="background: var(--bg-color); border: 1px solid var(--border-color); width: 42px; height: 42px; border-radius: 12px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; color: var(--text-main);">
+            <button id="theme-toggle" type="button" style="background: var(--bg-color); border: 1px solid var(--border-color); width: 42px; height: 42px; border-radius: 12px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; color: var(--text-main);">
                 ☀️
             </button>
 
@@ -19,14 +19,17 @@
                 <!-- USERBAR DROPDOWN QISMI -->
                 <div class="user-dropdown-wrapper" style="position: relative;">
                     <button type="button" class="userbar-btn" id="userMenuBtn" style="display: flex; align-items: center; gap: 10px; background: transparent; border: none; cursor: pointer; color: var(--text-main);">
+
+                        <!-- AVATAR MANTIQLARI TO'G'RILANDI (userdetail) -->
                         {% if request.user.profile.avatar %}
-                            <img src="{{ request.user.profile.avatar.url }}" alt="User Avatar" class="user-avatar" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary);">
+                            <img src="{{ request.user.profile.avatar.url }}" alt="{{ request.user.username }}" class="user-avatar" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-green, #00b894);">
                         {% else %}
-                            <div class="user-avatar-placeholder" style="width: 38px; height: 38px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                            <div class="user-avatar-placeholder" style="width: 38px; height: 38px; border-radius: 50%; background: var(--primary-green, #00b894); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold;">
                                 {{ request.user.username|slice:":1"|upper }}
                             </div>
                         {% endif %}
-                        <span class="user-name" style="font-weight: 600;">{{ request.user.username|title }}</span>
+
+                        <span class="user-name" style="font-weight: 600;">{{ request.user.first_name|default:request.user.username|title }}</span>
                         <span class="dropdown-arrow" style="font-size: 10px;">▼</span>
                     </button>
 
@@ -46,7 +49,7 @@
 
                         <!-- 2. LOGIN & PAROL SOZLAMALARI -->
                         <a href="{% url 'profile_setup' %}" class="dropdown-item" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main); text-decoration: none; border-radius: 8px; font-size: 14px;">
-                            🔒 <span>Login va Parolni o'zgartirish</span>
+                            🔒 <span>Profilni tahrirlash</span>
                         </a>
 
                         <hr class="dropdown-divider" style="border: 0; border-top: 1px solid var(--border-color); margin: 8px 0;">
@@ -58,7 +61,7 @@
                     </div>
                 </div>
             {% else %}
-                <a href="{% url 'login_page' %}" style="background-color: var(--primary); color: #ffffff; padding: 10px 24px; border-radius: 12px; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 8px; text-decoration: none;">
+                <a href="{% url 'login_page' %}" style="background-color: var(--primary-green, #00b894); color: #ffffff; padding: 10px 24px; border-radius: 12px; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 8px; text-decoration: none;">
                     Boshlash &rarr;
                 </a>
             {% endif %}
@@ -67,7 +70,6 @@
     </div>
 </header>
 
-<!-- KAFOLATLANGAN JS SCRIPT -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const btn = document.getElementById('userMenuBtn');
@@ -75,7 +77,7 @@
 
         if (btn && dropdown) {
             btn.addEventListener('click', function(e) {
-                e.stopPropagation(); // Bosish voqeasini to'xtatadi
+                e.stopPropagation();
                 if (dropdown.style.display === 'none' || dropdown.style.display === '') {
                     dropdown.style.display = 'block';
                 } else {
@@ -83,7 +85,6 @@
                 }
             });
 
-            // Ekran boshqa joyiga bosilganda yopish
             document.addEventListener('click', function(e) {
                 if (!dropdown.contains(e.target) && !btn.contains(e.target)) {
                     dropdown.style.display = 'none';

@@ -1,0 +1,148 @@
+/* AI PAGE STYLES */
+.ai-page-wrapper {
+    max-width: 750px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.ai-page-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.ai-page-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.ai-page-sub {
+    color: var(--text-secondary);
+    font-size: 15px;
+}
+
+/* User Summary Box */
+.user-summary-card {
+    display: flex;
+    justify-content: space-around;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 32px;
+}
+
+.summary-item {
+    font-size: 15px;
+}
+
+.summary-label {
+    color: var(--text-secondary);
+}
+
+.summary-val {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Feature Cards List */
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: var(--text-primary);
+}
+
+.plan-features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.feature-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 14px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: transform 0.2s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-2px);
+}
+
+.feature-icon {
+    font-size: 24px;
+    min-width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--icon-bg);
+}
+
+.feature-content h3 {
+    margin: 0 0 6px 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.feature-content p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* Green Highlighted Card (Natija) */
+.feature-highlight {
+    background-color: #f0fdf4 !important;
+    border-color: #bbf7d0 !important;
+}
+
+[data-theme="dark"] .feature-highlight {
+    background-color: #062c1b !important;
+    border-color: #14532d !important;
+}
+
+/* Action Buttons */
+.ai-page-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+}
+
+.btn-primary-action {
+    width: 100%;
+    background-color: #ff4d4f;
+    color: #ffffff;
+    text-align: center;
+    padding: 14px 0;
+    border-radius: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary-action:hover {
+    background-color: #e63946;
+}
+
+.btn-secondary {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.btn-secondary:hover {
+    color: var(--text-primary);
+}

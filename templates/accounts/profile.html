@@ -4,14 +4,35 @@
 {% block title %}Profilni to'ldirish | Life GYM{% endblock %}
 
 {% block content %}
-<div style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 30px 0;">
+<div class="profile-wrapper">
     <div class="profile-card">
 
         <h2 class="profile-title">Profil ma'lumotlari</h2>
         <p class="profile-subtitle">Aniqroq AI tahlillar va tavsiyalar olish uchun ma'lumotlaringizni to'ldiring</p>
 
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
+
+            <!-- AVATAR YUKLASH QISMI (Xatolardan xali va toza) -->
+            <div class="avatar-upload-container">
+                <label class="avatar-label">
+                    <div class="avatar-preview">
+                        <!-- Bitta placeholder -->
+                        <div id="avatar-placeholder" class="avatar-placeholder" {% if form.instance.avatar %}style="display: none;"{% endif %}>📷</div>
+
+                        <!-- Bitta img tegi -->
+                        <img id="avatar-img"
+                             src="{% if form.instance.avatar %}{{ form.instance.avatar.url }}{% endif %}"
+                             alt="User Avatar"
+                             {% if not form.instance.avatar %}style="display: none;"{% endif %}>
+                    </div>
+                    <span class="upload-text">Rasm tanlash uchun bosing</span>
+
+                    <div style="display: none;">
+                        {{ form.avatar }}
+                    </div>
+                </label>
+            </div>
 
             <div class="form-grid">
                 <div class="form-group">
@@ -53,48 +74,168 @@
             <button type="submit" class="save-btn">Saqlash va davom etish</button>
         </form>
 
-        <div style="margin-top: 15px;">
+        <div style="margin-top: 20px;">
             <a href="{% url 'index' %}" class="back-link">&larr; Bosh sahifaga qaytish</a>
         </div>
 
     </div>
 </div>
 
+<script>
+    const fileInput = document.querySelector('input[type="file"]');
+    const avatarImg = document.getElementById('avatar-img');
+    const avatarPlaceholder = document.getElementById('avatar-placeholder');
+
+    if (fileInput) {
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    avatarImg.src = event.target.result;
+                    avatarImg.style.display = 'block';
+                    if (avatarPlaceholder) {
+                        avatarPlaceholder.style.display = 'none';
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+</script>
+
 <style>
+    .profile-wrapper {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 15px;
+    }
+
     .profile-card {
-        background: var(--card-bg, #ffffff);
-        border: 1.5px solid var(--border-color, #e2e8f0);
-        padding: 35px 30px;
-        border-radius: 20px;
+        background: #0f172a;
+        border: 1px solid #1e293b;
+        padding: 40px 35px;
+        border-radius: 24px;
         width: 100%;
-        max-width: 480px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        max-width: 500px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     }
 
-    .profile-title { font-size: 1.7rem; font-weight: 800; color: var(--text-main, #0f172a); text-align: center; margin-bottom: 6px; }
-    .profile-subtitle { font-size: 0.88rem; color: var(--text-muted, #64748b); text-align: center; margin-bottom: 25px; line-height: 1.4; }
+    .profile-title {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #ffffff;
+        text-align: center;
+        margin-bottom: 8px;
+        letter-spacing: -0.5px;
+    }
 
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .form-group { margin-bottom: 16px; }
-    .form-group label { display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-main, #334155); margin-bottom: 6px; }
+    .profile-subtitle {
+        font-size: 0.9rem;
+        color: #94a3b8;
+        text-align: center;
+        margin-bottom: 28px;
+        line-height: 1.5;
+    }
 
-    .form-input {
+    /* Avatar Stili */
+    .avatar-upload-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .avatar-label {
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        transition: transform 0.2s ease;
+    }
+
+    .avatar-label:hover {
+        transform: scale(1.03);
+    }
+
+    .avatar-preview {
+        width: 96px;
+        height: 96px;
+        border-radius: 50%;
+        background: #1e293b;
+        border: 2px dashed #10b981;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+    }
+
+    .avatar-preview img {
         width: 100%;
-        padding: 12px 14px;
-        background: var(--bg-color, #f8fafc);
-        border: 1.5px solid var(--border-color, #cbd5e1);
-        border-radius: 10px;
-        color: var(--text-main, #0f172a);
-        font-size: 0.92rem;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .avatar-placeholder {
+        font-size: 30px;
+    }
+
+    .upload-text {
+        font-size: 0.85rem;
+        color: #10b981;
+        font-weight: 600;
+    }
+
+    /* Forma Inputlari va Select Stili */
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #cbd5e1;
+        margin-bottom: 8px;
+    }
+
+    /* Django input va select larini avtomatik chiroyli qilish */
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 12px 16px;
+        background-color: #1e293b !important;
+        border: 1px solid #334155 !important;
+        border-radius: 12px !important;
+        color: #ffffff !important;
+        font-size: 0.95rem;
         outline: none;
-        transition: all 0.2s;
+        transition: all 0.2s ease-in-out;
+        box-sizing: border-box;
     }
 
-    .form-input:focus {
-        border-color: #10b981;
-        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+    .form-group input:focus,
+    .form-group select:focus {
+        border-color: #10b981 !important;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
     }
 
+    .form-group select option {
+        background-color: #1e293b;
+        color: #ffffff;
+    }
+
+    /* Saqlash Tugmasi */
     .save-btn {
         width: 100%;
         padding: 14px;
@@ -102,23 +243,32 @@
         color: #ffffff;
         border: none;
         border-radius: 12px;
-        font-weight: 800;
+        font-weight: 700;
         font-size: 1rem;
         cursor: pointer;
         margin-top: 10px;
-        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
-        transition: background 0.2s;
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        transition: all 0.2s ease;
     }
-    .save-btn:hover { background: #059669; }
+
+    .save-btn:hover {
+        background: #059669;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    }
 
     .back-link {
         display: block;
         text-align: center;
-        color: var(--text-muted, #64748b);
+        color: #64748b;
         font-size: 0.88rem;
         font-weight: 600;
         text-decoration: none;
+        transition: color 0.2s;
     }
-    .back-link:hover { color: #10b981; }
+
+    .back-link:hover {
+        color: #10b981;
+    }
 </style>
 {% endblock %}

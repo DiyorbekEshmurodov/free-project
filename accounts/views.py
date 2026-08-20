@@ -38,7 +38,7 @@ def login_page(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
-        phone_number = request.POST.get('phone_number')
+        phone_number = request.POST.get('phone')
 
         if action_type == 'login':
             user = authenticate(request, username=username, password=password)

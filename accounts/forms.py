@@ -26,7 +26,7 @@ class UserDetailForm(forms.ModelForm):
 
     class Meta:
         model = UserDetail
-        fields = ['first_name', 'last_name', 'phone_number', 'buyi', 'vazni', 'jinsi', 'maqsadi']
+        fields = ['first_name', 'last_name', 'phone_number', 'buyi', 'vazni', 'jinsi', 'maqsadi','avatar']
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Ismingiz'}),
             'last_name': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Familiyangiz'}),
