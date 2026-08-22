@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="analysis-wrapper">
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'cards_list' section_name=section_name %}" class="back-link">
+            ← Orqaga qaytish
+        </a>
+    </div>
+
+    <div class="report-card active-card">
+        <h2 class="card-short-title" style="font-size: 24px !important; margin-bottom: 15px !important;">
+            {{ question_data.title }}
+        </h2>
+
+        {% if question_data.text %}
+            <p class="card-short-desc" style="font-style: italic; margin-bottom: 20px !important;">
+                "{{ question_data.text }}"
+            </p>
+        {% endif %}
+
+        <hr style="border: 0; border-top: 1px solid var(--card-border); margin: 20px 0;">
+
+        <div style="color: var(--text-primary); line-height: 1.7; font-size: 16px;">
+            {{ ai_result|linebreaks }}
+        </div>
+    </div>
+</div>
+{% endblock %}

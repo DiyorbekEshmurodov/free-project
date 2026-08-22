@@ -1,19 +1,32 @@
-import os
-from dotenv import load_dotenv
-import google.generativeai as genai
-from .prompts import *
-load_dotenv()
-API_KEY = os.getenv('API_KEY')
-genai.configure(api_key=API_KEY)
-def ai_handler(buyi,vazni,maqsadi):
-    prompt_text =  get_fitness_prompt(vazni, buyi, maqsadi)
+from groq import Groq
+from django.conf import settings
+
+
+def ai_handler(prompt_text):
+    # settings.py orqali .env faylingizdagi GROQ_API_KEY olinadi
+    api_key = settings.GROQ_API_KEY
+
+    if not api_key:
+        return "Xatolik: GROQ_API_KEY topilmadi. .env faylingizni tekshiring."
 
     try:
-        model = genai.GenerativeModel('gemini-1.5-flash')
-        response = model.generate_content(prompt_text)
+        client = Groq(api_key=api_key)
 
-        return response.text
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "system",
+                    "content": "Siz professional diyetolog va shaxsiy fitnes trenergiz. Javoblaringizni o'zbek tilida, tushunarli va chiroyli formatda bering."
+                },
+                {
+                    "role": "user",
+                    "content": prompt_text,
+                }
+            ],
+            model="llama-3.3-70b-versatile",
+        )
+
+        return chat_completion.choices[0].message.content
 
     except Exception as e:
-        print(f"AI bilan bog'lanishda xatolik: {e}")
-        return None
+        return f"Groq AI bilan bog'lanishda xatolik yuz berdi: {str(e)}"

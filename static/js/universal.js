@@ -17,15 +17,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // 2. Tugmalar bosilganda spinner chiqarish
+    // 2. Tugmalar bosilganda spinner chiqarish va URL bo'yicha o'tish
     periodButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function(e) {
             if (resultBox) {
                 resultBox.classList.add('hidden');
             }
             if (spinner) {
                 spinner.classList.remove('hidden');
                 spinner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            const targetUrl = this.getAttribute('href');
+            if (targetUrl && targetUrl !== '#') {
+                window.location.href = targetUrl;
             }
         });
     });

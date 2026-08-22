@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<!-- Static CSS faylingiz -->
+<link rel="stylesheet" href="{% static 'css/universal.css' %}">
+<link rel="stylesheet" href="{% static 'universal.css' %}">
+
+<!-- Fayl ulanmay qolgan taqdirda zaxira (fallback) stillar -->
+<style>
+    .analysis-wrapper { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+    .analysis-title { font-size: 28px; font-weight: 700; color: #ffffff; text-align: center; margin-bottom: 8px; }
+    .analysis-sub { font-size: 15px; color: #94a3b8; text-align: center; margin-bottom: 35px; }
+    .analysis-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+
+    .nav-card-btn {
+        background: #111827;
+        border: 1px solid #1f293d;
+        border-radius: 12px;
+        padding: 24px;
+        transition: all 0.2s ease;
+        height: 100%;
+        box-sizing: border-box;
+    }
+    .nav-card-btn:hover {
+        border-color: #10b981;
+        transform: translateY(-2px);
+    }
+    .card-top { display: flex; align-items: flex-start; gap: 16px; }
+    .card-icon-badge {
+        font-size: 24px;
+        background: #1f2937;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        flex-shrink: 0;
+    }
+    .card-short-title { font-size: 18px; font-weight: 600; color: #ffffff; margin: 0 0 8px 0; }
+    .card-short-desc { font-size: 14px; color: #9ca3af; margin: 0; line-height: 1.5; }
+
+    .back-link-wrapper { margin-top: 40px; text-align: center; }
+    .back-link { color: #10b981; text-decoration: none; font-weight: 500; font-size: 15px; }
+    .back-link:hover { text-decoration: underline; }
+
+    @media (max-width: 768px) {
+        .analysis-grid { grid-template-columns: 1fr; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="analysis-wrapper">
+    <h1 class="analysis-title">{{ title }}</h1>
+    <p class="analysis-sub">{{ subtitle }}</p>
+
+    <div class="analysis-grid">
+        {% for q_id, q_val in questions.items %}
+            <a href="{% url 'card_detail' section_name=section_name question_id=q_id %}" style="text-decoration: none; color: inherit;">
+                <div class="nav-card-btn">
+                    <div class="card-top">
+                        {% if q_val.icon %}
+                            <div class="card-icon-badge">
+                                {{ q_val.icon }}
+                            </div>
+                        {% endif %}
+                        <div class="card-text-group">
+                            <h3 class="card-short-title">{{ q_val.title }}</h3>
+                            <p class="card-short-desc">{{ q_val.short_desc }}</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+
+    <div class="back-link-wrapper">
+        <a href="{% url 'index' %}" class="back-link">← Bosh sahifaga qaytish</a>
+    </div>
+</div>
+{% endblock %}

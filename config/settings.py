@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-b2+c^s#d3jq5y2eg6u!%e-z12wo4_*hcfkhjgfqfgm-&b$b1u#
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+GROQ_API_KEY = os.environ.get('GROQ_API_KEY')
 
 # Application definition
 
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts',
     'fitness_app',
     'ai_app',
+    'bot',
 ]
 
 MIDDLEWARE = [

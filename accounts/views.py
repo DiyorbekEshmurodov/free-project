@@ -22,6 +22,9 @@ def profile_setup(request):
         form = UserDetailForm(request.POST, request.FILES,instance=profile)
         if form.is_valid():
             form.save()
+            request.user.first_name = request.POST.get('first_name', request.user.first_name)
+            request.user.last_name = request.POST.get('last_name', request.user.last_name)
+            request.user.save()
             messages.success(request, "Ma'lumotlaringiz muvaffaqiyatli saqlandi!")
             return redirect('index')
     else:

@@ -79,102 +79,121 @@ def user_plan(request):
 # ----------------------------------------------------
 
 class AIReportView(LoginRequiredMixin, TemplateView):
-    template_name = 'fitness_app/ai_page.html'
+    template_name = 'fitness_app/reports.html'
 
     def dispatch(self, request, *args, **kwargs):
-        # Profil to'ldirilmagan bo'lsa, xavfsiz yo'naltirish
         if request.user.is_authenticated and not UserDetail.objects.filter(user=request.user).exists():
             return redirect('profile_setup')
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        # Foydalanuvchi profilini xavfsiz olish
-        profile = UserDetail.objects.filter(user=self.request.user).first()
-
         cards = [
             {'id': 'weight_loss', 'icon': '🔥', 'title': "Vazn tashlash va yog' eritish", 'desc': "Kaloriya defitsiti va yog' yoqish rejasi."},
             {'id': 'muscle_gain', 'icon': '💪', 'title': "Mushak massasini oshirish", 'desc': "Gipertrofiya va oqsilga boy ratsion."},
             {'id': 'stamina', 'icon': '⚡', 'title': "Chidamlilik va Energiya", 'desc': "Kun davomida tetiklik va quvvatni oshirish."},
             {'id': 'health_habits', 'icon': '🥗', 'title': "Sog'lom turmush tarzi", 'desc': "Kunlik to'g'ri odatlarni shakllantirish."}
         ]
-
-        selected_card = self.request.GET.get('card', 'weight_loss')
-        selected_period = self.request.GET.get('period', 'daily')
-
-        # Foydalanuvchining FitnessPlan jadvalidagi ma'lumotlarini olish
-        user_plans = FitnessPlan.objects.filter(user=profile, period_type=selected_period) if profile else []
-
-        # Dinamik AI maslahatini shakllantirish
-        advice_data = self.generate_user_advice(profile, selected_card, selected_period, user_plans)
-
-        context.update({
-            'cards': cards,
-            'selected_card': selected_card,
-            'selected_period': selected_period,
-            'advice_data': advice_data,
-            'profile': profile,
-            'user_plans': user_plans,
-        })
+        context['cards'] = cards
         return context
 
-    def generate_user_advice(self, profile, card_id, period, user_plans):
-        if not profile:
-            return "Profil ma'lumotlari topilmadi."
 
-        buyi = getattr(profile, 'buyi', 'Noma\'lum')
-        vazni = getattr(profile, 'vazni', 'Noma\'lum')
-        maqsadi = getattr(profile, 'maqsadi', 'Noma\'lum')
+class AIPageDetailView(LoginRequiredMixin, TemplateView):
+    template_name = 'fitness_app/ai_page.html'
 
-        period_names = {
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and not UserDetail.objects.filter(user=request.user).exists():
+            return redirect('profile_setup')
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = UserDetail.objects.filter(user=self.request.user).first()
+
+        selected_card = self.request.GET.get('card', 'weight_loss')
+        selected_period = self.request.GET.get('period', 'weekly')
+
+        # Davr nomini o'zbekcha matnga o'girish
+        period_titles = {
             'daily': 'Kunlik',
             'weekly': 'Haftalik',
             'monthly': 'Oylik',
             'yearly': 'Yillik'
         }
+        period_label = period_titles.get(selected_period, 'Haftalik')
 
-        card_names = {
-            'weight_loss': "Vazn tashlash va yog' eritish",
-            'muscle_gain': "Mushak massasini oshirish",
-            'stamina': "Chidamlilik va Energiya",
-            'health_habits': "Sog'lom turmush tarzi"
-        }
+        # Kengaytirilgan AI Maslahati
+        advice_data = self.generate_user_advice(profile, selected_card, selected_period)
 
-        text = (
-            f"Hurmatli **{profile.user.username}**, sizning ko'rsatkichlaringiz:\n"
-            f"📏 **Bo'yingiz:** {buyi} cm | ⚖️ **Vazningiz:** {vazni} kg | 🎯 **Maqsadingiz:** {maqsadi}\n\n"
-            f"📌 Tanlangan yo'nalish: **{card_names.get(card_id, 'Umumiy')}** ({period_names.get(period, 'Kunlik')} reja)\n\n"
-        )
+        # Diagramma (Graph) uchun dinamik ma'lumotlar
+        chart_data = self.get_chart_data(selected_period, selected_card)
 
-        # Karta turi va tanlangan vaqt bo'yicha dinamik mantiq
+        context.update({
+            'selected_card': selected_card,
+            'selected_period': selected_period,
+            'period_label': period_label,
+            'advice_data': advice_data,
+            'chart_data': chart_data,
+            'profile': profile,
+        })
+        return context
+
+    def get_chart_data(self, period, card_id):
+        # Tanlangan davrga qarab grafik x-o'qi va y-o'qi ko'rsatkichlari
+        if period == 'daily':
+            labels = ['08:00 (Ertalab)', '12:00 (Tushlik)', '16:00 (Poldnik)', '20:00 (Kechki)']
+            scores = [20, 45, 75, 100]
+        elif period == 'weekly':
+            labels = ['Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma', 'Shanba', 'Yakshanba']
+            scores = [10, 25, 40, 60, 75, 85, 100]
+        elif period == 'monthly':
+            labels = ['1-Hafta', '2-Hafta', '3-Hafta', '4-Hafta']
+            scores = [15, 40, 70, 100]
+        else: # yearly
+            labels = ['1-Chorak', '2-Chorak', '3-Chorak', '4-Chorak']
+            scores = [20, 50, 80, 100]
+
+        return {'labels': labels, 'scores': scores}
+
+    def generate_user_advice(self, profile, card_id, period):
+        if not profile:
+            return {}
+
+        vazni = getattr(profile, 'vazni', '70')
+        boyi = getattr(profile, 'boyi', '175')
+        try:
+            vazn_num = float(vazni)
+        except (ValueError, TypeError):
+            vazn_num = 70.0
+
+        p_name = {'daily': 'kunlik', 'weekly': 'haftalik', 'monthly': 'oylik', 'yearly': 'yillik'}.get(period, 'haftalik')
+
+        # Har bir karta va davr uchun batafsil reja
         if card_id == 'weight_loss':
             return {
-                'nutrition': f"Kunlik ratsioningizdan 300-500 kcal kamaytirib, kamida {float(vazni) * 35 / 1000:.1f}L suv ichishingiz tavsiya etiladi.",
-                'workout': "Haftasiga 3-4 marotaba kam intensivlikdagi kardio va yengil kuch mashqlarini bajaring.",
-                'ai_recommendation': f"Vazningiz {vazni} kg bo'lgani uchun yog' yoqish jarayonini tezlashtirish maqsadida oqsil balansini ushlab turing."
+                'nutrition': f"Sizning {p_name} ratsioningiz: Kuniga kamida {vazn_num * 35 / 1000:.1f}L suv iching. Shirinlik va xamir ovqatlarni butunlay cheklab, har bir taomlanishda 30g oqsil (tovuq go'shti, tuxum, tvorog) va murakkab uglevodlar (guruch, grechka) iste'mol qiling.",
+                'workout': f"Sizning {p_name} mashg'ulot rejangiz: Boshlanishiga {p_name} 3-4 marta kardio (30 daqiqa yugurish yoki tez yurish) hamda umumiy tana mushaklarini mustahkamlovchi yengil kuch mashqlarini bajaring.",
+                'ai_recommendation': f"Boyingiz {boyi} sm va vazningiz {vazni} kg bo'lgani uchun, metabolizmni ushlab turish muhim. Oqsillar balansi va 8 soatlik sifatli uyqu {p_name} rejangizning asosiy kalitidir.",
+                'timeline': f"Ushbu {p_name} rejaga qat'iy amal qilsangiz, belgilangan vaqt davomida yog' foizini 2-4% ga kamaytirish va umumiy energiyani oshirish kafolatlanadi."
             }
         elif card_id == 'muscle_gain':
             return {
-                'nutrition': f"Kunlik oqsil miqdorini {float(vazni) * 1.8:.0f}g ga yetkazing va murakkab uglevodlarni ko'paytiring.",
-                'workout': "Mushak gipertrofiyasi uchun 8-12 takrorlanishdan iborat og'ir vaznli mashqlarga e'tibor bering.",
-                'ai_recommendation': "Har bir mushak guruhiga mashqdan keyin kamida 48 soat tiklanish uchun vaqt bering."
+                'nutrition': f"Sizning {p_name} gipertrofiya ratsioningiz: Kunlik {vazn_num * 1.8:.0f}g oqsil qabul qiling. Kaloriya miqdorini normadan 300 kcal ga oshiring. Mol go'shti, baliq, tuxum va yong'oqlarga urg'u bering.",
+                'workout': f"Sizning {p_name} mashg'ulot rejangiz: Og'ir vaznlar bilan 8-12 marta qaytariladigan bazaviy mashqlarni bajaring (Jim leja, Pritsed, Stanovaya tyaga). Har bir mashq orasida 2 daqiqa dam oling.",
+                'ai_recommendation': f"Vazn {vazni} kg ko'rsatkichida mushak o'sishi uchun har bir mushak guruhiga mashqdan so'ng kamida 48 soat tiklanish vaqti bering.",
+                'timeline': f"{p_name.capitalize()} natija: Mushak hajmining sezilarli darajada kattalashishi hamda kuch ko'rsatkichlarining 15-20% ga oshishi."
             }
         elif card_id == 'stamina':
             return {
-                'nutrition': "Energiyani barqaror ushlash uchun kunlik ovqatlanishda vitamin va minerallarga boy mahsulotlarni tanlang.",
-                'workout': "Interval yugurish, arqon sakrash va funksional mashqlarni haftasiga 3 marotaba bajaring.",
-                'ai_recommendation': "Nafas olish texnikasi va uyqu rejimiga (7-8 soat) qat'iy amal qiling."
+                'nutrition': f"Sizning {p_name} energiya ratsioningiz: Antioksidantlarga boy mahsulotlar (suyak sho'rva, mevalar, ko'katlar) va yetarli miqdorda kaliy/magniy moddalarini qabul qiling.",
+                'workout': f"Sizning {p_name} mashq rejangiz: Tabata va HIIT (Yuqori intensivli) mashqlarini bajaring. Yugurish masofasini va sur'atini {p_name} bosqichma-bosqich oshirib boring.",
+                'ai_recommendation': "Nafas olish va yurak urish maromini (puls) nazorat qiling. Mashq paytida suvsizlanishga yo'l qo'ymang.",
+                'timeline': f"{p_name.capitalize()} natija: Nafas qisishi yo'qolishi, quvvat darajasi va chidamlilikning maksimumga chiqishi."
             }
-        else:  # health_habits
+        else: # health_habits
             return {
-                'nutrition': "Kunlik ratsionda meva, sabzavotlar va yetarli miqdorda toza suv bo'lishini ta'minlang.",
-                'workout': "Har kuni kamida 8,000 - 10,000 qadam piyoda yurishni odat qiling.",
-                'ai_recommendation': "Sog'lom turmush tarzi intizomga asoslanadi. Har kuni kichik qadamlar bilan maqsad sari bering."
+                'nutrition': f"Sizning {p_name} sog'lom ratsioningiz: Ishlov berilgan (fast-food, gazli ichimliklar) mahsulotlarni to'xtating. Har bir taomga yangi uzilgan sabzavotlar qo'shing.",
+                'workout': f"Sizning {p_name} odat rejangiz: Kuniga kamida 8,000-10,000 qadam piyoda yuring, ertalabki 10 daqiqalik badan tarbiya va stretching mashqlarini bajaring.",
+                'ai_recommendation': "Kun tartibiga amal qiling: Har kuni bir xil vaqtda uxlash va bir xil vaqtda uyg'onishni odat qiling.",
+                'timeline': f"{p_name.capitalize()} natija: Uyqu sifatining yaxshilanishi, hazm qilish tizimi normallashishi va kayfiyat barqarorligi."
             }
-
-        # Foydalanuvchining shaxsiy rejalari (FitnessPlan) haqida axborot
-        if user_plans:
-            text += f"\n\n📋 **Siz to'ldirgan rejalaringiz:** Ushbu davr uchun {user_plans.count()} ta rejangiz bazada mavjud va ular AI hisoboti shakllantirilishida inobatga olindi."
-
-        return text

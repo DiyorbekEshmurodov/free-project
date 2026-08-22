@@ -2,13 +2,15 @@
 {% load static %}
 
 {% block content %}
-<!-- Alohida CSS faylni ulash -->
 <link rel="stylesheet" href="{% static 'css/ai_page.css' %}">
+<!-- Chart.js Kutubxonasi (Grafik chiqarish uchun) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="ai-page-wrapper">
+
     <!-- HEADER -->
     <div class="ai-page-header">
-        <h1 class="ai-page-title">Sizning shaxsiy fitness rejangiz tayyor!</h1>
+        <h1 class="ai-page-title"> Fitness {{ period_label }} rejangiz tayyor!</h1>
         <p class="ai-page-sub">Javoblaringiz va ko'rsatkichlaringizni tahlil qilib, maqsadingiz sari shaxsiy yo'l tuzdik.</p>
     </div>
 
@@ -16,7 +18,7 @@
     <div class="user-summary-card">
         <div class="summary-item">
             <span class="summary-label">📏 Bo'yingiz:</span>
-            <span class="summary-val">{{ profile.buyi }} cm</span>
+            <span class="summary-val">{{ profile.boyi }} cm</span>
         </div>
         <div class="summary-item">
             <span class="summary-label">⚖️ Vazningiz:</span>
@@ -24,19 +26,27 @@
         </div>
         <div class="summary-item">
             <span class="summary-label">🎯 Maqsadingiz:</span>
-            <span class="summary-val">{{ profile.maqsadi }}</span>
+            <span class="summary-val">{{ profile.maqsadi|default:"Sog'lom turmush" }}</span>
         </div>
     </div>
 
-    <!-- REJAGA NIMALAR KIRADI (4 TA KARD UCHUN HAM MOSLASHUVCHAN) -->
-    <h2 class="section-title">Sizni rejangizga nima kiradi:</h2>
+    <!-- 📈 DIAGRAMMA (GRAFIK) BLOKI -->
+    <div class="chart-section-card">
+        <h2 class="section-title">Sizning {{ period_label }} rejangiz bo'yicha kutilayotgan o'sish dinamikasi:</h2>
+        <div class="chart-container">
+            <canvas id="progressChart"></canvas>
+        </div>
+    </div>
+
+    <!-- REJAGA NIMALAR KIRADI -->
+    <h2 class="section-title">Sizning rejangizga nimalar kiradi:</h2>
 
     <div class="plan-features-list">
         <!-- 1-Blok: Ovqatlanish -->
         <div class="feature-card">
             <div class="feature-icon">🥗</div>
             <div class="feature-content">
-                <h3>Moslashtirilgan kunlik ratsion</h3>
+                <h3>Moslashtirilgan {{ period_label }} ratsion</h3>
                 <p>{{ advice_data.nutrition }}</p>
             </div>
         </div>
@@ -45,7 +55,7 @@
         <div class="feature-card">
             <div class="feature-icon">🏃‍♂️</div>
             <div class="feature-content">
-                <h3>Maqsadingiz uchun qadam-baqadam reja</h3>
+                <h3>{{ period_label }} qadam-baqadam mashqlar</h3>
                 <p>{{ advice_data.workout }}</p>
             </div>
         </div>
@@ -54,17 +64,17 @@
         <div class="feature-card">
             <div class="feature-icon">🤖</div>
             <div class="feature-content">
-                <h3>Sun'iy intellekt tavsiyasi</h3>
+                <h3>Sun'iy intellektning chuqur tavsiyasi</h3>
                 <p>{{ advice_data.ai_recommendation }}</p>
             </div>
         </div>
 
-        <!-- 4-Blok: Kafolat / Natija -->
+        <!-- 4-Blok: Kafolat va Natija -->
         <div class="feature-card feature-highlight">
             <div class="feature-icon">🛡️</div>
             <div class="feature-content">
-                <h3>Natija va nazorat</h3>
-                <p>Rejaga intizom bilan amal qilsangiz, belgilangan vaqt oralig'ida barqaror natijaga erishasiz.</p>
+                <h3>Kutilayotgan {{ period_label }} natija va nazorat</h3>
+                <p>{{ advice_data.timeline }}</p>
             </div>
         </div>
     </div>
@@ -76,6 +86,68 @@
     </div>
 </div>
 
-<!-- Alohida JS faylni ulash -->
-<script src="{% static 'js/ai_page.js' %}"></script>
+<!-- DIAGRAMMANI CHIZISH SKRIPTI -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const ctx = document.getElementById('progressChart').getContext('2d');
+
+    // Django'dan kelgan ma'lumotlar
+    const labels = {{ chart_data.labels|safe }};
+    const scores = {{ chart_data.scores|safe }};
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Natijaga erishish ko\'rsatkichi (%)',
+                data: scores,
+                borderColor: '#00b894',
+                backgroundColor: 'rgba(0, 184, 148, 0.15)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: '#00b894',
+                pointRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                    ticks: { color: '#9ca3af' }
+                },
+                x: {
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                    ticks: { color: '#9ca3af' }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: { color: '#ffffff', font: { size: 14 } }
+                }
+            }
+        }
+    });
+});
+</script>
+
+<style>
+.chart-section-card {
+    background: var(--card-bg, #111827);
+    border: 1px solid var(--border-color, #1f2937);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 30px;
+}
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+</style>
 {% endblock %}
