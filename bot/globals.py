@@ -1,0 +1,26 @@
+WELCOME_TEXT = (
+    "Salom! Bu Life Gym sayti. Bu sayt sizga Life GYM — bu zamonaviy "
+    "texnologiyalar hamda sun'iy intellekt (AI) imkoniyatlarini birlashtirgan "
+    "raqamli fitness va salomatlik ekotizimidir. Platforma sizning shaxsiy "
+    "ko'rsatkichlaringizni tahlil qilib, sog'lom va tartibli turmush tarziga "
+    "tez hamda to'g'ri moslashishingizga ko'maklashadi.\n\n"
+    "📌 Platforma sizga qanday masalalarda yordam beradi?\n"
+    "• Shaxsiy AI Diyetolog va Maslahatchi: Vazn tashlash, mushak massasini "
+    "oshirish yoki jismoniy holatni saqlash bo'yicha sun'iy intellektga "
+    "asoslangan tahlillarni beradi.\n"
+    "• To'g'ri ovqatlanish va BJU balansi: Organizm uchun zarur bo'lgan kunlik "
+    "oqsil, yog' va uglevodlar (BJU) miqdorini aniq hisoblab beradi.\n"
+    "• Individual rejalashtirish: Maqsadingizga mos ravishda kunlik, haftalik "
+    "hamda oylik shaxsiy fitness va mashq rejalarini shakllantiradi.\n"
+    "• Intellektual progress tahlili: Bajarilgan mashg'ulotlar hamda natijalaringizni "
+    "doimiy ravishda monitoring qilib borishingizni ta'minlaydi.\n"
+    "• Suv va kunlik energiya nazorati: Kun davomida qabul qilinishi kerak bo'lgan "
+    "suv balansi hamda metabolizmni nazorat qilishga yordam beradi.\n"
+    "• Vaqt va mablag' tejash: Qimmatli vaqtingizni tejab, istalgan joyda "
+    "shaxsiy virtual murabbiyga ega bo'lasiz."
+)
+TEXT_ENTER_FIRST_NAME = {"Iltimos ismingizni kiriting!"}
+TEXT_ENTER_LAST_NAME = {"Iltimos familiyangizni kiriting!"}
+BTN_SEND_CONTACT = {"Yuborish"}
+TEXT_ENTER_CONTACT = {"📱 Iltimos telefon raqamingizni yuboring yoki <<Yuborish>> tugmasini bosing!"}
+BTN_ABOUT_BOT_TEXT = {"Sayt haqida tuliq malumot olmoqchi bulsagiz shu sayt ga kiring!"}
