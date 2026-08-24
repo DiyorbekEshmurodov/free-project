@@ -5,7 +5,7 @@ from django.templatetags.static import static
 
 class UserDetail(models.Model):
     # Django'ning tayyor User modeli bilan One-to-One bog'lash
-    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profil')
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profil',null=True,blank=True)
     avatar = models.ImageField(upload_to='avatar/', null=True, blank=True)
     first_name = models.CharField(max_length=100, null=True, blank=True)
     last_name = models.CharField(max_length=100, null=True, blank=True)
@@ -14,6 +14,7 @@ class UserDetail(models.Model):
     vazni = models.CharField(max_length=100, null=True, blank=True)
     jinsi = models.CharField(max_length=100, null=True, blank=True)
     maqsadi = models.CharField(max_length=100, null=True, blank=True)
+    telegram_id = models.BigIntegerField(unique=True, null=True, blank=True)
 
 
     @property

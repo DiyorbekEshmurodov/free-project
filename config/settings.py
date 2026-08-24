@@ -12,9 +12,15 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+import dotenv
+from decouple import config
+# 1. Avval BASE_DIR aniqlanadi
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# 2. Keyin .env fayl yuklanadi va kalit olinadi
+dotenv.load_dotenv(BASE_DIR / '.env')
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 
 
 # Quick-start development settings - unsuitable for production
@@ -27,7 +33,7 @@ SECRET_KEY = 'django-insecure-b2+c^s#d3jq5y2eg6u!%e-z12wo4_*hcfkhjgfqfgm-&b$b1u#
 DEBUG = True
 
 ALLOWED_HOSTS = []
-GROQ_API_KEY = os.environ.get('GROQ_API_KEY')
+
 
 # Application definition
 
@@ -78,7 +84,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -93,12 +98,6 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -144,3 +143,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CSRF_COOKIE_HTTPONLY = False
 SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SAMESITE = 'Lax'
+BOT_TOKEN = config('BOT_TOKEN')

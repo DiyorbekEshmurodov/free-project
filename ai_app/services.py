@@ -1,32 +1,27 @@
-from groq import Groq
+import google.generativeai as genai
 from django.conf import settings
 
-
 def ai_handler(prompt_text):
-    # settings.py orqali .env faylingizdagi GROQ_API_KEY olinadi
-    api_key = settings.GROQ_API_KEY
+    # settings.py orqali .env faylingizdagi GEMINI_API_KEY olinadi
+    api_key = getattr(settings, 'GEMINI_API_KEY', None)
 
     if not api_key:
-        return "Xatolik: GROQ_API_KEY topilmadi. .env faylingizni tekshiring."
+        return "Xatolik: GEMINI_API_KEY topilmadi. .env faylingizni tekshiring."
 
     try:
-        client = Groq(api_key=api_key)
+        # Gemini API kalitini sozlash
+        genai.configure(api_key=api_key)
 
-        chat_completion = client.chat.completions.create(
-            messages=[
-                {
-                    "role": "system",
-                    "content": "Siz professional diyetolog va shaxsiy fitnes trenergiz. Javoblaringizni o'zbek tilida, tushunarli va chiroyli formatda bering."
-                },
-                {
-                    "role": "user",
-                    "content": prompt_text,
-                }
-            ],
-            model="llama-3.3-70b-versatile",
+        # AI modelini yaratish va tizim ko'rsatmasini (system instruction) berish
+        model = genai.GenerativeModel(
+            model_name="gemini-2.5-flash",
+            system_instruction="Siz professional diyetolog va shaxsiy fitnes trenergiz. Javoblaringizni o'zbek tilida, tushunarli va chiroyli formatda bering."
         )
 
-        return chat_completion.choices[0].message.content
+        # Javobni shakllantirish
+        response = model.generate_content(prompt_text)
+
+        return response.text
 
     except Exception as e:
-        return f"Groq AI bilan bog'lanishda xatolik yuz berdi: {str(e)}"
+        return f"Gemini AI bilan bog'lanishda xatolik yuz berdi: {str(e)}"

@@ -19,8 +19,8 @@ WELCOME_TEXT = (
     "• Vaqt va mablag' tejash: Qimmatli vaqtingizni tejab, istalgan joyda "
     "shaxsiy virtual murabbiyga ega bo'lasiz."
 )
-TEXT_ENTER_FIRST_NAME = {"Iltimos ismingizni kiriting!"}
-TEXT_ENTER_LAST_NAME = {"Iltimos familiyangizni kiriting!"}
-BTN_SEND_CONTACT = {"Yuborish"}
-TEXT_ENTER_CONTACT = {"📱 Iltimos telefon raqamingizni yuboring yoki <<Yuborish>> tugmasini bosing!"}
-BTN_ABOUT_BOT_TEXT = {"Sayt haqida tuliq malumot olmoqchi bulsagiz shu sayt ga kiring!"}
+TEXT_ENTER_FIRST_NAME = "Iltimos ismingizni kiriting!"
+TEXT_ENTER_LAST_NAME = "Iltimos familiyangizni kiriting!"
+BTN_SEND_CONTACT = "Yuborish"
+TEXT_ENTER_CONTACT = "📱 Iltimos telefon raqamingizni yuboring yoki <<Yuborish>> tugmasini bosing!"
+
