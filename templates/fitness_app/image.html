@@ -16,9 +16,6 @@
                 {% if request.user.profil.avatar %}
                     <img src="{{ request.user.profil.avatar.url }}" alt="User Avatar" class="avatar-preview-img" id="avatar-preview">
                     <div class="avatar-placeholder" id="avatar-placeholder" style="display: none;">👤</div>
-                {% else %}
-                    <div class="avatar-placeholder" id="avatar-placeholder">👤</div>
-                    <img src="" alt="" class="avatar-preview-img" id="avatar-preview" style="display: none;">
                 {% endif %}
             </div>
 

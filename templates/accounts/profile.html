@@ -15,25 +15,23 @@
 
             <!-- AVATAR YUKLASH QISMI -->
             <div class="avatar-upload-container">
-                <div class="avatar-label-wrapper">
+                <label class="avatar-label-wrapper" for="{{ form.avatar.id_for_label }}">
                     <div class="avatar-preview">
-                        <!-- Placeholder -->
-                        <span id="avatar-placeholder" class="avatar-placeholder" style="{% if form.instance.avatar %}display: none;{% endif %}">📷</span>
-
-                        <!-- Rasm tegi -->
-                        <img id="avatar-img"
-                             src="{% if form.instance.avatar %}{{ form.instance.avatar.url }}{% else %}#{% endif %}"
-                             alt="User Avatar"
-                             style="{% if not form.instance.avatar %}display: none;{% endif %}">
+                        <!-- Rasm mavjud bo'lsa -->
+                        {% if form.instance.avatar and form.instance.avatar.url %}
+                            <img id="avatar-img" src="{{ form.instance.avatar.url }}" alt="User Avatar">
+                            <span id="avatar-placeholder" class="avatar-placeholder" style="display: none;">📷</span>
+                        {% else %}
+                            <img id="avatar-img" src="#" alt="User Avatar" style="display: none;">
+                            <span id="avatar-placeholder" class="avatar-placeholder">📷</span>
+                        {% endif %}
                     </div>
+                    <span class="upload-text">Rasm tanlash uchun bosing</span>
+                </label>
 
-                    <label class="upload-text-label">
-                        <span class="upload-text">Rasm tanlash uchun bosing</span>
-                        <!-- Django File Input -->
-                        <div class="hidden-file-input">
-                            {{ form.avatar }}
-                        </div>
-                    </label>
+                <!-- Django File Input (Yashirin holatda) -->
+                <div style="display: none;">
+                    {{ form.avatar }}
                 </div>
             </div>
 
@@ -78,7 +76,7 @@
         </form>
 
         <div style="margin-top: 20px;">
-            <a href="{% url 'index' %}" class="back-link">&larr; Bosh sahifaga qaytish</a>
+            <a href="{% url 'user_plan' %}" class="back-link">&larr; Bosh sahifaga qaytish</a>
         </div>
 
     </div>
@@ -158,21 +156,7 @@
         flex-direction: column;
         align-items: center;
         gap: 10px;
-    }
-
-    .upload-text-label {
         cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .hidden-file-input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-        overflow: hidden;
-        position: absolute;
     }
 
     .avatar-preview {
@@ -186,6 +170,7 @@
         justify-content: center;
         overflow: hidden;
         box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+        position: relative;
     }
 
     .avatar-preview img {

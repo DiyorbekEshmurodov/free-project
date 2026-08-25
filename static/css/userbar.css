@@ -1,3 +1,28 @@
+/* GLOBAL DARK THEME VARIABLES */
+:root {
+    --bg-color: #0b0f19;
+    --card-bg: #0f172a;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --text-main: #ffffff;
+    --text-muted: #94a3b8;
+    --primary: #00b894;
+}
+
+/* GLOBAL BACKGROUND & HEADER */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+}
+
+header, nav, .userbar, .navbar {
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+header *, nav *, .userbar * {
+    color: var(--text-main);
+}
+
 /* USERBAR & DROPDOWN STYLES */
 .user-dropdown-wrapper {
     position: relative;
@@ -59,7 +84,7 @@
     border: 1px solid var(--border-color);
     border-radius: 14px;
     padding: 10px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
     display: none;
     flex-direction: column;
     gap: 4px;
@@ -111,33 +136,34 @@
 .logout-item:hover {
     color: #ef4444;
 }
-/* FORM STYLES */
+
+/* FORM STYLES (FAQAT FORMA OQ FONDA) */
 .form-card-wrapper {
     max-width: 600px;
     margin: 40px auto;
-    background: var(--card-bg, #111827);
-    border: 1px solid var(--border-color, #1f2937);
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
     border-radius: 16px;
     padding: 35px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
 }
 
 .form-card-header {
     margin-bottom: 25px;
-    border-bottom: 1px solid var(--border-color, #1f2937);
+    border-bottom: 1px solid #e2e8f0 !important;
     padding-bottom: 15px;
 }
 
 .form-card-header h2 {
     font-size: 1.5rem;
     font-weight: 800;
-    color: var(--text-main, #ffffff);
+    color: #0f172a !important;
     margin-bottom: 6px;
 }
 
 .form-card-header p {
     font-size: 0.88rem;
-    color: var(--text-muted, #9ca3af);
+    color: #64748b !important;
 }
 
 .custom-fitness-form {
@@ -155,10 +181,10 @@
 .form-group label {
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--text-main, #ffffff);
+    color: #0f172a !important;
 }
 
-/* Django Form Inputs */
+/* Django Form Inputs (Oq formada aniq ko'rinishi uchun) */
 .custom-fitness-form input[type="text"],
 .custom-fitness-form input[type="number"],
 .custom-fitness-form input[type="date"],
@@ -166,10 +192,10 @@
 .custom-fitness-form textarea {
     width: 100%;
     padding: 12px 14px;
-    background: var(--bg-color, #0b0f19);
-    border: 1px solid var(--border-color, #1f2937);
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
     border-radius: 10px;
-    color: var(--text-main, #ffffff);
+    color: #0f172a !important;
     font-size: 0.95rem;
     outline: none;
     transition: all 0.2s ease;
@@ -183,7 +209,7 @@
 .custom-fitness-form input:focus,
 .custom-fitness-form select:focus,
 .custom-fitness-form textarea:focus {
-    border-color: var(--primary, #00b894);
+    border-color: #00b894 !important;
     box-shadow: 0 0 0 3px rgba(0, 184, 148, 0.15);
 }
 
@@ -203,7 +229,7 @@
 
 .btn-submit {
     flex: 2;
-    background: var(--primary, #00b894);
+    background: #00b894;
     color: #ffffff;
     border: none;
     padding: 12px 20px;
@@ -222,8 +248,8 @@
 .btn-cancel {
     flex: 1;
     background: transparent;
-    border: 1px solid var(--border-color, #1f2937);
-    color: var(--text-main, #ffffff);
+    border: 1px solid #cbd5e1 !important;
+    color: #475569 !important;
     padding: 12px 20px;
     border-radius: 10px;
     font-weight: 600;
@@ -234,8 +260,9 @@
 }
 
 .btn-cancel:hover {
-    background: var(--border-color, #1f2937);
+    background: #f1f5f9 !important;
 }
+
 .user-profile-menu {
     display: flex;
     align-items: center;
@@ -248,7 +275,7 @@
     height: 38px;
     border-radius: 50%;
     overflow: hidden;
-    border: 2px solid var(--primary, #00b894);
+    border: 2px solid #00b894;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -258,7 +285,7 @@
 .user-avatar-img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Rasmni cho'zilmay to'g'ri joylashishi uchun */
+    object-fit: cover;
 }
 
 .user-avatar-letter {
@@ -266,6 +293,7 @@
     font-weight: 700;
     font-size: 1rem;
 }
+
 .user-avatar-circle {
     width: 36px;
     height: 36px;

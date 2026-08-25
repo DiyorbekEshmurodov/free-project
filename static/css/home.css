@@ -112,20 +112,34 @@
     display: block;
 }
 
-/* FEATURE CARDS */
+/* FEATURE CARDS (KARTALARDAGI QIMIRLASH VA ANIMATSIYA EFFEKTI) */
 .feature-card {
     text-decoration: none;
     padding: 28px;
     display: block;
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.3s ease,
+                box-shadow 0.3s ease,
+                border-color 0.3s ease !important;
 }
 
+/* SICHQONCHA KELGANDA YUQORIGA QIMIRLASH VA YONISH EFFEKTI */
 .feature-card:hover {
+    transform: translateY(-10px) scale(1.02) !important;
     background: rgba(30, 41, 59, 0.85) !important;
     border-color: #00ff88 !important;
-    transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(0, 255, 136, 0.25), inset 0 0 15px rgba(0, 255, 136, 0.08) !important;
+    box-shadow: 0 15px 35px rgba(0, 255, 136, 0.25),
+                0 0 15px rgba(0, 255, 136, 0.1) !important;
+    z-index: 5;
+}
+
+/* KARTA ICHIDAGI IKONKA QIMIRLASHI UCHUN */
+.feature-card:hover .card-icon,
+.feature-card:hover .bot-icon {
+    transform: scale(1.15) rotate(5deg);
+    transition: transform 0.3s ease;
 }
 
 .card-header {
@@ -185,31 +199,37 @@
     letter-spacing: 0.5px;
 }
 
+/* GORIZONTAL SCROLL BO'LADIGAN BLOK (NUQTA TO'G'RILANDI) */
 .badges-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important; /* Bir qatorga aniq 4 ta ustun */
+    gap: 15px !important;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 10px 0;
 }
 
 .sport-badge {
     background-color: rgba(255, 255, 255, 0.07);
     color: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 14px 24px;
+    padding: 14px 16px;
     border-radius: 14px;
     text-decoration: none;
     font-weight: 600;
-    font-size: 1rem;
-    display: inline-flex;
+    font-size: 0.92rem;
+    display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+    text-align: center;
     transition: all 0.3s ease;
+    width: 100%;
 }
 
 .emoji-icon {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     line-height: 1;
     display: inline-block;
     transition: transform 0.3s ease;
@@ -219,22 +239,23 @@
     background-color: #00b894;
     color: #ffffff;
     border-color: #00b894;
-    transform: translateY(-5px) scale(1.03);
-    box-shadow: 0 10px 25px rgba(0, 184, 148, 0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 184, 148, 0.35);
 }
 
 .sport-badge:hover .emoji-icon {
-    transform: scale(1.3) rotate(-10deg);
+    transform: scale(1.2) rotate(-8deg);
 }
 
-@media (max-width: 768px) {
-    .typing-line {
-        font-size: 2rem;
+/* Telefon ekranlari uchun 2 tadan tushirish responsive sozlamasi */
+@media (max-width: 992px) {
+    .badges-wrapper {
+        grid-template-columns: repeat(2, 1fr) !important;
     }
-    .hero-title {
-        font-size: 2.1rem;
-    }
-    .hero-card {
-        padding: 25px;
+}
+
+@media (max-width: 576px) {
+    .badges-wrapper {
+        grid-template-columns: 1fr !important;
     }
 }

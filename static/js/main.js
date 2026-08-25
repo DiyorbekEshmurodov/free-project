@@ -1,19 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-    // 1. Theme Toggle (Kun va Tun rejimini almashtirish)
-    const toggleBtn = document.getElementById('theme-toggle');
-    const htmlElement = document.documentElement;
-
-    if (toggleBtn) {
-        toggleBtn.addEventListener('click', () => {
-            let currentTheme = htmlElement.getAttribute('data-theme');
-            let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            htmlElement.setAttribute('data-theme', newTheme);
-            toggleBtn.textContent = newTheme === 'dark' ? '☀️' : '🌜';
-        });
-    }
-
-    // 2. Typewriter (Faqat ushbu elementlar bor sahifada ishlaydi)
+    // 1. Typewriter (Faqat ushbu elementlar bor sahifada ishlaydi)
     const el1 = document.getElementById("line1");
     const el2 = document.getElementById("line2");
 
@@ -48,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-// 3. Userbar Dropdown menyuni ochish va yopish
+// 2. Userbar Dropdown menyuni ochish va yopish
 function toggleUserMenu() {
     const dropdown = document.getElementById('userDropdown');
     if (dropdown) {
@@ -56,7 +43,7 @@ function toggleUserMenu() {
     }
 }
 
-// 4. Ekran boshqa joyiga bosilganda menyuni yopish
+// 3. Ekran boshqa joyiga bosilganda menyuni yopish
 window.addEventListener('click', function(e) {
     const btn = document.getElementById('userMenuBtn');
     const dropdown = document.getElementById('userDropdown');

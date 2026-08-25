@@ -22,23 +22,15 @@ class FitnessPlan(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.title} ({self.period_type})"
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='avatars/', default='avatars/default.png', blank=True, null=True)
-
-    def __str__(self):
-        return self.user.username
-
-
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
+        UserDetail.objects.create(user=instance)
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    if hasattr(instance, 'profile'):
-        instance.profile.save()
+    if hasattr(instance, 'profil'):
+        instance.profil.save()
 
 
 

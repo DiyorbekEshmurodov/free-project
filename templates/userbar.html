@@ -1,79 +1,80 @@
 {% load static %}
-<header style="background: var(--card-bg); border-bottom: 1px solid var(--border-color); padding: 15px 0; width: 100%; position: relative; z-index: 100;">
+<header style="background: var(--card-bg, #0f172a); border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.1)); padding: 15px 0; width: 100%; position: relative; z-index: 100;">
     <div style="max-width: 1350px; margin: 0 auto; padding: 0 30px; display: flex; justify-content: space-between; align-items: center;">
 
-        <!-- Logo (Endi yonida hech qanday ortiqcha tugma yo'q) -->
+        <!-- Logo -->
         <div style="display: flex; align-items: center; gap: 30px;">
-            <a href="{% url 'user_plan' %}" style="font-weight: 900; font-size: 1.4rem; color: var(--text-main); text-decoration: none;">
-                LIFE <span style="color: var(--primary-green, #00b894);">GYM</span>
+            <a href="{% url 'user_plan' %}" style="font-weight: 900; font-size: 1.4rem; color: var(--text-main, #ffffff); text-decoration: none;">
+                LIFE <span style="color: var(--primary, #00b894);">GYM</span>
             </a>
         </div>
 
-        <!-- O'ng taraf: Tema almashtirgich va Userbar (Dropdown) -->
+        <!-- O'ng taraf: Userbar (Dropdown menyu) -->
         <div style="display: flex; align-items: center; gap: 20px;">
-            <button id="theme-toggle" type="button" style="background: var(--bg-color); border: 1px solid var(--border-color); width: 42px; height: 42px; border-radius: 12px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; color: var(--text-main);">
-                ☀️
-            </button>
-
             {% if request.user.is_authenticated %}
-                <!-- USERBAR DROPDOWN QISMI -->
                 <div class="user-dropdown-wrapper" style="position: relative;">
-                    <button type="button" class="userbar-btn" id="userMenuBtn" style="display: flex; align-items: center; gap: 10px; background: transparent; border: none; cursor: pointer; color: var(--text-main);">
+                    <button type="button" class="userbar-btn" id="userMenuBtn" style="display: flex; align-items: center; gap: 10px; background: transparent; border: none; cursor: pointer; color: var(--text-main, #ffffff);">
 
+                        <!-- AVATAR VA PLACEHOLDER -->
                         {% if request.user.profil.avatar %}
-                            <img src="{{ request.user.profil.avatar.url }}" alt="{{ request.user.username }}" class="user-avatar" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-green, #00b894);">
+                            <img src="{{ request.user.profil.avatar.url }}"
+                                 alt=""
+                                 class="user-avatar"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                                 style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary, #00b894);">
+
+                            <div class="user-avatar-placeholder" style="display: none; width: 38px; height: 38px; border-radius: 50%; background: var(--primary, #00b894); color: #ffffff; align-items: center; justify-content: center; font-weight: bold;">
+                                {{ request.user.username|slice:":1"|upper }}
+                            </div>
                         {% else %}
-                            <div class="user-avatar-placeholder" style="width: 38px; height: 38px; border-radius: 50%; background: var(--primary-green, #00b894); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                            <div class="user-avatar-placeholder" style="width: 38px; height: 38px; border-radius: 50%; background: var(--primary, #00b894); color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: bold;">
                                 {{ request.user.username|slice:":1"|upper }}
                             </div>
                         {% endif %}
 
                         <span class="user-name" style="font-weight: 600;">{{ request.user.first_name|default:request.user.username|title }}</span>
-                        <span class="dropdown-arrow" style="font-size: 10px;">▼</span>
+                        <span class="dropdown-arrow" style="font-size: 10px; color: var(--text-muted, #94a3b8);">▼</span>
                     </button>
 
-                    <!-- DROPDOWN MENYU ICHIDA BOSH SAHIFA HAVOLASI -->
-                    <div class="dropdown-menu" id="userDropdown" style="display: none; position: absolute; right: 0; top: 48px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; min-width: 220px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); padding: 12px; z-index: 99999;">
+                    <!-- DROPDOWN MENYU -->
+                    <div class="dropdown-menu" id="userDropdown" style="display: none; position: absolute; right: 0; top: 48px; background: var(--card-bg, #0f172a); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1)); border-radius: 12px; min-width: 220px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); padding: 12px; z-index: 99999;">
                         <div class="dropdown-header" style="padding-bottom: 8px;">
-                            <div class="dropdown-user-title" style="font-weight: bold; color: var(--text-main);">{{ request.user.username|title }}</div>
-                            <div class="dropdown-user-sub" style="font-size: 12px; color: var(--text-muted);">Fitness profil</div>
+                            <div class="dropdown-user-title" style="font-weight: bold; color: var(--text-main, #ffffff);">{{ request.user.username|title }}</div>
+                            <div class="dropdown-user-sub" style="font-size: 12px; color: var(--text-muted, #94a3b8);">Fitness profil</div>
                         </div>
 
-                        <hr class="dropdown-divider" style="border: 0; border-top: 1px solid var(--border-color); margin: 8px 0;">
+                        <hr class="dropdown-divider" style="border: 0; border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.1)); margin: 8px 0;">
 
-                        <!-- 1. BOSH SAHIFA (Aynan menyu ichida joylashdi) -->
-                        <a href="{% url 'user_plan' %}" class="dropdown-item" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main); text-decoration: none; border-radius: 8px; font-size: 14px;">
+                        <a href="{% url 'user_plan' %}" class="dropdown-item" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #ffffff); text-decoration: none; border-radius: 8px; font-size: 14px;">
                             🏠 <span>Bosh sahifa</span>
                         </a>
 
-                        <!-- 2. ACCOUNTS (CRUD) -->
-                        <a href="{% url 'user_list' %}" class="dropdown-item" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main); text-decoration: none; border-radius: 8px; font-size: 14px;">
+                        <a href="{% url 'user_list' %}" class="dropdown-item" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #ffffff); text-decoration: none; border-radius: 8px; font-size: 14px;">
                             📋 <span>Profil ma'lumotlari (CRUD)</span>
                         </a>
 
-                        <!-- 3. LOGIN & PAROL SOZLAMALARI -->
-                        <a href="{% url 'profile_setup' %}" class="dropdown-item" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main); text-decoration: none; border-radius: 8px; font-size: 14px;">
+                        <a href="{% url 'profile_setup' %}" class="dropdown-item" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #ffffff); text-decoration: none; border-radius: 8px; font-size: 14px;">
                             🔒 <span>Profilni tahrirlash</span>
                         </a>
 
-                        <hr class="dropdown-divider" style="border: 0; border-top: 1px solid var(--border-color); margin: 8px 0;">
+                        <hr class="dropdown-divider" style="border: 0; border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.1)); margin: 8px 0;">
 
-                        <!-- 4. LOGOUT -->
                         <a href="{% url 'logout_page' %}" class="dropdown-item logout-item" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: #ef4444; text-decoration: none; border-radius: 8px; font-size: 14px;">
                             🚪 <span>Tizimdan chiqish</span>
                         </a>
                     </div>
                 </div>
             {% else %}
-            <a href="{% url 'login_page' %}" style="background-color: var(--primary-green, #00b894); color: #ffffff; padding: 10px 24px; border-radius: 12px; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 8px; text-decoration: none;">
-                Boshlash &rarr;
-            </a>
+                <a href="{% url 'login_page' %}" style="background-color: var(--primary, #00b894); color: #ffffff; padding: 10px 24px; border-radius: 12px; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 8px; text-decoration: none;">
+                    Boshlash &rarr;
+                </a>
             {% endif %}
         </div>
 
     </div>
 </header>
 
+<!-- DROPDOWN ISHLASHI UCHUN SHU JS SCRIPT KODINI INTEGRATSIYA QILDIK -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const btn = document.getElementById('userMenuBtn');
