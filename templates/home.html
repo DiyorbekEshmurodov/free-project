@@ -3,17 +3,21 @@
 
 {% block title %}Life GYM{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="main-container">
 
-    <!-- Typewriter yozuv bloki (Harflar kattalashtirilgan va chetga chiqib ketmaydi) -->
-    <div class="typewriter-container">
+    <!-- Typewriter yozuv bloki -->
+    <div class="typewriter-container" data-aos="fade-down">
         <div id="line1" class="typing-line"></div><br>
         <div id="line2" class="typing-line"></div>
     </div>
 
     <!-- Hero Section -->
-    <div class="hero-card">
+    <div class="hero-card" data-aos="fade-up">
         <div class="hero-text-content">
             <h1 class="hero-title">
                 SMART TRAINING<br>
@@ -30,7 +34,7 @@
         </div>
 
         <div class="hero-image-wrapper">
-            <div style="background: var(--border-color); padding: 12px; border-radius: 12px;">
+            <div class="hero-img-box">
                 <img src="{% static 'images/hero-digital.jpg' %}" alt="Smart Gym" class="hero-img">
             </div>
         </div>
@@ -40,7 +44,7 @@
     <div class="cards-grid">
 
         <!-- 1-Card -->
-        <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="feature-card">
+        <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="feature-card" data-aos="fade-up" data-aos-delay="100">
             <div class="card-header">
                 <div class="card-icon" style="background: #00b894;"></div>
                 <h3 class="card-title">Haftalik AI yondashuv va hisobotlar</h3>
@@ -49,7 +53,7 @@
         </a>
 
         <!-- 2-Card -->
-        <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="feature-card">
+        <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="feature-card" data-aos="fade-up" data-aos-delay="200">
             <div class="card-header">
                 <div class="card-icon" style="background: #ff00ff;"></div>
                 <h3 class="card-title">To'g'ri ovqatlanish sirlari</h3>
@@ -58,7 +62,7 @@
         </a>
 
         <!-- 3-Card -->
-        <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="feature-card">
+        <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="feature-card" data-aos="fade-up" data-aos-delay="300">
             <div class="card-header">
                 <div class="card-icon" style="background: #00ffff;"></div>
                 <h3 class="card-title">AI orqali analiz</h3>
@@ -67,7 +71,7 @@
         </a>
 
         <!-- 4-Card -->
-        <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="feature-card">
+        <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="feature-card" data-aos="fade-up" data-aos-delay="100">
             <div class="card-header">
                 <div class="card-icon" style="background: #ff7675;"></div>
                 <h3 class="card-title">Kerakli oqsil va yog'lar</h3>
@@ -76,7 +80,7 @@
         </a>
 
         <!-- 5-Card -->
-        <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="feature-card">
+        <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="feature-card" data-aos="fade-up" data-aos-delay="200">
             <div class="card-header">
                 <div class="card-icon" style="background: #fdcb6e;"></div>
                 <h3 class="card-title">Diyetolog maslahati</h3>
@@ -85,7 +89,7 @@
         </a>
 
         <!-- 6-Card: Telegram Bot -->
-        <a href="https://t.me/lifegym_bot" target="_blank" class="feature-card">
+        <a href="https://t.me/lifegym_bot" target="_blank" class="feature-card" data-aos="fade-up" data-aos-delay="300">
             <div class="card-header">
                 <div class="bot-icon">🤖</div>
                 <h3 class="card-title">Bot Supported</h3>
@@ -96,7 +100,7 @@
     </div>
 
     <!-- Sog'lom turmush tarzi bo'limi -->
-    <div class="lifestyle-container">
+    <div class="lifestyle-container" data-aos="zoom-in">
         <h3 class="lifestyle-title">Sog`lom turmush asoschilari</h3>
         <div class="badges-wrapper">
             <a href="{% if request.user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login_page' %}{% endif %}" class="sport-badge"><span class="emoji-icon">🚴🏻‍♀️</span> Velik haydash</a>
@@ -111,205 +115,8 @@
     </div>
 
 </div>
+{% endblock %}
 
-<style>
-    /* TYPEWRITER STILLARI */
-    .typewriter-container {
-        margin-bottom: 35px;
-        width: 100%;
-        text-align: left;
-    }
-
-    .typing-line {
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 3.2rem; /* Harflar do'ndiq va katta ko'rinadi */
-        font-weight: 900;
-        color: var(--text-main);
-        letter-spacing: 1.5px;
-        line-height: 1.3;
-        display: inline-block;
-        white-space: pre-wrap; /* Ekran sig'may qolganda avtomatik tushadi */
-        word-break: break-word;
-        border-right: 4px solid transparent;
-        max-width: 100%;
-    }
-
-    /* HERO SECTION STILLARI */
-    .hero-card {
-        background: var(--card-bg);
-        padding: 50px;
-        border-radius: 16px;
-        margin-bottom: 40px;
-        border: 1px solid var(--border-color);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 40px;
-    }
-
-    .hero-text-content {
-        flex: 1;
-        min-width: 300px;
-    }
-
-    .hero-title {
-        font-size: 2.8rem;
-        font-weight: 900;
-        color: var(--text-main);
-        line-height: 1.2;
-        margin-bottom: 20px;
-    }
-
-    .hero-description {
-        font-size: 1.05rem;
-        color: var(--text-muted);
-        margin-bottom: 30px;
-        line-height: 1.6;
-    }
-
-    .cta-button {
-        background-color: #ff4b5a;
-        color: #fff;
-        padding: 14px 35px;
-        font-weight: bold;
-        border-radius: 8px;
-        text-decoration: none;
-        box-shadow: 0 4px 15px rgba(255,75,90,0.4);
-        display: inline-block;
-        transition: transform 0.2s;
-    }
-
-    .cta-button:hover {
-        transform: translateY(-2px);
-    }
-
-    .hero-image-wrapper {
-        flex: 1.2;
-        min-width: 300px;
-        text-align: center;
-    }
-
-    .hero-img {
-        border-radius: 8px;
-        width: 100%;
-        max-height: 320px;
-        object-fit: cover;
-        display: block;
-    }
-
-    /* KARTOCHKALAR (FEATURE CARDS) */
-    .card-header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-    .card-icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 8px;
-        margin-right: 12px;
-        flex-shrink: 0;
-    }
-
-    .bot-icon {
-        background: rgba(0, 136, 204, 0.15);
-        width: 42px;
-        height: 42px;
-        border-radius: 10px;
-        margin-right: 12px;
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.4rem;
-    }
-
-    .card-title {
-        font-size: 1.35rem;
-        font-weight: bold;
-        margin: 0;
-        color: var(--text-main);
-    }
-
-    .card-desc {
-        color: var(--text-muted);
-        font-size: 1.05rem;
-        line-height: 1.6;
-        margin: 0;
-    }
-
-    /* LIFESTYLE SECTION */
-    .lifestyle-container {
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 16px;
-        padding: 35px;
-        text-align: center;
-        margin-bottom: 40px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    }
-
-    .lifestyle-title {
-        color: var(--text-main);
-        font-size: 1.5rem;
-        margin-bottom: 25px;
-        font-weight: 800;
-        letter-spacing: 0.5px;
-    }
-
-    .badges-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 12px;
-        flex-wrap: wrap;
-    }
-
-    .sport-badge {
-        background-color: var(--bg-color);
-        color: var(--text-main);
-        border: 1px solid var(--border-color);
-        padding: 14px 24px;
-        border-radius: 14px;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 1rem;
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-    }
-
-    .emoji-icon {
-        font-size: 1.35rem;
-        line-height: 1;
-        display: inline-block;
-    }
-
-    .sport-badge:hover {
-        background-color: #00b894;
-        color: #ffffff;
-        border-color: #00b894;
-        transform: translateY(-5px) scale(1.02);
-        box-shadow: 0 10px 20px rgba(0,184,148,0.25);
-    }
-
-    /* MOBIL UCHUN RESPONSIVE ADAPTATSIYA */
-    @media (max-width: 768px) {
-        .typing-line {
-            font-size: 2rem;
-        }
-
-        .hero-title {
-            font-size: 2.1rem;
-        }
-
-        .hero-card {
-            padding: 25px;
-        }
-    }
-</style>
+{% block extra_js %}
+<script src="{% static 'js/home.js' %}"></script>
 {% endblock %}

@@ -1,21 +1,44 @@
 {% extends 'base.html' %}
-{% block content %}
-<div style="max-width: 500px; margin: 40px auto; padding: 20px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color);">
-    <h3 style="color: var(--text-main); margin-bottom: 20px;">Profil Sozlamalari</h3>
+{% load static %}
 
-    <!-- enctype="multipart/form-data" rasm yuklash uchun shart -->
+{% block title %}Profil Sozlamalari | Life GYM{% endblock %}
+
+{% block content %}
+<div class="site-info-wrapper" style="max-width: 500px; margin: 40px auto; padding: 30px;">
+    <h3 style="color: #ffffff; margin-bottom: 25px; text-align: center; font-weight: 700;">Profil Sozlamalari</h3>
+
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 
-        <div style="margin-bottom: 15px;">
-            <label style="color: var(--text-main); display: block; margin-bottom: 5px;">Profil rasmi (Avatar):</label>
-            <input type="file" name="avatar" accept="image/*" style="color: var(--text-main);">
+        <!-- AVATAR UCHUN AYLI BLOK -->
+        <div style="text-align: center; margin-bottom: 25px;">
+            <div class="avatar-upload-box" onclick="document.getElementById('avatar-input').click();">
+                {% if request.user.profil.avatar %}
+                    <img src="{{ request.user.profil.avatar.url }}" alt="User Avatar" class="avatar-preview-img" id="avatar-preview">
+                    <div class="avatar-placeholder" id="avatar-placeholder" style="display: none;">👤</div>
+                {% else %}
+                    <div class="avatar-placeholder" id="avatar-placeholder">👤</div>
+                    <img src="" alt="" class="avatar-preview-img" id="avatar-preview" style="display: none;">
+                {% endif %}
+            </div>
+
+            <!-- YASHIRIN FAYL INPUTI -->
+            <input type="file" name="avatar" id="avatar-input" accept="image/*" style="display: none;" onchange="previewImage(event)">
+
+            <p style="color: #00b894; font-size: 0.9rem; font-weight: 600; cursor: pointer; margin-top: 8px;" onclick="document.getElementById('avatar-input').click();">
+                Rasm tanlash uchun bosing
+            </p>
         </div>
 
-        <button type="submit" style="background: var(--primary); color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">
-            Saqlash
-        </button>
-        <a href="{% url 'user_list' %}" style="color: var(--text-muted); margin-left: 10px; text-decoration: none;">Orqaga</a>
+        <!-- TUGMALAR -->
+        <div style="display: flex; gap: 12px; align-items: center; justify-content: center;">
+            <button type="submit" class="cta-button" style="border: none; cursor: pointer; padding: 12px 30px;">
+                Saqlash
+            </button>
+            <a href="{% url 'user_list' %}" style="color: #94a3b8; text-decoration: none; font-weight: 600; padding: 12px 20px;">
+                Orqaga
+            </a>
+        </div>
     </form>
 </div>
 {% endblock %}

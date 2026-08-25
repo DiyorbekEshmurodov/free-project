@@ -10,80 +10,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 
+    <!-- AOS Animatsiya Kutubxonasi -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
     <!-- CSS Fayllar -->
     <link rel="stylesheet" href="{% static 'css/userbar.css' %}">
-
-    <style>
-        /* main.js ishlatadigan o'zgaruvchilar va ranglar */
-        :root[data-theme="dark"] {
-            --bg-color: #0b0f19;
-            --card-bg: #111827;
-            --border-color: #1f2937;
-            --text-main: #ffffff;
-            --text-muted: #9ca3af;
-            --primary: #00b894;
-            --primary-blue: #00b894;
-        }
-
-        :root[data-theme="light"] {
-            --bg-color: #f3f4f6;
-            --card-bg: #ffffff;
-            --border-color: #e5e7eb;
-            --text-main: #111827;
-            --text-muted: #4b5563;
-            --primary: #00b894;
-            --primary-blue: #00b894;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        .main-container {
-            max-width: 1350px;
-            margin: 0 auto;
-            padding: 30px 20px;
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .feature-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 30px;
-            border-radius: 16px;
-            display: block;
-        }
-
-        .feature-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-4px);
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/type.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
 <body>
 
-    <!-- USERBAR SHABLONINI ULASH -->
     {% include 'userbar.html' %}
 
     <main>
@@ -91,8 +27,9 @@
         {% endblock %}
     </main>
 
-    <!-- JS FAYLLARINI ULASH -->
+    <!-- JS FAYLLAR -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="{% static 'js/main.js' %}?v=1.2"></script>
     {% block extra_js %}{% endblock %}
 </body>
