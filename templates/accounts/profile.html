@@ -15,15 +15,11 @@
 
             <!-- AVATAR YUKLASH QISMI -->
             <div class="avatar-upload-container">
-                <label class="avatar-label-wrapper" for="{{ form.avatar.id_for_label }}">
+                <label class="avatar-label-wrapper" for="id_avatar">
                     <div class="avatar-preview">
-                        <!-- Rasm mavjud bo'lsa -->
                         {% if form.instance.avatar and form.instance.avatar.url %}
                             <img id="avatar-img" src="{{ form.instance.avatar.url }}" alt="User Avatar">
                             <span id="avatar-placeholder" class="avatar-placeholder" style="display: none;">📷</span>
-                        {% else %}
-                            <img id="avatar-img" src="#" alt="User Avatar" style="display: none;">
-                            <span id="avatar-placeholder" class="avatar-placeholder">📷</span>
                         {% endif %}
                     </div>
                     <span class="upload-text">Rasm tanlash uchun bosing</span>
