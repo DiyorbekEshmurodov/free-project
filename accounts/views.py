@@ -5,6 +5,26 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import *
 from .forms import *
+from django.db.models import Q
+
+@login_required
+def dashboard_view(request):
+    # UserDetail ni 'user' va 'telegram_user' ustunlari bo'yicha izlaymiz
+    profil = UserDetail.objects.filter(
+        Q(user=request.user) | Q(telegram_user=request.user)
+    ).first()
+
+    # Profil to'liq to'ldirilganligini tekshiramiz
+    has_profile = False
+    if profil and profil.buyi and profil.vazni and profil.jinsi:
+        has_profile = True
+
+    context = {
+        'profil': profil,
+        'has_profile': has_profile,
+    }
+    # Agar HTML faylingiz nomi index.html bo'lsa, shuni ko'rsatasiz
+    return render(request, 'index.html', context)
 
 def login_required_decorator(func):
     return login_required(func,login_url='login_page')

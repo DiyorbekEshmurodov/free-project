@@ -12,12 +12,13 @@
         <!-- O'ng taraf: Userbar (Dropdown menyu) -->
         <div style="display: flex; align-items: center; gap: 20px;">
             {% if request.user.is_authenticated %}
+                {% with user_profile=profil|default:request.user.profil %}
                 <div class="user-dropdown-wrapper" style="position: relative;">
                     <button type="button" class="userbar-btn" id="userMenuBtn" style="display: flex; align-items: center; gap: 10px; background: transparent; border: none; cursor: pointer; color: var(--text-main, #ffffff);">
 
                         <!-- AVATAR VA PLACEHOLDER -->
-                        {% if request.user.profil.avatar %}
-                            <img src="{{ request.user.profil.avatar.url }}"
+                        {% if user_profile and user_profile.avatar %}
+                            <img src="{{ user_profile.avatar.url }}"
                                  alt=""
                                  class="user-avatar"
                                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
@@ -32,15 +33,29 @@
                             </div>
                         {% endif %}
 
-                        <span class="user-name" style="font-weight: 600;">{{ request.user.first_name|default:request.user.username|title }}</span>
+                        <span class="user-name" style="font-weight: 600;">
+                            {% if user_profile and user_profile.first_name %}
+                                {{ user_profile.first_name|title }}
+                            {% else %}
+                                {{ request.user.first_name|default:request.user.username|title }}
+                            {% endif %}
+                        </span>
                         <span class="dropdown-arrow" style="font-size: 10px; color: var(--text-muted, #94a3b8);">▼</span>
                     </button>
 
                     <!-- DROPDOWN MENYU -->
                     <div class="dropdown-menu" id="userDropdown" style="display: none; position: absolute; right: 0; top: 48px; background: var(--card-bg, #0f172a); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1)); border-radius: 12px; min-width: 220px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); padding: 12px; z-index: 99999;">
                         <div class="dropdown-header" style="padding-bottom: 8px;">
-                            <div class="dropdown-user-title" style="font-weight: bold; color: var(--text-main, #ffffff);">{{ request.user.username|title }}</div>
-                            <div class="dropdown-user-sub" style="font-size: 12px; color: var(--text-muted, #94a3b8);">Fitness profil</div>
+                            <div class="dropdown-user-title" style="font-weight: bold; color: var(--text-main, #ffffff);">
+                                {% if user_profile and user_profile.first_name %}
+                                    {{ user_profile.first_name|title }} {{ user_profile.last_name|default:''|title }}
+                                {% else %}
+                                    {{ request.user.username|title }}
+                                {% endif %}
+                            </div>
+                            <div class="dropdown-user-sub" style="font-size: 12px; color: var(--text-muted, #94a3b8);">
+                                @{{ request.user.username }}
+                            </div>
                         </div>
 
                         <hr class="dropdown-divider" style="border: 0; border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.1)); margin: 8px 0;">
@@ -64,6 +79,7 @@
                         </a>
                     </div>
                 </div>
+                {% endwith %}
             {% else %}
                 <a href="{% url 'login_page' %}" style="background-color: var(--primary, #00b894); color: #ffffff; padding: 10px 24px; border-radius: 12px; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 8px; text-decoration: none;">
                     Boshlash &rarr;
@@ -74,7 +90,6 @@
     </div>
 </header>
 
-<!-- DROPDOWN ISHLASHI UCHUN SHU JS SCRIPT KODINI INTEGRATSIYA QILDIK -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const btn = document.getElementById('userMenuBtn');

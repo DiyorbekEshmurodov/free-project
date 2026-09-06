@@ -90,62 +90,70 @@ async def process_password(message: types.Message, state: FSMContext):
         return
 
     data = await state.get_data()
+    telegram_id = message.from_user.id
+    username_input = data.get('username')
 
-    # 1. Telegram ID bo'yicha profilni olamiz yoki yaratamiz
-    user_detail, _ = UserDetail.objects.get_or_create(telegram_id=message.from_user.id)
+    try:
+        # 1. Telegram ID bo'yicha profilni olamiz yoki yaratamiz
+        user_detail, created = UserDetail.objects.get_or_create(telegram_id=telegram_id)
 
-    # 2. Agar profilga allaqachon User biriktirilgan bo'lsa, o'sha User'ni yangilaymiz
-    if user_detail.user_id:
-        user = user_detail.user
-        user.username = data['username']
-        user.set_password(password)
-        user.first_name = data.get('first_name', '')
-        user.last_name = data.get('last_name', '')
-        user.save()
-    else:
-        # 3. Agar User biriktirilmagan bo'lsa, username bo'yicha bazani tekshiramiz
-        user = User.objects.filter(username=data['username']).first()
-        if user:
-            # Agar bu username bazada bor bo'lsa, parolini yangilab, user_detail'ga biriktiramiz
+        # 2. Agar profilga telegram_user bog'langan bo'lsa, o'sha user'ni yangilaymiz
+        if user_detail.telegram_user is not None:
+            user = user_detail.telegram_user
+            user.username = username_input
             user.set_password(password)
             user.first_name = data.get('first_name', '')
             user.last_name = data.get('last_name', '')
             user.save()
         else:
-            # Aks holda yangi User yaratamiz
-            user = User.objects.create_user(
-                username=data['username'],
-                password=password,
-                first_name=data.get('first_name', ''),
-                last_name=data.get('last_name', '')
-            )
+            # 3. Agar telegram_user bor bo'lmasa (None bo'lsa), username mavjudligini tekshiramiz
+            existing_user = User.objects.filter(username=username_input).first()
 
-        # User'ni UserDetail profiliga biriktiramiz
-        user_detail.user = user
+            if existing_user:
+                # Username mavjud bo'lsa, parolini yangilab ushbu user'ni telegram_user ga biriktiramiz
+                user = existing_user
+                user.set_password(password)
+                user.first_name = data.get('first_name', '')
+                user.last_name = data.get('last_name', '')
+                user.save()
+            else:
+                # Username yo'q bo'lsa, yangi User yaratamiz
+                user = User.objects.create_user(
+                    username=username_input,
+                    password=password,
+                    first_name=data.get('first_name', ''),
+                    last_name=data.get('last_name', '')
+                )
 
-    # 4. Profil ma'lumotlarini saqlaymiz
-    user_detail.first_name = data.get('first_name')
-    user_detail.last_name = data.get('last_name')
-    user_detail.phone_number = data.get('phone_number')
-    user_detail.save()
+            # User'ni telegram_user ga biriktiramiz
+            user_detail.telegram_user = user
 
-    await state.clear()
+        # 4. Profil ma'lumotlarini saqlaymiz
+        user_detail.first_name = data.get('first_name')
+        user_detail.last_name = data.get('last_name')
+        user_detail.phone_number = data.get('phone_number')
+        user_detail.save()
 
-    buttons = InlineKeyboardMarkup(
-        inline_keyboard=[[
-            InlineKeyboardButton(
-                text="Life Gym Saytiga O'tish",
-                url="http://127.0.0.1:8000/accounts/login/"
-            )
-        ]]
-    )
+        await state.clear()
 
-    await message.answer(
-        f"✅ **Muvaffaqiyatli saqlandi!**\n\n"
-        f"🔑 **Loginingiz:** `{data['username']}`\n"
-        f"🔒 **Parolingiz:** `{password}`\n\n"
-        f"Endi ushbu ma'lumotlar bilan saytga kirishingiz mumkin.",
-        reply_markup=buttons,
-        parse_mode="Markdown"
-    )
+        buttons = InlineKeyboardMarkup(
+            inline_keyboard=[[
+                InlineKeyboardButton(
+                    text="Life Gym Saytiga O'tish",
+                    url="https://zippy-upon-unscathed.ngrok-free.dev/ai_app/dashboard/"
+                )
+            ]]
+        )
 
+        await message.answer(
+            f"✅ **Muvaffaqiyatli saqlandi!**\n\n"
+            f"🔑 **Loginingiz:** `{username_input}`\n"
+            f"🔒 **Parolingiz:** `{password}`\n\n"
+            f"Endi ushbu ma'lumotlar bilan saytga kirishingiz mumkin.",
+            reply_markup=buttons,
+            parse_mode="Markdown"
+        )
+
+    except Exception as e:
+        print(f"Xatolik yuz berdi: {e}")
+        await message.answer("❌ Saqlashda xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring.")

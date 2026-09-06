@@ -24,7 +24,7 @@
         <!-- XUSH KELIBSIZ BLOKI -->
         <div class="welcome-card">
             <h1 class="welcome-title">
-                Xush kelibsiz, {{ request.user.username|default:"Mehmon" }}! 👋
+                Xush kelibsiz, {{ profil.first_name|default:request.user.username|default:"Mehmon" }}! 👋
             </h1>
             <p class="welcome-sub">
                 Kerakli bo'limni tanlang va shaxsiy tahlillaringizni boshlang.
@@ -75,16 +75,16 @@
                 <p class="card-desc">Sizning AI Diyetologingiz doimo yordamga tayyor.</p>
             </a>
 
-            <!-- DYNAMIC BUTTONS (TUGMALAR MANTIQI TO'G'RILANDI) -->
-            {% if user.is_authenticated and has_profile %}
-                <!-- Foydalanuvchi tizimda bor va profilini to'liq to'ldirgan bo'lsa -->
+            <!-- DYNAMIC BUTTONS (TO'LIQ RO'YXATDAN O'TISH TEKSHIRUVI) -->
+            {% if request.user.is_authenticated and has_profile %}
+                <!-- Foydalanuvchi tizimda bor VA profilini to'liq to'ldirgan bo'lsa -->
                 <div class="crud-actions-box">
                     <a href="{% url 'user_list' %}" class="crud-btn plan-btn">
                         📋 Fitness Rejalarim Ro'yxati
                     </a>
                 </div>
             {% else %}
-                <!-- Foydalanuvchi ro'yxatdan o'tmagan yoki profili to'lmagan bo'lsa -->
+                <!-- Foydalanuvchi tizimdan o'tmagan YOKI profili hali to'liq to'lmagan bo'lsa -->
                 <div class="register-notice-box">
                     <p class="notice-text">
                         💡 Tizimdan to'liq foydalanmoqchi bo'lsangiz, ro'yxatdan o'ting!
