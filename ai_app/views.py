@@ -2,15 +2,22 @@ from django.shortcuts import render
 from .services import ai_handler
 from .models import UserQuestion
 from .prompts import SECTION_MAP
+from accounts.models import UserDetail
 # 1. BARCHA KARTALAR RO'YXATI UCHUN UNIVERSAL VIEW
 def cards_list_view(request, section_name):
     section_data = SECTION_MAP.get(section_name)
+
+    profil = None
+    if request.user.is_authenticated:
+        profil = UserDetail.objects.filter(user=request.user).first()
 
     ctx = {
         'section_name': section_name,
         'title': section_data['title'],
         'subtitle': section_data['subtitle'],
         'questions': section_data['questions'],
+        'profil': profil,
+        'has_profile': profil is not None,
     }
     return render(request, 'ai_app/cards.html', ctx)
 
@@ -20,9 +27,10 @@ def card_detail_view(request, section_name, question_id):
     section_data = SECTION_MAP.get(section_name)
     question_data = section_data['questions'].get(question_id)
 
-    # 1. Tizimdagi userning ma'lumotlarini bazadan olamiz
+    profil = None
     user_info = None
     if request.user.is_authenticated:
+        profil = UserDetail.objects.filter(user=request.user).first()
         user_info = UserQuestion.objects.filter(user=request.user).first()
 
     # Agar foydalanuvchi ma'lumotlari bo'lsa ularni, bo'lmasa standart qiymatlarni uzatamiz
@@ -46,5 +54,8 @@ def card_detail_view(request, section_name, question_id):
         'section_name': section_name,
         'question_data': question_data,
         'ai_result': ai_result,
+        'profil': profil,
+        'has_profile': profil is not None,
     }
+
     return render(request, 'ai_app/card_detail.html', ctx)

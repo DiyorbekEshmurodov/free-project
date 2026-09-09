@@ -16,7 +16,17 @@
                     <!-- MENYU CHAQIRISH TUGMASI -->
                     <button type="button" class="userbar-btn" id="userMenuBtn" onclick="toggleUserDropdown(event)">
 
-                        {% if profil and profil.avatar %}
+                        {% if request.user.profile.avatar %}
+                            <img src="{{ request.user.profile.avatar.url }}" alt="Avatar" class="user-avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="user-avatar-placeholder" style="display: none;">
+                                {{ request.user.username|slice:":1"|upper }}
+                            </div>
+                        {% elif request.user.avatar %}
+                            <img src="{{ request.user.avatar.url }}" alt="Avatar" class="user-avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="user-avatar-placeholder" style="display: none;">
+                                {{ request.user.username|slice:":1"|upper }}
+                            </div>
+                        {% elif profil and profil.avatar %}
                             <img src="{{ profil.avatar.url }}" alt="Avatar" class="user-avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                             <div class="user-avatar-placeholder" style="display: none;">
                                 {{ request.user.username|slice:":1"|upper }}
@@ -28,7 +38,9 @@
                         {% endif %}
 
                         <span class="user-name">
-                            {% if profil and profil.first_name %}
+                            {% if request.user.first_name %}
+                                {{ request.user.first_name|title }}
+                            {% elif profil and profil.first_name %}
                                 {{ profil.first_name|title }}
                             {% else %}
                                 {{ request.user.username|title }}
@@ -41,7 +53,9 @@
                     <div class="dropdown-menu" id="userDropdown">
                         <div class="dropdown-header">
                             <div class="dropdown-user-title">
-                                {% if profil and profil.first_name %}
+                                {% if request.user.first_name %}
+                                    {{ request.user.first_name|title }} {{ request.user.last_name|default:''|title }}
+                                {% elif profil and profil.first_name %}
                                     {{ profil.first_name|title }} {{ profil.last_name|default:''|title }}
                                 {% else %}
                                     {{ request.user.username|title }}
@@ -58,12 +72,12 @@
                             🏠 <span>Bosh sahifa</span>
                         </a>
 
-                        {% if has_profile %}
+                        {% if has_profile or request.user.profile %}
                             <a href="{% url 'user_list' %}" class="dropdown-item">
                                 📋 <span>Profil ma'lumotlari</span>
                             </a>
                         {% else %}
-                            <a href="{% url 'profile_setup' %}" class="dropdown-item highlight-item">
+                            <a href="{% url 'profile_setup' %}" class="dropdown-item">
                                 ✍️ <span>To'liq ro'yxatdan o'tish</span>
                             </a>
                         {% endif %}

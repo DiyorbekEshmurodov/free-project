@@ -16,7 +16,7 @@
         <h2 id="form-title" class="auth-title">Tizimga kirish</h2>
         <p id="form-subtitle" class="auth-subtitle">Ma'lumotlaringizni to'g'ri kiriting</p>
 
-          <!-- Xatolik bo'lsa qizil fonda xabar chiqaradi -->
+        <!-- Xatolik bo'lsa qizil fonda xabar chiqaradi -->
         {% if messages %}
             {% for message in messages %}
             <div style="background-color: rgba(255, 75, 90, 0.15); border: 1px solid #ff4b5a; color: #ff4b5a; padding: 10px 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem; text-align: center;">
@@ -35,22 +35,28 @@
                 <input type="text" name="username" placeholder="Name" required class="form-input">
             </div>
 
-            <!-- Telefon raqam (Faqat Register va Parolni tiklashda ko'rinadi) -->
+            <!-- Telefon raqam -->
             <div class="form-group" id="phone-group" style="display: none;">
                 <label>Telefon raqam</label>
                 <input type="tel" name="phone" placeholder="+998 -- --- -- --" class="form-input">
             </div>
 
-            <!-- Parol (Doim ko'rinadi) -->
+            <!-- Parol (Ko'zcha ko'rsatkich bilan) -->
             <div class="form-group">
                 <label id="pass-label">Parol</label>
-                <input type="password" name="password" placeholder="••••••••" required class="form-input">
+                <div class="password-wrapper">
+                    <input type="password" id="password" name="password" placeholder="••••••••" required class="form-input">
+                    <span class="toggle-password" onclick="togglePasswordVisibility('password', this)">👁️</span>
+                </div>
             </div>
 
-            <!-- Parolni qayta kiritish (Faqat Register va Parolni tiklashda ko'rinadi) -->
+            <!-- Parolni qayta kiritish (Ko'zcha ko'rsatkich bilan) -->
             <div class="form-group" id="confirm-pass-group" style="display: none;">
                 <label>Parolni qayta kiritish (Tasdiqlash)</label>
-                <input type="password" name="confirm_password" placeholder="••••••••" class="form-input">
+                <div class="password-wrapper">
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="••••••••" class="form-input">
+                    <span class="toggle-password" onclick="togglePasswordVisibility('confirm_password', this)">👁️</span>
+                </div>
             </div>
 
             <!-- Parol esdan chiqdimi? -->
@@ -75,22 +81,22 @@
 
 <style>
     .auth-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
+        background: var(--card-bg, #1a2332);
+        border: 1px solid var(--border-color, #2d3748);
         padding: 40px 30px;
         border-radius: 20px;
         width: 100%;
         max-width: 440px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
     .tab-header {
         display: flex;
-        background: var(--bg-color);
+        background: rgba(0,0,0,0.2);
         border-radius: 12px;
         padding: 4px;
         margin-bottom: 25px;
-        border: 1px solid var(--border-color);
+        border: 1px solid var(--border-color, #2d3748);
     }
 
     .tab-btn {
@@ -98,7 +104,7 @@
         padding: 10px;
         border: none;
         background: transparent;
-        color: var(--text-muted);
+        color: #94a3b8;
         font-weight: 600;
         font-size: 0.95rem;
         border-radius: 8px;
@@ -107,22 +113,22 @@
     }
 
     .tab-btn.active {
-        background: var(--card-bg);
-        color: var(--text-main);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        background: #2d3748;
+        color: #ffffff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
 
     .auth-title {
         font-size: 1.8rem;
         font-weight: 800;
-        color: var(--text-main);
+        color: #ffffff;
         text-align: center;
         margin-bottom: 6px;
     }
 
     .auth-subtitle {
         font-size: 0.9rem;
-        color: var(--text-muted);
+        color: #94a3b8;
         text-align: center;
         margin-bottom: 25px;
     }
@@ -131,28 +137,57 @@
         margin-bottom: 18px;
     }
 
+    /* Input ustidagi sarlovha matnlari ancha yorqin va ko'rinadigan qilindi */
     .form-group label {
         display: block;
-        font-size: 0.88rem;
-        font-weight: 600;
-        color: var(--text-main);
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #f1f5f9 !important; /* To'liq aniq ko'rinadigan rang */
         margin-bottom: 8px;
+        letter-spacing: 0.3px;
+    }
+
+    /* Parol input va ko'zcha uchun konteyner */
+    .password-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
     }
 
     .form-input {
         width: 100%;
-        padding: 13px 16px;
-        background: var(--bg-color);
-        border: 1px solid var(--border-color);
+        padding: 13px 42px 13px 16px;
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid #334155;
         border-radius: 10px;
-        color: var(--text-main);
+        color: #ffffff;
         font-size: 0.95rem;
         outline: none;
         transition: border-color 0.2s;
+        box-sizing: border-box;
+    }
+
+    .form-input::placeholder {
+        color: #64748b;
     }
 
     .form-input:focus {
         border-color: #00b894;
+    }
+
+    /* Ko'zcha belgisi stillari */
+    .toggle-password {
+        position: absolute;
+        right: 12px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        user-select: none;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+    }
+
+    .toggle-password:hover {
+        opacity: 1;
     }
 
     .submit-btn {
@@ -181,9 +216,9 @@
         width: 100%;
         text-align: center;
         padding: 12px;
-        background: var(--bg-color);
-        color: var(--text-main);
-        border: 1px solid var(--border-color);
+        background: rgba(15, 23, 42, 0.6);
+        color: #ffffff;
+        border: 1px solid #334155;
         border-radius: 12px;
         font-weight: 600;
         font-size: 0.9rem;
@@ -192,6 +227,18 @@
 </style>
 
 <script>
+    /* Parolni ko'rsatish/yashirish funksiyasi */
+    function togglePasswordVisibility(inputId, icon) {
+        const input = document.getElementById(inputId);
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.textContent = '🙈'; // Yashirish belgisi
+        } else {
+            input.type = 'password';
+            icon.textContent = '👁️'; // Ko'rsatish belgisi
+        }
+    }
+
     function switchTab(mode) {
         const phoneGroup = document.getElementById('phone-group');
         const confirmPassGroup = document.getElementById('confirm-pass-group');
@@ -205,7 +252,6 @@
         const tabRegister = document.getElementById('tab-register');
 
         if (mode === 'login') {
-            // TIZIMGA KIRISH REJIMI
             phoneGroup.style.display = 'none';
             confirmPassGroup.style.display = 'none';
             forgotBox.style.display = 'block';
@@ -219,7 +265,6 @@
             tabRegister.classList.remove('active');
 
         } else if (mode === 'register') {
-            // YANGI USER (RO'YXATDAN O'TISH) REJIMI
             phoneGroup.style.display = 'block';
             confirmPassGroup.style.display = 'block';
             forgotBox.style.display = 'none';
@@ -233,7 +278,6 @@
             tabLogin.classList.remove('active');
 
         } else if (mode === 'reset') {
-            // PAROLNI TIKLASH REJIMI
             phoneGroup.style.display = 'block';
             confirmPassGroup.style.display = 'block';
             forgotBox.style.display = 'none';

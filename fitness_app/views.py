@@ -7,10 +7,6 @@ from .forms import FitnessPlanForm
 from accounts.models import UserDetail
 
 
-# ----------------------------------------------------
-# 1. FITNESS PLAN CRUD FUNKSIYALARI (ESKI FUNKSIYALAR)
-# ----------------------------------------------------
-
 @login_required
 def plan_list(request):
     profile = UserDetail.objects.filter(user=request.user).first()
@@ -74,10 +70,6 @@ def user_plan(request):
     return render(request, 'index.html', context)
 
 
-# ----------------------------------------------------
-# 2. AI REPORT GENERIC VIEW & TAVSIYA GENERATORI
-# ----------------------------------------------------
-
 class AIReportView(LoginRequiredMixin, TemplateView):
     template_name = 'fitness_app/reports.html'
 
@@ -95,7 +87,12 @@ class AIReportView(LoginRequiredMixin, TemplateView):
             {'id': 'health_habits', 'icon': '🥗', 'title': "Sog'lom turmush tarzi", 'desc': "Kunlik to'g'ri odatlarni shakllantirish."}
         ]
         context['cards'] = cards
+        profil = UserDetail.objects.filter(user=self.request.user).first()
+        context['profil'] = profil
+        context['has_profile'] = profil is not None
+
         return context
+
 
 
 class AIPageDetailView(LoginRequiredMixin, TemplateView):
