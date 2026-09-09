@@ -1,30 +1,50 @@
+from .models import UserDetail
+from .forms import UserDetailForm
+
 from django.contrib.auth.models import User
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import *
-from .forms import *
-from django.db.models import Q
+
+
 
 @login_required
 def dashboard_view(request):
-    # UserDetail ni 'user' va 'telegram_user' ustunlari bo'yicha izlaymiz
-    profil = UserDetail.objects.filter(
-        Q(user=request.user) | Q(telegram_user=request.user)
-    ).first()
+    # Foydalanuvchi profilini izlaymiz
+    profil = UserDetail.objects.filter(user=request.user).first()
+    if not profil:
+        profil = UserDetail.objects.filter(telegram_user=request.user).first()
 
-    # Profil to'liq to'ldirilganligini tekshiramiz
     has_profile = False
-    if profil and profil.buyi and profil.vazni and profil.jinsi:
-        has_profile = True
+
+    if profil:
+        # String ga o'tkazib, bo'shliqlarni tozalaymiz (strip)
+        buyi_val = str(profil.buyi).strip() if profil.buyi is not None else ""
+        vazni_val = str(profil.vazni).strip() if profil.vazni is not None else ""
+
+        # Gar ushbu qiymatlar bo'sh bo'lmasa va 'None' so'zi bo'lmasa True bo'ladi
+        if buyi_val and vazni_val and buyi_val != "None" and vazni_val != "None":
+            has_profile = True
 
     context = {
         'profil': profil,
         'has_profile': has_profile,
     }
-    # Agar HTML faylingiz nomi index.html bo'lsa, shuni ko'rsatasiz
     return render(request, 'index.html', context)
+
+
+def auto_login_view(request, telegram_id):
+    # Telegram ID bo'yicha UserDetail ni qidiramiz
+    profil = UserDetail.objects.filter(telegram_id=telegram_id).first()  # yoki sizdagi telegram_user maydoni
+
+    if profil and profil.user:
+        # Foydalanuvchini parolsiz avtomatik tizimga kirgizamiz (session yaratiladi)
+        login(request, profil.user)
+        return redirect('/ai_app/dashboard/')
+    else:
+        # Profil topilmasa, login sahifasiga yuboramiz
+        return redirect('login_page')
 
 def login_required_decorator(func):
     return login_required(func,login_url='login_page')
@@ -105,5 +125,5 @@ def main_account(request):
     return render(request,'home.html')
 
 def index_page(request):
-    return render(request, 'index.html')
+    return dashboard_view(request)
 

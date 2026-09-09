@@ -24,6 +24,10 @@ class UserDetail(models.Model):
             return self.avatar.url
         return static('images/default-avatar.png')
 
+    @property
+    def is_profile_coplete(self):
+        return bool(self.buyi and self.vazni)
+
     def __str__(self):
         return f"{self.user.username} - Profili"
 

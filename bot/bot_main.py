@@ -21,7 +21,9 @@ phone_keyboard = ReplyKeyboardMarkup(
 
 @main_router.message(Command('start'))
 async def start(message: types.Message, state: FSMContext):
-    # Telegram ID bo'yicha profilni olamiz
+    await message.answer(globals.WELCOME_TEXT)
+    user_telegram_id = message.from_user.id
+    site_url = f"https://zippy-upon-unscathed.ngrok-free.dev/auto-login/{user_telegram_id}/"
     user_detail = UserDetail.objects.filter(telegram_id=message.from_user.id).first()
 
     # AGAR USER MAVJUD BO'LSA - Shunchaki saytga havola beramiz
@@ -30,7 +32,7 @@ async def start(message: types.Message, state: FSMContext):
             inline_keyboard=[[
                 InlineKeyboardButton(
                     text="Life Gym Saytiga O'tish",
-                    url="http://127.0.0.1:8000/ai_app/dashboard/"
+                    url=site_url
                 )
             ]]
         )
@@ -135,12 +137,12 @@ async def process_password(message: types.Message, state: FSMContext):
         user_detail.save()
 
         await state.clear()
-
+        site_url = f"https://zippy-upon-unscathed.ngrok-free.dev/auto-login/{telegram_id}/"
         buttons = InlineKeyboardMarkup(
             inline_keyboard=[[
                 InlineKeyboardButton(
                     text="Life Gym Saytiga O'tish",
-                    url="https://zippy-upon-unscathed.ngrok-free.dev/ai_app/dashboard/"
+                    url=site_url
                 )
             ]]
         )

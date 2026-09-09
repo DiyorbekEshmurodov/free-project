@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_ngrok',
+
     'accounts',
     'fitness_app',
     'ai_app',
@@ -149,6 +151,8 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
 ]
+
 CSRF_TRUSTED_ORIGINS = [
     'https://zippy-upon-unscathed.ngrok-free.dev',
 ]
+LOGIN_URL = 'login_page'

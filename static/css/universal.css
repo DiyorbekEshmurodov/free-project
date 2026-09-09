@@ -194,3 +194,43 @@ body {
 .hidden {
     display: none !important;
 }
+/* ==========================================
+   📱 TELEFON UCHUN ADAPTIV STILLAR (Max 768px)
+   ========================================== */
+@media (max-width: 768px) {
+    /* Chet bo'shliqlarni telefonga moslash */
+    .analysis-wrapper {
+        margin: 20px auto !important;
+        padding: 0 12px !important;
+    }
+
+    .analysis-title {
+        font-size: 22px !important;
+    }
+
+    .analysis-sub {
+        font-size: 14px !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* 2 ustunli gridni telefonda 1 ustunli qilish */
+    .analysis-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+    }
+
+    .nav-card-btn, .report-card {
+        padding: 16px !important;
+    }
+
+    /* Kunlik, Haftalik, Oylik tugmalarini 2 tadan 2 qatorga chiroyli taxlash */
+    .period-buttons {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+    }
+
+    .p-btn {
+        padding: 10px 0 !important;
+        font-size: 0.9rem !important;
+    }
+}

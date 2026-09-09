@@ -8,22 +8,37 @@
     --primary: #00b894;
 }
 
-/* GLOBAL BACKGROUND & HEADER */
-body {
-    background-color: var(--bg-color);
-    color: var(--text-main);
-}
-
-header, nav, .userbar, .navbar {
+/* HEADER & CONTAINER */
+.main-header {
     background-color: var(--card-bg);
     border-bottom: 1px solid var(--border-color);
+    padding: 15px 0;
+    width: 100%;
+    position: relative;
+    z-index: 99999;
 }
 
-header *, nav *, .userbar * {
+.header-container {
+    max-width: 1350px;
+    margin: 0 auto;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-link {
+    font-weight: 900;
+    font-size: 1.4rem;
     color: var(--text-main);
+    text-decoration: none;
 }
 
-/* USERBAR & DROPDOWN STYLES */
+.logo-accent {
+    color: var(--primary);
+}
+
+/* USERBAR & DROPDOWN BUTTON */
 .user-dropdown-wrapper {
     position: relative;
 }
@@ -31,13 +46,14 @@ header *, nav *, .userbar * {
 .userbar-btn {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
-    padding: 5px 12px 5px 6px;
+    padding: 6px 14px 6px 8px;
     border-radius: 30px;
     display: flex;
     align-items: center;
     gap: 10px;
     cursor: pointer;
     color: var(--text-main);
+    transition: all 0.2s ease;
 }
 
 .userbar-btn:hover {
@@ -45,16 +61,16 @@ header *, nav *, .userbar * {
 }
 
 .user-avatar {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid var(--primary);
 }
 
 .user-avatar-placeholder {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background: var(--primary);
     color: #ffffff;
@@ -68,30 +84,34 @@ header *, nav *, .userbar * {
 .user-name {
     font-weight: 600;
     font-size: 0.9rem;
+    color: var(--text-main);
 }
 
 .dropdown-arrow {
-    font-size: 0.6rem;
+    font-size: 0.65rem;
     color: var(--text-muted);
 }
 
+/* DROPDOWN MENU */
 .dropdown-menu {
     position: absolute;
     right: 0;
-    top: calc(100% + 10px);
+    top: calc(100% + 12px);
     width: 240px;
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 14px;
     padding: 10px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     display: none;
     flex-direction: column;
     gap: 4px;
+    z-index: 999999;
 }
 
+/* JAVA SCRIPT SHUTTER TRIGGER */
 .dropdown-menu.show {
-    display: flex;
+    display: flex !important;
 }
 
 .dropdown-header {
@@ -114,7 +134,7 @@ header *, nav *, .userbar * {
 .dropdown-divider {
     border: none;
     border-top: 1px solid var(--border-color);
-    margin: 4px 0;
+    margin: 6px 0;
 }
 
 .dropdown-item {
@@ -126,6 +146,8 @@ header *, nav *, .userbar * {
     font-size: 0.88rem;
     font-weight: 500;
     border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
 .dropdown-item:hover {
@@ -133,11 +155,32 @@ header *, nav *, .userbar * {
     color: var(--primary);
 }
 
-.logout-item:hover {
+.highlight-item {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.logout-item {
     color: #ef4444;
 }
 
-/* FORM STYLES (FAQAT FORMA OQ FONDA) */
+.logout-item:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+.btn-start {
+    background-color: var(--primary);
+    color: #ffffff;
+    padding: 10px 24px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* FORM STYLES (OQ FONLI FORMALAR UCHUN) */
 .form-card-wrapper {
     max-width: 600px;
     margin: 40px auto;
@@ -184,7 +227,6 @@ header *, nav *, .userbar * {
     color: #0f172a !important;
 }
 
-/* Django Form Inputs (Oq formada aniq ko'rinishi uchun) */
 .custom-fitness-form input[type="text"],
 .custom-fitness-form input[type="number"],
 .custom-fitness-form input[type="date"],
@@ -219,7 +261,6 @@ header *, nav *, .userbar * {
     margin-top: 2px;
 }
 
-/* Action Buttons */
 .form-actions {
     display: flex;
     align-items: center;
@@ -261,59 +302,4 @@ header *, nav *, .userbar * {
 
 .btn-cancel:hover {
     background: #f1f5f9 !important;
-}
-
-.user-profile-menu {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-}
-
-.user-avatar-wrap {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid #00b894;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #1f2937;
-}
-
-.user-avatar-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.user-avatar-letter {
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 1rem;
-}
-
-.user-avatar-circle {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: #00b894;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #00b894;
-}
-
-.nav-avatar-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.avatar-letter {
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 1rem;
 }
