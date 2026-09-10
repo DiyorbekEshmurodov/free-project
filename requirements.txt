@@ -1,0 +1,14 @@
+Django>=5.0,<6.0
+djangorestframework
+django-cors-headers
+pillow
+google-generativeai
+groq
+geopy
+aiogram
+requests
+python-dotenv
+python-decouple
+psycopg-binary
+gunicorn
+pyngrok
