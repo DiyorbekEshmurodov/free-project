@@ -158,3 +158,10 @@ CSRF_TRUSTED_ORIGINS = [
     'https://zippy-upon-unscathed.ngrok-free.dev',
 ]
 LOGIN_URL = 'login_page'
+import sys
+
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',
+    }
