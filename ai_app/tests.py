@@ -1,6 +1,10 @@
 from django.test import TestCase , Client
 from django.contrib.auth import get_user_model
 from accounts.models import UserDetail
+from django.urls import reverse
+from unittest.mock import patch
+from ai_app.models import UserQuestion
+from ai_app.prompts import SECTION_MAP
 
 User = get_user_model()
 
@@ -27,6 +31,17 @@ class AIModelTest(TestCase):
             defaults=self.user_detail_data
         )
 
+        self.user_question_data = {
+            'user': self.user,
+            'buyi' : '170',
+            'vazni' : '80',
+            'maqsadi' : 'testmaqsadi'
+        }
+        self.user_question,created = UserQuestion.objects.get_or_create(
+            user=self.user,
+            defaults=self.user_question_data
+        )
+
         if not created:
             for key , value in self.user_detail_data.items():
                 setattr(self.user_detail , key , value)
@@ -35,12 +50,24 @@ class AIModelTest(TestCase):
         self.client = Client()
         self.client.force_login(self.user)
 
-        @patch('ai_app.views.requests.post')
-        def test_ai_response_with_user_profile(self,mock_post):
-            mock_post.return_value.status_code = 200
-            mock_post.return_value.json.return_value = {
-                'choices': [{'message': {'content': 'Sizga mos mashg`ulot rejasi tayyor!'}}]
-            }
+    @patch('ai_app.views.ai_handler')
+    def test_ai_response_with_user_profile(self,mock_ai_handler):
+        mock_ai_handler.return_value = "AI maslahati: Har kuni 2 litr suv iching."
+
+        first_section_name = list(SECTION_MAP.keys())[0]
+        first_question_id = list(SECTION_MAP[first_section_name]['questions'].keys())[0]
+
+        url = reverse(
+            'card_detail', kwargs =
+            {'section_name': first_section_name,
+             'question_id': str(first_question_id)}
+        )
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code,200)
+        called_prompt = mock_ai_handler.call_args[0][0]
+        self.assertIn("Bo'yi: 170 sm",called_prompt)
+        self.assertIn("Vazni: 80 kg",called_prompt)
 
 
 
