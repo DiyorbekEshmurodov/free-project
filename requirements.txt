@@ -7,3 +7,4 @@ pillow
 requests
 asgiref
 sqlparse
+django-ngrok
