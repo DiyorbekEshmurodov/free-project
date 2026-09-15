@@ -146,7 +146,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CSRF_COOKIE_HTTPONLY = False
 SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SAMESITE = 'Lax'
-BOT_TOKEN = config('BOT_TOKEN')
+BOT_TOKEN = config('BOT_TOKEN', default='dummy-bot-token-for-ci')
 ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = [
 #     'zippy-upon-unscathed.ngrok-free.dev',

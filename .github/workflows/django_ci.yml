@@ -26,7 +26,10 @@ jobs:
 
     - name: Migratsiyalarni tekshirish va Testlarni ishga tushirish
       env:
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        SECRET_KEY: 'ci-secret-key-for-testing-only-12345'
+        DEBUG: 'True'
+        GEMINI_API_KEY: 'dummy-key-for-tests'
+        BOT_TOKEN: 'dummy-bot-token-for-ci'
       run: |
         python manage.py migrate
         python manage.py test
