@@ -31,5 +31,4 @@ jobs:
         GEMINI_API_KEY: 'dummy-key-for-tests'
         BOT_TOKEN: 'dummy-bot-token-for-ci'
       run: |
-        python manage.py migrate
         python manage.py test
