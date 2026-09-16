@@ -1,29 +1,38 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/ai_response.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <div class="analysis-wrapper">
-    <div style="margin-bottom: 20px;">
-        <a href="{% url 'cards_list' section_name=section_name %}" class="back-link">
+    <!-- AI javobi kartasi -->
+    <div class="ai-response-card">
+        <h2 class="ai-title">{{ question_data.title }}</h2>
+
+        {% if question_data.text %}
+            <div class="ai-user-text">
+                "{{ question_data.text }}"
+            </div>
+        {% endif %}
+
+        <div id="ai-content" class="markdown-content"></div>
+    </div>
+
+    <!-- Tugma kartaning PASTIDAN joy oladi -->
+    <div class="back-btn-wrapper">
+        <a href="{% url 'cards_list' section_name=section_name %}" class="back-btn">
             ← Orqaga qaytish
         </a>
     </div>
-
-    <div class="report-card active-card">
-        <h2 class="card-short-title" style="font-size: 24px !important; margin-bottom: 15px !important;">
-            {{ question_data.title }}
-        </h2>
-
-        {% if question_data.text %}
-            <p class="card-short-desc" style="font-style: italic; margin-bottom: 20px !important;">
-                "{{ question_data.text }}"
-            </p>
-        {% endif %}
-
-        <hr style="border: 0; border-top: 1px solid var(--card-border); margin: 20px 0;">
-
-        <div style="color: var(--text-primary); line-height: 1.7; font-size: 16px;">
-            {{ ai_result|linebreaks }}
-        </div>
-    </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const rawMarkdown = `{{ ai_result|escapejs }}`;
+        if (rawMarkdown) {
+            document.getElementById('ai-content').innerHTML = marked.parse(rawMarkdown);
+        }
+    });
+</script>
 {% endblock %}

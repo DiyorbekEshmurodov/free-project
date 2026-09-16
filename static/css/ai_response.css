@@ -1,0 +1,156 @@
+/* AI Analiz umumiy konteyner */
+.analysis-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Asosiy karta */
+.ai-response-card {
+    background: #181f2a;
+    border: 1px solid #2e384d;
+    border-radius: 18px;
+    padding: 35px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    color: #e2e8f0;
+    width: 100%;
+}
+
+/* Karta sarlavhasi */
+.ai-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #2e384d;
+    background: linear-gradient(90deg, #48bb78, #38b2ac);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.ai-user-text {
+    color: #a0aec0;
+    font-style: italic;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 14px 18px;
+    border-left: 4px solid #48bb78;
+    border-radius: 6px;
+    margin-bottom: 30px;
+}
+
+/* --- Markdown ichki kontent stili --- */
+.markdown-content p {
+    line-height: 1.8;
+    margin-bottom: 18px;
+    color: #cbd5e0;
+    font-size: 15.5px;
+}
+
+/* Sarlavhalar (H3 va H4) */
+.markdown-content h3 {
+    color: #48bb78;
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 35px;
+    margin-bottom: 18px;
+    padding: 10px 14px;
+    background: rgba(72, 187, 120, 0.08);
+    border-left: 4px solid #48bb78;
+    border-radius: 0 8px 8px 0;
+}
+
+.markdown-content h4 {
+    color: #38b2ac;
+    font-size: 17px;
+    font-weight: 600;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Ro'yxat elementlari */
+.markdown-content ul, .markdown-content ol {
+    padding-left: 0;
+    margin-top: 10px;
+    margin-bottom: 25px;
+    list-style: none;
+}
+
+.markdown-content li {
+    position: relative;
+    padding: 8px 12px 8px 30px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    line-height: 1.6;
+    color: #e2e8f0;
+}
+
+.markdown-content ul li::before {
+    content: "✔";
+    color: #48bb78;
+    font-size: 13px;
+    position: absolute;
+    left: 10px;
+    top: 9px;
+}
+
+.markdown-content ol li {
+    counter-increment: step-counter;
+}
+
+/* Ajratuvchi chiziq (---) */
+.markdown-content hr {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #2e384d, transparent);
+    margin: 30px 0;
+}
+
+/* Qalin yozuvlar (Bold) */
+.markdown-content strong {
+    color: #ffffff;
+    font-weight: 600;
+    background: rgba(56, 178, 172, 0.15);
+    padding: 2px 7px;
+    border-radius: 4px;
+}
+
+/* Kartaning pastidagi tugma */
+.back-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 35px;
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+    background-color: #242d3d;
+    border: 1px solid #3e4c63;
+    padding: 12px 30px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.25 ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.back-btn:hover {
+    background-color: #48bb78;
+    color: #ffffff;
+    border-color: #48bb78;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.35);
+}

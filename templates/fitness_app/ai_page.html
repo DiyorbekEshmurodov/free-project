@@ -2,15 +2,16 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/ai_page.css' %}">
-<!-- Chart.js Kutubxonasi (Grafik chiqarish uchun) -->
+<!-- Alohida ajratilgan CSS fayl -->
+<link rel="stylesheet" href="{% static 'css/ai_response(2).css' %}">
+<!-- Chart.js Kutubxonasi -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="ai-page-wrapper">
 
     <!-- HEADER -->
     <div class="ai-page-header">
-        <h1 class="ai-page-title"> Fitness {{ period_label }} rejangiz tayyor!</h1>
+        <h1 class="ai-page-title">Fitness {{ period_label }} rejangiz tayyor!</h1>
         <p class="ai-page-sub">Javoblaringiz va ko'rsatkichlaringizni tahlil qilib, maqsadingiz sari shaxsiy yo'l tuzdik.</p>
     </div>
 
@@ -18,7 +19,7 @@
     <div class="user-summary-card">
         <div class="summary-item">
             <span class="summary-label">📏 Bo'yingiz:</span>
-            <span class="summary-val">{{ profile.boyi }} cm</span>
+            <span class="summary-val">{{ profile.buyi }} cm</span>
         </div>
         <div class="summary-item">
             <span class="summary-label">⚖️ Vazningiz:</span>
@@ -30,7 +31,7 @@
         </div>
     </div>
 
-    <!-- 📈 DIAGRAMMA (GRAFIK) BLOKI -->
+    <!-- 📈 DIAGRAMMA BLOKI -->
     <div class="chart-section-card">
         <h2 class="section-title">Sizning {{ period_label }} rejangiz bo'yicha kutilayotgan o'sish dinamikasi:</h2>
         <div class="chart-container">
@@ -39,7 +40,7 @@
     </div>
 
     <!-- REJAGA NIMALAR KIRADI -->
-    <h2 class="section-title">Sizning rejangizga nimalar kiradi:</h2>
+    <h2 class="section-title-outer">Sizning rejangizga nimalar kiradi:</h2>
 
     <div class="plan-features-list">
         <!-- 1-Blok: Ovqatlanish -->
@@ -69,7 +70,8 @@
             </div>
         </div>
 
-        <!-- 4-Blok: Kafolat va Natija -->
+        <!-- 4-Blok: Natija -->
+        {% if advice_data.timeline %}
         <div class="feature-card feature-highlight">
             <div class="feature-icon">🛡️</div>
             <div class="feature-content">
@@ -77,21 +79,20 @@
                 <p>{{ advice_data.timeline }}</p>
             </div>
         </div>
+        {% endif %}
     </div>
 
     <!-- HARAKAT TUGMALARI -->
     <div class="ai-page-actions">
-        <a href="{% url 'user_list' %}" class="btn-primary-action">Davom etish</a>
         <a href="{% url 'reports' %}" class="btn-secondary">← Boshqa kartani tanlash</a>
+        <a href="{% url 'user_list' %}" class="btn-primary-action">Davom etish</a>
     </div>
 </div>
 
-<!-- DIAGRAMMANI CHIZISH SKRIPTI -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const ctx = document.getElementById('progressChart').getContext('2d');
 
-    // Django'dan kelgan ma'lumotlar
     const labels = {{ chart_data.labels|safe }};
     const scores = {{ chart_data.scores|safe }};
 
@@ -102,13 +103,16 @@ document.addEventListener("DOMContentLoaded", function() {
             datasets: [{
                 label: 'Natijaga erishish ko\'rsatkichi (%)',
                 data: scores,
-                borderColor: '#00b894',
-                backgroundColor: 'rgba(0, 184, 148, 0.15)',
+                borderColor: '#48bb78',
+                backgroundColor: 'rgba(72, 187, 120, 0.12)',
                 borderWidth: 3,
                 fill: true,
                 tension: 0.4,
-                pointBackgroundColor: '#00b894',
-                pointRadius: 6
+                pointBackgroundColor: '#38b2ac',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointRadius: 6,
+                pointHoverRadius: 8
             }]
         },
         options: {
@@ -118,36 +122,21 @@ document.addEventListener("DOMContentLoaded", function() {
                 y: {
                     beginAtZero: true,
                     max: 100,
-                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                    ticks: { color: '#9ca3af' }
+                    grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                    ticks: { color: '#a0aec0' }
                 },
                 x: {
-                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                    ticks: { color: '#9ca3af' }
+                    grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                    ticks: { color: '#a0aec0' }
                 }
             },
             plugins: {
                 legend: {
-                    labels: { color: '#ffffff', font: { size: 14 } }
+                    labels: { color: '#e2e8f0', font: { size: 14, weight: '500' } }
                 }
             }
         }
     });
 });
 </script>
-
-<style>
-.chart-section-card {
-    background: var(--card-bg, #111827);
-    border: 1px solid var(--border-color, #1f2937);
-    border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 30px;
-}
-.chart-container {
-    position: relative;
-    height: 300px;
-    width: 100%;
-}
-</style>
 {% endblock %}

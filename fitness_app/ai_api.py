@@ -1,15 +1,24 @@
-from dotenv import load_dotenv
-import os
-from groq import Groq
 import json
-load_dotenv()
+import os
+import google.generativeai as genai
+from django.conf import settings
 
-def generate_user_advice(self,profile,card_id,period,user_plans):
-    buyi = getattr(profile,'buyi','Nomalum')
-    vazni = getattr(profile,'vazni','Nomalum')
-    maqsadi = getattr(profile,'maqsadi','Nomalum')
 
-    client = Groq(api_key=os.getenv("API_KEY"))
+def generate_user_advice(self, profile, card_id, period, user_plans):
+    buyi = getattr(profile, 'buyi', 'Nomalum')
+    vazni = getattr(profile, 'vazni', 'Nomalum')
+    maqsadi = getattr(profile, 'maqsadi', 'Nomalum')
+
+    # API kalitni settings.py yoki .env fayldan olish
+    api_key = getattr(settings, 'GEMINI_API_KEY', None) or os.getenv("GEMINI_API_KEY")
+
+    if not api_key:
+        print("Xatolik: GEMINI_API_KEY topilmadi.")
+        return {
+            "nutrition": f"Ratsioningizda oqsilni oshiring va kamida {float(vazni) * 35 / 1000 if str(vazni).replace('.', '', 1).isdigit() else 2}L suv iching.",
+            "workout": "Haftasiga 3 marta mashg'ulot bajaring.",
+            "ai_recommendation": "Kunlik uyqu va ovqatlanish rejimiga amal qiling."
+        }
 
     prompt = f"""
         Siz professional fitness va ovqatlanish bo'yicha sun'iy intellekt murabbiyisiz.
@@ -20,27 +29,34 @@ def generate_user_advice(self,profile,card_id,period,user_plans):
         - Tanlangan yo'nalish (karta): {card_id}
         - Davriylik: {period}
 
-        Quyidagi JSON formatida FAQAT va FAQAT toza JSON javob qaytaring (hech qanday ortiqcha matnsiz):
+        Quyidagi JSON formatida FAQAT va FAQAT toza JSON javob qaytaring (hech qanday ortiqcha markdown va matnsiz):
         {{
             "nutrition": "Foydalanuvchining bo'yi, vazni va maqsadi uchun aniq kaloriya, oqsil hamda suv miqdori bo'yicha tavsiya",
             "workout": "Ushbu maqsad va davr uchun mos keladigan aniq mashqlar va ularning takrorlanishlar soni",
             "ai_recommendation": "Tiklanish, uyqu va natijaga erishish bo'yicha muhim maslahat"
         }}
-        """
-    try :
-        completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",  # Groq'ning eng kuchli modeli
-            messages=[
-                {"role": "system", "content": "Siz faqat valid JSON formatida javob beradigan AI assistentisiz."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.5,
-            response_format={"type": "json_object"}
+    """
+
+    try:
+        # Gemini sozlanadi va JSON formatida javob talab qilinadi
+        genai.configure(api_key=api_key)
+
+        generation_config = {
+            "response_mime_type": "application/json",
+            "temperature": 0.5,
+        }
+
+        model = genai.GenerativeModel(
+            model_name="gemini-3.6-flash",
+            generation_config=generation_config
         )
-        advice_json = json.loads(completion.choise[0].message.content)
+
+        response = model.generate_content(prompt)
+        advice_json = json.loads(response.text)
         return advice_json
+
     except Exception as e:
-        print("Groq API Xatolik: ",e)
+        print("Gemini API Xatolik: ", e)
 
         return {
             "nutrition": f"Ratsioningizda oqsilni oshiring va kamida {float(vazni) * 35 / 1000 if str(vazni).replace('.', '', 1).isdigit() else 2}L suv iching.",

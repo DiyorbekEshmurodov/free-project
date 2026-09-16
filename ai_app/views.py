@@ -30,13 +30,13 @@ def card_detail_view(request, section_name, question_id):
     profil = None
     user_info = None
     if request.user.is_authenticated:
-        profil = UserDetail.objects.filter(user=request.user).first()
-        user_info = UserQuestion.objects.filter(user=request.user).first()
+        profil = UserDetail.objects.filter(user=request.user).last()
+        user_info = UserQuestion.objects.filter(user=request.user).last()
 
     # Agar foydalanuvchi ma'lumotlari bo'lsa ularni, bo'lmasa standart qiymatlarni uzatamiz
-    buyi = user_info.buyi if user_info and user_info.buyi else 170
-    vazni = user_info.vazni if user_info and user_info.vazni else 70
-    maqsadi = user_info.maqsadi if user_info and user_info.maqsadi else "Sog'lom turmush tarzi"
+    buyi = getattr(profil, 'buyi', None) or getattr(user_info, 'buyi', None) or 170
+    vazni = getattr(profil, 'vazni', None) or getattr(user_info, 'vazni', None) or 70
+    maqsadi = getattr(profil, 'maqsadi', None) or getattr(user_info, 'maqsadi', None) or "Sog'lom turmush tarzi"
 
     card_title = question_data.get('title', '')
     card_desc = question_data.get('short_desc', '')
